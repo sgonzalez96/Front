@@ -1,0 +1,80 @@
+{
+    "hi": "hola",
+
+    "titDatos": "Datos del cliente",
+    "titAccount": "Editar la cuenta de usuario",
+    "titUserList": "Lista de usuarios" ,
+    "titNewUsu": "Crear un usuario ",
+    "titEditUsu": "Editar datos del usuario",
+    "titEnableUsu": "Re-habilitar el usuario",
+    "titDisableUsu": "Deshabilitar el usuario",
+    "titPassUsu": "Cambio de contraseña",
+    "titRoleList": "Lista de roles de usuarios",
+    "titNewRole": "Crear un rol de usuario",
+    "titEditRole": "Editar el rol de usuario",
+    
+    "lblName": "Nombre",
+    "lblLang": "Idioma",
+    "lblLogo": "Logo",
+    "lblPhoto": "Foto",
+    "lblEmail": "Email",
+    "lblActive": "Activo",
+    "lblUser": "Usuario",
+    "lblViewUsuAct": "Seleccionar solo usuarios activos",
+    "lblRoles": "Roles",
+    "lblDsc": "Descripción",
+    "lblIsAdm": "Es Adm?",
+    "lblPassNew": "Nueva contraseña",
+    "lblPassNew2": "Confirme nueva constraña",
+    
+    
+    "btnBack": "Volver",
+    "btnCnf": "Confirmar",
+    "btnExport": "Exportar",
+    "btnResKey": "Resetear Clave",
+    "btnDelete": "Eliminar",
+    "btnAddUser": "Nuevo",
+    "btnAddRole": "Nuevo Rol",
+    
+    "msgTitOk": "Exito!",
+    "msgTitEr": "Error!",
+    "msgTitWa": "Advertencia!",
+    "msgTitDe": "¿Está seguro de eliminar el registro?",
+    "msgTitGet": "Obteniendo información del sistema ...",
+    "msgTitAsk1": "¿Está seguro de resetar la contraseña?",
+    "msgTitAsk2": "¿Está seguro de querer habilitar al usuario?",
+    "msgTitAsk3": "¿Está seguro de querer inhabilitar al usuario?",
+    
+    
+    "msgMsgDatOk": "Los datos fueron correctamente guardados",
+    "msgMsgDatEr": "La base de datos no puder ser actualizada",
+    "msgMsgEmpty": "Algún dato requerido esta vacío",
+    "msgMsgEmptyRol": "Debe inficar algún rol de usuario",
+    "msgMsgAsk1": "La contraseña será resetea al nombre del usuario",
+    "msgMsgAsk2": "El usuario quedará nuevamente activado",
+    "msgMsgAsk3": "El usuario quedará inactivo en el sistema",
+    "msgMsgWrongPass2":"Las contraseñas no coinciden",
+    "msgMsgDelete": "El registro será eliminado de forma permanente!",
+    "msgMsgExpired": "La sesion ha expirado, debe volver a loguearse!",
+
+
+    "Account Edit": "Editar la cuenta",
+    "Change Password": "Cambiar contraseña",
+    "Contact Us": "Contactar administración",
+    "Close": "Cerrar la sesión",
+    "Settings": "Configuración",
+    "Helps": "Ayuda",
+
+    "Products": "Productos",
+    "Catalog": "Lista de productos",
+    "Sizes": "Talles",
+    "Colours": "Colores",
+    "System config": "Configuración",
+    "Main data": "Datos del cliente",
+    "Users": "Usuarios",
+    "Users category": "Roles de usuarios",
+
+    "Foot1": "Desarrollado por BlockFashion Innovations",
+    "Foot2": "2020 Todos los derechos reservados"
+
+    }

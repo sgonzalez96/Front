@@ -1,14 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>CDS Comasa</title>
+	<meta charset="utf-8" />
+	<title>Sintep</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="favicon.ico">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="" name="description" />
+  <meta content="" name="author" />
+
+  <link rel="icon" type="image/x-icon" href="/assets/img/logo/faviconb.gif" />
   <script src="env.js"></script>
+  <!-- <script src="/assets/plugins/highlight/highlight.min.js"></script> -->
 </head>
-<body>
-  <app-root></app-root>
+<body detect-scroll (onScroll)="handleScroll($event)">
+  <app-root>
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade show"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
+  </app-root>
 </body>
 </html>

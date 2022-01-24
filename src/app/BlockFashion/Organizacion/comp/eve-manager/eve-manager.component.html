@@ -1,0 +1,479 @@
+<panel title="Manager de eventos">
+    <div class="row row-space-10">
+        <div class="card-body col col-md-7" style="background-color:lightsteelblue;">
+            <div class="row row-space-10 m-b-15">
+                <label class="control-label col col-md-1">Evento:</label>
+                <div class="col-md-1 ">
+                    <input type="text" [(ngModel)]="objEve.id" name="id" class="form-control" placeholder="" disabled />
+                </div>
+                <div class="col-md-5 ">
+                    <input type="text" [(ngModel)]="objEve.nombre" name="nombre" class="form-control" placeholder=""
+                        required disabled />
+                </div>
+                <div class="col-md-5 ">
+                    <input *ngIf="objEve.tipoact != undefined" type="text" [(ngModel)]="objEve.tipoact.descripcion"
+                        name="tipo" class="form-control" placeholder="" required disabled />
+                </div>
+            </div>
+            <div class="row row-space-10 m-b-15">
+                <label class="control-label col col-md-1">Detalles</label>
+                <div class="col-md-2 ">
+                    <input type="text" [(ngModel)]="objEve.fecha" name="fecha" class="form-control" placeholder=""
+                        disabled />
+                </div>
+                <div class="col-md-2 ">
+                    <input type="text" [(ngModel)]="objEve.hora" name="hora" class="form-control" placeholder=""
+                        required disabled />
+                </div>
+                <div class="col-md-4 ">
+                    <input type="text" [(ngModel)]="objEve.lugar" name="lugar" class="form-control" placeholder=""
+                        required disabled />
+                </div>
+                <div class="col-md-2 ">
+                    <input *ngIf="objEve.ciudad != null" type="text" [(ngModel)]="objEve.ciudad.nombre" name="ciud"
+                        class="form-control" placeholder="" required disabled />
+                </div>
+                <div class="col-md-1 ">
+                    <button type="button" (click)="openCosto(veoCosto)" class="btn btn-white height-35  m-l-10 width-40"
+                        title="">
+                        <span class="fa fa-ticket-alt btn-icon m-r-2"></span></button>
+                </div>
+            </div>
+
+            <div class="row row-space-10 m-b-15">
+                <label class="control-label col col-md-1">Status</label>
+                <div class="col-md-3 ">
+                    <input type="text" [(ngModel)]="objEve.status" name="status" class="form-control" placeholder=""
+                        disabled />
+                </div>
+                <label class="control-label col col-md-2">Insripciones</label>
+                <div class="col-md-3 ">
+                    <input type="text" [(ngModel)]="objEve.desde" name="desde" class="form-control" placeholder=""
+                        required disabled />
+                </div>
+                <div class="col-md-3 ">
+                    <input type="text" [(ngModel)]="objEve.hasta" name="hasta" class="form-control" placeholder=""
+                        required disabled />
+                </div>
+            </div>
+        </div>
+
+        <!-- Empeza la rosadita -->
+        <div class="card-body col col-md-5" style="background-color:coral;">
+            <div class="form-group row m-b-15">
+                <button type="button" class="btn btn-white height-30 width-100 m-l-10 "
+                    (click)="pido_cedula(modalPidoSocios,'I')" title="Invitar un afiliado por cedula"
+                    routerLinkActive="router-link-active">
+                    <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Invitar</button>
+
+                <button type="button" class="btn btn-white height-30 width-100 m-l-10 " (click)="pido_archivo()"
+                    title="Cargar invitados por CSV" routerLinkActive="router-link-active">
+                    <span class="fa fa-clipboard btn-icon mr-2"></span>Cargar</button>
+
+                <!-- <button type="button" class="btn btn-white height-30 width-100 m-l-10 "
+                    (click)="pido_cedula('A')" title="Marcar el ingreso al evento"  routerLinkActive="router-link-active">
+                    <span class="fa fa-hand-spock btn-icon mr-2"></span>Ingreso</button> -->
+
+                <button type="button" class="btn btn-white height-30 width-100 m-l-10 " (click)="exportExcel('T')"
+                    title="Exportar datos del evento"><span class="fa fa-file-excel btn-icon mr-2"></span>Excel</button>
+            </div>
+
+            <!--  Formulario para pedir archivo -->
+            <form *ngIf="pido_csv" #f="ngForm" (ngSubmit)="agrego_csv(f)" class="margin-bottom-0 margin-top-10">
+                <div class="row row-space-10 m-b-10">
+                    <label class="control-label">Archivo CSV - Formato: cedula</label>
+                </div>
+                <div class="row row-space-10 m-b-10">
+                    <input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)"
+                        accept=".csv" />
+                </div>
+                <div class="row row-space-10 m-b-10">
+                    <div class="register-buttons">
+                        <button *ngIf="!habsub" disabled type="submit" class="btn btn-white height-30  m-l-10 width-150"
+                            title="">
+                            <span class="fa fa-check btn-icon m-r-20">Importar</span></button>
+                        <button *ngIf="habsub" type="submit" class="btn btn-white height-30  m-l-10 width-150" title="">
+                            <span class="fa fa-check btn-icon m-r-20">Importar</span></button>
+                        <button type="button" class="btn btn-white height-30  m-l-10 width-150" title=""
+                            (click)="cierro_csv()">
+                            <span class="fa fa-times btn-icon m-r-20">Cancelar</span></button>
+                    </div>
+                </div>
+            </form>
+
+            <!--  Formulario para cambio de estado -->
+            <form *ngIf="disp_cam" #f="ngForm" (ngSubmit)="cambio_est(f)" class="margin-bottom-0 margin-top-10">
+                <div class="row row-space-10 m-b-10">
+                    <label class="control-label">Estado a asignar: </label>
+                    <select class="form-control col col-md-4" (change)="onChangeEst($event.target.value)">
+                        <option *ngFor="let item of varsEst" [selected]="elEst.trim() == item.trim()" [(ngValue)]="item"
+                            id="selest" name="selest">{{item}}</option>
+                    </select>
+                </div>
+                <div class="row row-space-10 m-b-10">
+                    <div class="register-buttons">
+                        <button type="submit" class="btn btn-white height-30  m-l-10 width-150" title="">
+                            <span class="fa fa-check btn-icon m-r-20">Confirmar</span></button>
+                        <button type="button" class="btn btn-white height-30  m-l-10 width-150" title=""
+                            (click)="cierro_est()">
+                            <span class="fa fa-times btn-icon m-r-20">Cancelar</span></button>
+                    </div>
+                </div>
+            </form>
+
+            <!--  Formulario para cambio de estado -->
+            <form *ngIf="disp_costo" #f="ngForm" (ngSubmit)="cambio_costo_final(f)"
+                class="margin-bottom-0 margin-top-10">
+                <div class="row row-space-10 m-b-10">
+                    <label class="control-label col-md-2">Valor del costo: </label>
+                    <input type="text" [(ngModel)]="elCosto" name="elcosto" class="form-control col-md-3" appDigits
+                        maxlength="12" />
+
+                    <label class="control-label col-md-2">Estado del costo: </label>
+                    <select class="form-control col col-md-4" (change)="onChangeCostostat($event.target.value)">
+                        <option *ngFor="let item of varsCostoEst" [selected]="elstatcos.trim() == item.trim()"
+                            [(ngValue)]="item" id="selcosest" name="selcosest">{{item}}</option>
+                    </select>
+                </div>
+                <div class="row row-space-10 m-b-10">
+                    <div class="register-buttons">
+                        <button type="submit" class="btn btn-white height-30  m-l-10 width-150" title="">
+                            <span class="fa fa-check btn-icon m-r-20">Confirmar</span></button>
+                        <button type="button" class="btn btn-white height-30  m-l-10 width-150" title=""
+                            (click)="cierro_costo()">
+                            <span class="fa fa-times btn-icon m-r-20">Cancelar</span></button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Tarjeta para el resultado de la integración-->
+            <div *ngIf="resultado">
+                <div class="card border-0 bg-dark text-white text-truncate mb-3">
+                    <!-- begin card-body -->
+                    <div class="card-body">
+                        <div class="d-flex mb-2">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-circle text-green f-s-8 mr-2"></i>
+                                Invitados OK
+                            </div>
+                            <div class="d-flex align-items-center ml-auto">
+                                <div class="text-grey f-s-11">{{cant_ok}}</div>
+                                <div class="width-50 text-right pl-2 f-w-600">{{porc_ok}}%</div>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-2">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-circle text-yellow f-s-8 mr-2"></i>
+                                Warnings
+                            </div>
+                            <div class="d-flex align-items-center ml-auto">
+                                <div class="text-grey f-s-11">{{cant_war}}</div>
+                                <div class="width-50 text-right pl-2 f-w-600">{{porc_war}}%</div>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-2">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-circle text-red f-s-8 mr-2"></i>
+                                Errores
+                            </div>
+                            <div class="d-flex align-items-center ml-auto">
+                                <div class="text-grey f-s-11">{{cant_err}}</div>
+                                <div class="width-50 text-right pl-2 f-w-600">{{porc_err}}%</div>
+                            </div>
+                        </div>
+
+                        <div class="row row-space-10 m-b-10">
+                            <div class="register-buttons">
+                                <button type="button" class="btn btn-white height-30  m-l-10 width-150" title=""
+                                    (click)="nuc_open(modalResDTO)">
+                                    <span class="fa fa-eye btn-icon m-r-20">Ver Detalles</span></button>
+
+                                <button type="button" class="btn btn-white height-30  m-l-10 width-150" title=""
+                                    (click)="cierro_res()">
+                                    <span class="fa fa-times btn-icon m-r-20"> Terminar</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- fin de la rosadita -->
+    </div>
+    <!-- fin de la fila cabezañ-->
+
+    <!-- begin table-responsive -->
+    <div class="row row-space-10 m-b-15 m-t-20">
+        <label class="control-label col col-md-1">Status</label>
+        <select class="form-control col col-md-2" (change)="onChange($event.target.value)">
+            <option *ngFor="let item of varsStat" [selected]="elStat.trim() == item.trim()" [ngValue]="item">{{item}}
+            </option>
+        </select>
+
+        <div class="checkbox checkbox-css m-l-20">
+            <input type="checkbox" [(ngModel)]="elcosto" [value]="elcosto" id="chkcosto" name="chkcosto"
+                [checked]="elcosto" (click)="cambio_costo()" />
+            <label for="chkcosto">&nbsp;Solo ver invitaciones con costo</label>
+        </div>
+
+    </div>
+    <div class="row row-space-10 m-b-15">
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>Cedula</th>
+                        <th>Nombre</th>
+                        <th>Status</th>
+                        <th>Ciudad</th>
+                        <th>Costo</th>
+                        <th></th>
+                        <th class="with-checkbox">
+                            <div class="checkbox checkbox-css">
+                                <input type="checkbox" [(ngModel)]="todos" [value]="todos" id="chktodo" name="chktodo"
+                                    [checked]="todos" (click)="cambio_todo()" />
+                                <label for="chktodo">&nbsp;</label>
+                            </div>
+                        </th>
+                        <th width="15%">
+                            <select class="form-control" #opciones (change)="onChangeAcc($event.target.value)">
+                                <option *ngFor="let item of varsAccion" [selected]="laAcc == item" name="opcion"
+                                    id="opcion" [(ngValue)]="laAcc">{{item}}</option>
+                            </select>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invitado of lista">
+                        <td>{{invitado.inv.afiliado.cedula}}</td>
+                        <td>{{invitado.inv.afiliado.apellidos}}, {{invitado.inv.afiliado.nombres}} </td>
+                        <td>{{invitado.inv.status}}</td>
+                        <td><span
+                                *ngIf="invitado.inv.afiliado.ciudad != null">{{invitado.inv.afiliado.ciudad.nombre}}</span>
+                        </td>
+                        <td style="text-align: right;">{{invitado.inv.costo}}
+                        </td>
+                        <td>
+                            <span *ngIf="invitado.inv.costostat==null || invitado.inv.costostat=='D'">
+                                <i class="fas fa-calculator"></i>
+                            </span>
+                            <span *ngIf="invitado.inv.costostat=='C'">
+                                <i class="fas fa-check-square"></i>
+                            </span>
+                            <span *ngIf="invitado.inv.costostat=='P'">
+                                <i class="fas fa-money-bill-alt"></i>
+                            </span>
+                        </td>
+                        <td class="with-checkbox">
+                            <div class="checkbox checkbox-css">
+                                <input type="checkbox" [(ngModel)]="invitado.sel" [value]="invitado.sel"
+                                    id="{{invitado.inv.id}}" name="{{invitado.inv.id}}" [checked]="invitado.sel" />
+                                <label for="{{invitado.inv.id}}">&nbsp;</label>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" (click)="openAfil(veoAfiliado, invitado.inv.afiliado)"
+                                class="btn btn-white height-30  m-l-10 width-40" title="">
+                                <span class="fa fa-eye btn-icon mr-2"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <!--
+            <div class="row row-space-10 m-b-15 col col-md-12">
+                <div class="checkbox checkbox-css col-md-4">
+                    <input type="checkbox" [(ngModel)]="objEve.evaluacion" [value]="true" id="eval" name="eval" />
+                    <label for="eval">&nbsp;Admite formulario de evaluación </label>
+                </div>
+            </div>
+
+            <div class="form-group row m-b-15 m-l-40">
+                <div class="register-buttons">
+                    <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+                    <button type="submit" class="btn btn-white height-30 m-l-20 width-150" title=""><span class="fa fa-check btn-icon mr-2" style="color:darkred"></span>Confirmar</button>
+                </div>
+            </div> -->
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+<ng-template #modalResDTO let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Resultado de la integración</h4>
+        <button type="button" class="close" (click)="d('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>Cedula</th>
+                        <th>Afiliado</th>
+                        <th>Accion</th>
+                        <th>Resultado</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listaDTO">
+                        <td>{{item.cedula}}</td>
+                        <td>
+                            <span *ngIf="item.afiliado != null"> {{item.afiliado.apellidos}},
+                                {{item.afiliado.nombres}}</span>
+                        </td>
+                        <td>{{item.accion}}</td>
+                        <td>{{item.resultado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-white" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+
+
+<ng-template #modalPidoSocios let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Selección de socios a Invitar</h4>
+        <button type="button" class="close" (click)="d('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+        <!--  Formulario para agregar una cedula -->
+        <form #f="ngForm" (ngSubmit)="agrego_ci(f)" class="margin-bottom-0 margin-top-10">
+            <div class="row row-space-10 m-b-10">
+                <label class="control-label col-md-2">Cédula Inicial</label>
+                <div class="col-md-3 m-b-15">
+                    <!-- (change)="cambioId($event.target.value)" -->
+                    <input type="text" [(ngModel)]="cedini" name="cedini" (change)="cambio_cedIni($event.target.value)"
+                        class="form-control" placeholder="" appOnlydigits maxlength="8" />
+                </div>
+                <div class="col col-md-6">
+                    <input type="text" [(ngModel)]="cedinidsc" name="cedinidsc" class="form-control" placeholder=""
+                        disabled />
+                </div>
+                <div>
+                    <button type="button" (click)="openAfiini(selectAfiini)"
+                        class="btn btn-white height-30  m-l-10 width-40" title="">
+                        <span class="fa fa-search btn-icon mr-2"></span></button>
+                </div>
+            </div>
+            <div class="row row-space-10 m-b-10">
+                <label class="control-label col-md-2">Cédula Final</label>
+                <div class="col-md-3 m-b-15">
+                    <input type="text" [(ngModel)]="cedfin" name="cedfin" (change)="cambio_cedFin($event.target.value)"
+                        class="form-control" placeholder="" appOnlydigits maxlength="8" />
+                </div>
+                <div class="col col-md-6">
+                    <input type="text" [(ngModel)]="cedfindsc" name="cedfindsc" class="form-control" placeholder=""
+                        disabled />
+                </div>
+                <div>
+                    <button type="button" (click)="openAfifin(selectAfifin)"
+                        class="btn btn-white height-30  m-l-10 width-40" title="">
+                        <span class="fa fa-search btn-icon mr-2"></span></button>
+                </div>
+            </div>
+
+            <div class="row row-space-10 m-b-10">
+                <label class="control-label col-md-2">Núcleo Inicial</label>
+                <div class="col-md-3 m-b-15">
+                    <input type="text" [(ngModel)]="nucini" name="nucini" (change)="cambio_nucIni($event.target.value)"
+                        class="form-control" placeholder="" appOnlydigits maxlength="6" />
+                </div>
+                <div class="col col-md-6">
+                    <input type="text" [(ngModel)]="nucinidsc" name="nucinidsc" class="form-control" placeholder=""
+                        disabled />
+                </div>
+                <div>
+                    <button type="button" (click)="openNucleoIni(selectNucIni)"
+                        class="btn btn-white height-30  m-l-10 width-40" title="">
+                        <span class="fa fa-search btn-icon mr-2"></span></button>
+                </div>
+            </div>
+            <div class="row row-space-10 m-b-10">
+                <label class="control-label col-md-2">Núcleo Final</label>
+                <div class="col-md-3 m-b-15">
+                    <input type="text" [(ngModel)]="nucfin" name="nucfin" (change)="cambio_nucFin($event.target.value)"
+                        class="form-control" placeholder="" appOnlydigits maxlength="6" />
+                </div>
+                <div class="col col-md-6">
+                    <input type="text" [(ngModel)]="nucfindsc" name="nucfindsc" class="form-control" placeholder=""
+                        disabled />
+                </div>
+                <div>
+                    <button type="button" (click)="openNucleoFin(selectNucFin)"
+                        class="btn btn-white height-30  m-l-10 width-40" title="">
+                        <span class="fa fa-search btn-icon mr-2"></span></button>
+                </div>
+            </div>
+
+            <div class="checkbox checkbox-css m-l-20 m-t-5">
+                <input type="checkbox" [(ngModel)]="van_afi" [value]="van_afi" id="chkafi" name="chkafi"
+                    [checked]="van_afi" />
+                <label for="chkafi">&nbsp;Incluye afiliados </label>
+            </div>
+            <div class="checkbox checkbox-css m-l-20 m-t-5">
+                <input type="checkbox" [(ngModel)]="van_del" [value]="van_del" id="chkdel" name="chkdel"
+                    [checked]="van_del" />
+                <label for="chkdel">&nbsp;Incluye delegados </label>
+            </div>
+            <div class="checkbox checkbox-css m-l-20 m-t-5">
+                <input type="checkbox" [(ngModel)]="van_delab" [value]="van_delab" id="chkdelab" name="chkdelab"
+                    [checked]="van_delab" />
+                <label for="chkdelab">&nbsp;Incluye delegados Laborales </label>
+            </div>
+            <div class="checkbox checkbox-css m-l-20 m-t-5">
+                <input type="checkbox" [(ngModel)]="van_usu" [value]="van_usu" id="chkusu" name="chkusu"
+                    [checked]="van_usu" />
+                <label for="chkusu">&nbsp;Incluye usuarios del sistema </label>
+            </div>
+
+            <div class="row row-space-10 m-b-10 m-t-10">
+                <div class="register-buttons">
+                    <button type="submit" class="btn btn-white height-30  m-l-10 width-150" title="">
+                        <span class="fa fa-check btn-icon m-r-20">Confirmar</span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-white" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #veoAfiliado let-c="close" let-d="dismiss">
+    <app-afil-ver [objAfil]="objAfil" (afilChange)="objAfil=$event" (winChange)="closeAfil()" (winClose)="closeAfil()">
+    </app-afil-ver>
+</ng-template>
+
+<ng-template #veoCosto let-c="close" let-d="dismiss">
+    <app-costos [objCiud]="objEve.ciudad" (costoChange)="objCosto=$event" (winChange)="closeCosto()"
+        (winClose)="closeCosto()"></app-costos>
+</ng-template>
+<!-- help afiliados ini -->
+<ng-template #selectAfiini let-c="close" let-d="dismiss">
+    <app-helpafi [nucleo]="null" (afiliadoChange)="d($event)" (winAChange)="d('afil')" (winAClose)="c('close')">
+    </app-helpafi>
+</ng-template>
+<!-- help afiliados fin -->
+<ng-template #selectAfifin let-c="close" let-d="dismiss">
+    <app-helpafi [nucleo]="null" (afiliadoChange)="d($event)" (winAChange)="d('afil')" (winAClose)="c('close')">
+    </app-helpafi>
+</ng-template>
+
+<!-- help nucleo ini -->
+<ng-template #selectNucIni let-c="close" let-d="dismiss">
+    <app-helpnuc (nucleoChange)="d($event)" (winNChange)="c('close')" (winNClose)="c('close')"></app-helpnuc>
+</ng-template>
+<!-- help nucleo fin -->
+<ng-template #selectNucFin let-c="close" let-d="dismiss">
+    <app-helpnuc (nucleoChange)="d($event)" (winNChange)="c('close')" (winNClose)="c('close')"></app-helpnuc>
+</ng-template>

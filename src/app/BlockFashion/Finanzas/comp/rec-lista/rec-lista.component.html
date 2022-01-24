@@ -1,0 +1,77 @@
+<panel title="Recibos ingresados">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div>
+            <div class="form-group row m-b-15">
+                <div class="col col-md-2">
+                    <select class="form-control " (change)="onChangeTipo($event.target.value)">
+                        <option *ngFor="let item of varsOpcion" [selected]="item.id == lavia.id" [ngValue]="lavia" name="cmbitm">{{item.nombre}}</option>
+                    </select>
+                </div>
+
+                <label class="col col-md-1" >Desde/Hasta</label>
+                <div class="m-l-10">
+                    <input type="date" [(ngModel)]="fecini" name="feci" class="form-control" placeholder="" required maxlength="100"/>
+                </div>
+                <div class="m-l-10">
+                    <input type="date" [(ngModel)]="fecfin" name="fecf" class="form-control" placeholder="" required maxlength="100"/>
+                </div>
+                <div class="m-l-10">
+                    <button type="button" class="btn btn-warning height-30 width-40 m-l-20"
+                    title=""  (click)="cargo()" ><span class="fa fa-redo btn-icon mr-2"></span></button>
+                    <button type="button" class="btn btn-white height-30  m-l-40 " [routerLink]="['/recalta']"
+                    title=""  routerLinkActive="router-link-active"><span class="fa fa-plus btn-icon mr-2" style="color: darkred;"></span>Nuevo Recibo</button>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-end">
+            <div class="col-auto">
+                <button type="button" class="btn btn-white height-30  m-l-20 " [disabled]="lista.length == 0" (click)="exportExcel()" title=""><span class="fa fa-file-excel btn-icon mr-2"></span>Exportar</button>
+
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-white height-30  m-l-20 " [disabled]="lista.length == 0" (click)="exportPdf()" title=""><span class="fa fa-file-pdf btn-icon mr-2"></span>PDF</button>
+
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-white height-30  m-l-20 " [disabled]="lista.length == 0" (click)="exportMovDet()" title=""><span class="fa fa-file-excel btn-icon mr-2"></span>Recibo</button>
+
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th width="20%">Descripcion</th>
+                        <th>Referencia</th>
+                        <th>Recibo</th>
+                        <th>Importe</th>
+                        <th width="1%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of lista">
+                        <td>{{item.fecha}}</td>
+                        <td>{{item.descripcion}}</td>
+                        <td>{{item.referencia}}</td>
+                        <td>{{item.recibo}}</td>
+                        <td>{{item.importe}}</td>
+                        <td class="with-btn" nowrap>
+
+                                <button type="button" class="btn btn-white height-30 " [routerLink]="['/recver', item.id]"  routerLinkActive="router-link-active"
+                                title="Ver recibo"><span class="fa fa-eye btn-icon mr-2" style="font-size:12px"></span> </button>
+
+                                <button type="button" class="btn btn-white height-30 "
+                                (click)="inhab(item.id)"
+                                title="Anular recibo"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end table-responsive -->
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->

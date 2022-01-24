@@ -1,0 +1,247 @@
+
+<panel title="Padrón de núcleos">
+  <div class="register-content">
+
+    <blockquote class="blockquote">
+      <!-- formulario para emitir informe del mes  -->
+      <div class="row justify-container-start container">
+        <div class="row col col-md-6">
+          <label for="mes" class="col-auto text-white">Informe mensual</label>
+          <div class="col m-l-10">
+            <input #mes id="mes" type="month" [(ngModel)]="fecha" name="feci" class="form-control" placeholder=""
+              required maxlength="100" />
+          </div>
+        </div>
+        <div class="col-1">
+          <button type="button" class="btn btn-white height-30 width-100 m-l-20" [disabled]="!mes.validity.valid"
+            (click)="expExcMes()" title="Informe"><span class="fa fa-file-excel btn-icon mr-2"></span>Exportar</button>
+        </div>
+      </div>
+    </blockquote>
+
+    <!-- begin table-responsive -->
+    <div>
+      <div class="form-group row m-b-15">
+        <div *ngIf="nivel == 50 || nivel == 90" class="col-md-2">
+          <div class="checkbox checkbox-css">
+            <input type="checkbox" [(ngModel)]="filtro" [value]="filtro" id="filtro" name="filtro" [checked]="filtro"
+              (change)="cambioFiltro()" />
+            <label for="filtro">Sólo ver activos</label>
+          </div>
+        </div>
+        <div *ngIf="nivel == 50 || nivel == 90" class="col-md-2 height-30">
+          <input type="text" class="form-control input-white height-30" [(ngModel)]="buscar"
+            placeholder="Padrón de nucleo..." />
+        </div>
+        <div *ngIf="nivel == 50 || nivel == 90" class="col-md-1 height-30">
+          <button type="button" class="btn btn-gray height-30 width-80" title="" (click)="cargoNucleos()"><span
+              class="fa fa-search btn-icon mr-2"></span>{{'btnSearch'|translate}}</button>
+        </div>
+        <div class="col-md-3 offset-md-4">
+          <button type="button" class="btn btn-white height-30 width-100 m-l-20 " (click)="exportExcel()" title=""><span
+              class="fa fa-file-excel btn-icon mr-2"></span>Exportar</button>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- <td>{{item.id}}</td>
+      <td>{{item.nombre}}</td>
+      <td>{{item.delegado1}}</td>
+      <td>{{item.email}}</td>
+      <td>{{item.telefono}}</td>
+      <td>{{item.fecultpago}}</td>
+      <td>{{item.enable && 'Si' || 'No'}}</td> -->
+
+
+    <!-- Tabla de PrimeNg -->
+    <p-table #dt [paginator]="true" [rows]="20" [value]="lista" [responsive]="true" [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id" width="5%">
+            Id
+            <p-sortIcon field="id" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombre" width="35%">
+            Nucleo
+            <p-sortIcon field="nombre" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="fecingreso" width="10%">
+            Ingreso
+            <p-sortIcon field="fecingreso" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+          <th pSortableColumn="cotizantes" width="10%">
+            Cotizantes
+            <p-sortIcon field="cotizantes" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+          <th pSortableColumn="afiliados" width="10%">
+            Integrantes
+            <p-sortIcon field="afiliados" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+          <th pSortableColumn="fecultpago" width="10%">
+            Fecha Ult.
+            <p-sortIcon field="fecultpago" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+          <th pSortableColumn="enable" width="5%">
+            Activ@
+            <p-sortIcon field="enable" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th width="15%">Opciones</th>
+        </tr>
+        <tr>
+          <th>
+
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'fecingreso', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'cotizantes', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'afiliados', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'fecultpago', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'enable', 'contains')">
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr>
+          <td>{{item.id}}</td>
+          <td>{{item.nombre}}</td>
+          <td>{{item.fecingreso}}</td>
+          <td>{{item.cotizantes}}</td>
+          <td>{{item.afiliados}}</td>
+          <td>{{item.fecultpago}}</td>
+          <td>{{item.enable && 'Si' || 'No'}}</td>
+
+          <td class="with-btn" nowrap>
+            <button type="button" (click)="opend1(modalDialog2,item.id)" class="btn btn-white height-30"
+              title="Ver afiliados del núcleo">
+              <span class="fa fa-eye btn-icon mr-2"></span></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+
+<ng-template #modalDialog2 let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Afiliados del núcleo {{objNuc.nombre}}</h4>
+    <button type="button" class="close" (click)="d('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <p-table #dt [paginator]="true" [rows]="20" [value]="listafi" [responsive]="true" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="cedula" width="10%">
+              Cedula
+              <p-sortIcon field="cedula" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th pSortableColumn="apellidos" width="30%">
+              Apellidos
+              <p-sortIcon field="apellidos" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th pSortableColumn="nombres" width="30%">
+              Nombres
+              <p-sortIcon field="nombres" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th pSortableColumn="status" width="10%">
+              Status
+              <p-sortIcon field="status" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+            <th width="10%">
+              Activo
+            </th>
+          </tr>
+          <tr>
+            <th>
+              <input pInputText style="width: 100%;" type="text"
+                (input)="dt.filter($event.target.value, 'cedula', 'contains')">
+            </th>
+            <th>
+              <input pInputText style="width: 100%;" type="text"
+                (input)="dt.filter($event.target.value, 'apellidos', 'contains')">
+            </th>
+            <th>
+              <input pInputText style="width: 100%;" type="text"
+                (input)="dt.filter($event.target.value, 'nombres', 'contains')">
+            </th>
+            <th>
+              <input pInputText style="width: 100%;" type="text"
+                (input)="dt.filter($event.target.value, 'elnucleo', 'contains')">
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          <tr>
+            <td>{{item.cedula}}</td>
+            <td>{{item.apellidos}}</td>
+            <td>{{item.nombres}}</td>
+            <td>
+              <span *ngIf="item.status=='I'">Iniciada</span>
+              <span *ngIf="item.status=='A'">Aprobada</span>
+              <span *ngIf="item.status=='C'">Condicional</span>
+              <span *ngIf="item.status=='T'">Terminada</span>
+              <span *ngIf="item.status=='R'">Rechazada</span>
+              <span *ngIf="item.status=='P'">P.Revision</span>
+              <span *ngIf="item.status=='S'" style="background-color: red;">Sol.Reingreso</span>
+            </td>
+            <td>
+              <span *ngIf="!item.enable && item.status=='T'" style="background-color: red;">{{item.enable && 'Si' ||
+                'No'}}</span>
+              <span *ngIf="item.enable || item.status!='T'">{{item.enable && 'Si' || 'No'}}</span>
+            </td>
+
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-white" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>

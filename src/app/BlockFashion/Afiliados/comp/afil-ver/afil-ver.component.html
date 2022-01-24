@@ -1,0 +1,259 @@
+<div class="register-content" >
+            <div class="row row-space-10 m-b-10 m-t-10">
+                <span class="m-l-20 card-body col-md-8" style="background-color:lightsteelblue;">
+                    <div class="row row-space-10 ">
+                        <label class="control-label">Cédula</label>
+                        <div class="col-md-2 m-b-15">
+                            <input type="text" [(ngModel)]="objAfil.cedula" name="id" class="form-control" placeholder="" disabled />
+                        </div>
+                        <div class="col col-md-6">
+                        <input type="text" [(ngModel)]="objAfil.apellidos" name="nomdis" class="form-control" placeholder="" disabled/>
+                        </div>
+                    </div>
+                </span>
+                <div class="form-group col col-md-3 m-b-15 m-l-40">
+                    <div class="register-buttons row">
+                        <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+                    </div>
+                </div>
+            </div>
+
+                <h5 class="m-t-35 border-bottom m-b-20" ><i class="fa fa-user m-l-10"></i>   Datos Afiliada/o</h5>        
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Apellidos <span class="text-danger">*</span></label>
+                    <div class="col col-md-8">
+                        <span *ngIf="objAfil != undefined">
+                            <input type="text" [(ngModel)]="objAfil.apellidos" name="ape" class="form-control" placeholder="" disabled/>
+                        </span>
+                    </div>    
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Nombres <span class="text-danger">*</span></label>
+                    <div class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.nombres" name="nom" class="form-control" placeholder="" disabled/>
+                    </div>  
+                </div>
+                <div class="row row-space-10 m-b-15">                
+                    <label class="control-label col col-md-2">E-Mail</label>
+                    <div class="col col-md-8">
+                        <input type="text" [(ngModel)]="objAfil.email" name="emai" class="form-control" placeholder="" disabled/>
+                    </div>    
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Dirección</label>
+                    <div class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.direccion" name="dir" class="form-control" placeholder="" disabled/>
+                    </div>    
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Ciudad: </label>
+                    <div class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.ciudad.nombre" name="ciud" class="form-control" placeholder="" disabled/>
+                    </div>    
+                    
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Localidad: </label>
+                    <div *ngIf="objAfil.loc != null" class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.loc.nombre" name="loca" class="form-control" placeholder="" disabled/>
+                    </div>    
+                </div>   
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Celular </label>
+                    <div class="col col-md-3">
+                        <input type="text" [(ngModel)]="objAfil.celular" name="cel" class="form-control" placeholder="" disabled/>
+                    </div>        
+                    <label class="control-label col col-md-2">Telefonos </label>
+                    <div class="col col-md-3">
+                        <input type="text" [(ngModel)]="objAfil.telefonos" name="telef" class="form-control" placeholder="" disabled/>
+                    </div>        
+                </div>
+                    
+                    <div class="form-group row row-space-10 m-b-15">
+                        <label class="col-md-2 col-form-label m-l-10">Sexo</label>
+                        <div class="col col-md-8 ">
+                            <input type="text" [(ngModel)]="objAfil.sexo" name="sexo" class="form-control" placeholder="" disabled/>
+                        </div>        
+                    </div>
+                
+
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Composición</label>
+                    <div class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.composicion" name="copo" class="form-control" placeholder="" disabled/>
+                    </div>    
+                </div> 
+
+                <h5 class="m-t-40 border-bottom m-b-30"><i class="fa fa-address-card m-l-10"></i>   Situación laboral</h5>
+                <div class="row row-space-10">
+                    <div class="col col-md-6">
+                        <div *ngIf="nivel >= 10" class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Cargo: </label>
+                            <div class="col col-md-8 ">
+                                <input type="text" [(ngModel)]="objAfil.cargo.nombre" name="cargo" class="form-control" placeholder="" disabled/>
+                            </div>    
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Año de ingreso institución </label>
+                            <div class="col col-md-3">
+                                <input type="number" [(ngModel)]="objAfil.anioinginst" name="inginst" class="form-control" placeholder="" disabled/>
+                            </div>    
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Año de ingreso sector </label>
+                            <div class="col col-md-3">
+                                <input type="number" [(ngModel)]="objAfil.anioingsec" name="ingsec" class="form-control" placeholder="" disabled/>
+                            </div>    
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Trabaja en sector público</label>
+                            <div class="checkbox checkbox-css m-l-20">
+                                <input type="checkbox" [(ngModel)]="objAfil.publico" [value]="true" id="espub" name="espub" disabled/>
+                                <label for="espub">&nbsp;</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <div class="row row-space-10 m-b-15 table-responsive card-body" style="background-color: cadetblue;">
+                            <table class="table table-striped m-b-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th width="40%">Nucleo</th>
+                                        <th>Cot?</th>
+                                        <th>Del.</th>
+                                        <th>Supl.</th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of listanuc; let i=index">
+                                        <td>{{item.nucleo.id}}</td>
+                                        <td>{{item.nucleo.nombre}}</td>
+                                        <td>
+                                            <span *ngIf="item.cotizante" style="color:maroon;">
+                                                {{item.cotizante && 'Si' || 'No'}}
+                                            </span>
+                                            <span *ngIf="!item.cotizante">
+                                                {{item.cotizante && 'Si' || 'No'}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="item.del1" style="color:maroon;">
+                                                {{item.del1  && 'Si' || 'No'}}
+                                            </span>
+                                            <span *ngIf="!item.del1">
+                                                {{item.del1  && 'Si' || 'No'}}
+                                            </span>
+                                        <td>
+                                            <span *ngIf="item.del2" style="color:maroon;">
+                                                {{item.del2  && 'Si' || 'No'}}
+                                            </span>
+                                            <span *ngIf="!item.del2">
+                                                {{item.del2  && 'Si' || 'No'}}
+                                            </span>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> 
+                </div> 
+
+
+                <!-- <h5 class="m-t-40 border-bottom m-b-30"><i class="fa fa-bullhorn"></i>  Datos en Sintep</h5> -->
+                               
+<!-- 
+                <div class="row row-space-10 m-b-15">
+                    <div class="col col-m-d-6">
+                        <div class="row row-space-10">
+                        <span *ngIf="objAfil.enable">
+                        
+                                <label class="control-label col col-md-4">Afiliado/a esta activo/a</label>
+                                <label class="control-label col col-md-4">Desde: {{objAfil.feculting}}</label>
+                        </span>
+                        <span *ngIf="!objAfil.enable">
+                                <label class="control-label m-l-15" style="color: darkred; font-size: 28px;">Afiliada/o esta inactiva/o</label>
+                        </span>
+                        </div>
+                        <div class="row row-space-10">
+                            <label class="control-label col col-md-4">Status de la ficha</label>
+                            <div *ngIf="nivel == 50 || nivel == 90" class="col-md-4 m-l-10">
+                                <select class="form-control" (change)="onChangeStat($event.target.value)">                                
+                                    <option *ngFor="let stat of status" [selected]="status[elstat].trim() == stat.trim()" [ngValue]="stat" >{{stat}}</option>
+                                </select>   
+                            </div>
+                            <div *ngIf="nivel <= 10" class="col-md-4 m-l-10">
+                                <input type="input" [(ngModel)]="status[elstat]" name="elstat" class="form-control" disabled />
+                            </div>
+                        </div> 
+                        <div class="row row-space-10 checkbox-css m-b-10 m-l-10">
+                            <input type="checkbox" [(ngModel)]="objAfil.fichapapel" [value]="true" id="pape" name="pape" />
+                            <label for="pape">&nbsp;Trajo la ficha en papel</label>
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Tipo de afiliado/a</label>
+                            <div *ngIf="nivel > 10" class="col-md-4 m-l-10">
+                                <select class="form-control" (change)="onChangeTipo($event.target.value)">                                
+                                    <option *ngFor="let tipito of tipo" [selected]="tipo[eltipo].trim() == tipito.trim()" [ngValue]="tipito" >{{tipito}}</option>
+                                </select>   
+                            </div>
+                            <div *ngIf="nivel <= 10" class="col-md-4 m-l-10">
+                                <input type="input" [(ngModel)]="tipo[eltipo]" name="tipota" class="form-control" disabled />
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="col col-m-d-6">
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label ">Imagen de la ficha</label>
+                            <div class="m-l-5">
+                                <input #imageInput type="file" accept="image/*" (change)="processFile($event)">
+                            </div>
+                            <div class="image-preview mb-3 ">
+                                <span *ngIf="previewUrl!='' && previewUrl!=null">
+                                    <img [src]="previewUrl" height="200" >
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+
+                <!-- <div class="row row-space-10 m-b-15 table-responsive card-body" style="background-color: cadetblue;">
+                    <table class="table table-striped m-b-0">
+                        <thead>
+                            <tr>
+                                <th width="25%">Fecha</th>
+                                <th>Autor</th>
+                                <th>Nivel</th>
+                                <th>Nota</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of notas">
+                                <td>{{item.fecha}}</td>
+                                <td>{{item.autor}} - {{item.autornom}}</td>
+                                <td>{{item.nivel}}</td>
+                                <td>{{item.nota}}</td>
+                                <td>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+ -->
+
+
+
+                
+                <div class="form-group row m-b-15 m-l-40">
+                    <div class="register-buttons">
+                    </div>
+                </div> 
+        
+    </div>
+    <!-- end register-content -->
+
+<!-- end panel -->

@@ -1,0 +1,41 @@
+<!-- begin panel -->
+<panel title="Ingreso de Cotización">
+    <div class="register-content">
+        <form #f="ngForm" (ngSubmit)="creoTC(f)" class="margin-bottom-0">
+            <label class="control-label">Moneda</label>
+            <div class="row row-space-10">
+                <div class="col-md-6 m-b-15">
+                    <input type="text" [(ngModel)]="objTC.mon.descripcion" name="lamon" class="form-control" disabled />
+                </div>
+            </div>
+            
+
+            <label class="control-label">Fecha de ingreso (dd/MM/yyyy) <span class="text-danger">*</span></label>
+            <div class="row row-space-10">
+                <div class="col-md-6 m-b-15">
+                    <div class="input-group">
+                        <div class="input-box-container">
+                            <input locale="es" class="input-box" placeholder="Click para seleccionar fecha" angular-mydatepicker name="mydate" (click)="dp.toggleCalendar()" [(ngModel)]="model" [options]="myDpOptions" #dp="angular-mydatepicker" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <label class="control-label">Valor <span class="text-danger">*</span></label>
+            <div class="row row-space-10">
+                <div class="col-md-4 m-b-15">
+                    <input type="text" [(ngModel)]="objTC.valor" name="valor" class="form-control" placeholder="valor del tipo de cambio" required appDigits/>
+                </div>
+            </div>
+            <div class="form-group row m-b-15 m-l-40">
+                <div class="register-buttons">
+                    <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+                    <button type="submit" class="btn btn-white height-30 m-l-20 width-150" title="">
+                        <span class="fa fa-check btn-icon mr-2" style="color: darkred"></span>Confirmar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->

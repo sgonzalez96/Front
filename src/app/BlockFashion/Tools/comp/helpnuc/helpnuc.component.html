@@ -1,0 +1,90 @@
+<div class="modal-header">
+  <h4 class="modal-title">Seleccion de núcleos</h4>
+  <button type="button" class="close" (click)="d('Cross click')">×</button>
+</div>
+
+<div class="modal-body register-content">
+  <p-table #dt [paginator]="true" [rows]="20" [value]="lista"
+  selectionMode="single" [(selection)]="idNucleo" dataKey="id" (onRowSelect)="elijo($event)"
+  [responsive]="true" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+
+    <ng-template pTemplate="header">
+
+      <tr>
+        <th pSortableColumn="id" width="8%">
+          Id
+          <p-sortIcon field="id" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre" width="30%">
+          Nucleo
+          <p-sortIcon field="nombre" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <th pSortableColumn="institucion" width="15%">
+          Institucion
+          <p-sortIcon field="institucion" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <th pSortableColumn="fecultpago" width="15%">
+          Ult.Pago
+          <p-sortIcon field="institucion" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <th pSortableColumn="subgrupo" width="8%">
+          SubGr
+          <p-sortIcon field="subgrupo" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <th pSortableColumn="ciudad.nombre" width="12%">
+          Ciudad
+          <p-sortIcon field="ciudad.nombre" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <th pSortableColumn="enable" width="8%">
+          Activ@
+          <p-sortIcon field="enable" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+        </th>
+        <th width="12%">Opciones</th>
+      </tr>
+
+
+    <tr>
+      <th>
+        <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
+      </th>
+      <th>
+          <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+      </th>
+      <th>
+        <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'institucion', 'contains')">
+      </th>
+      <th>
+        <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'subgrupo', 'contains')">
+      </th>
+      <th>
+        <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'ciudad.nombre', 'contains')">
+      </th>
+      <th>
+        <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'enable', 'contains')">
+      </th>
+      <th></th>
+    </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex"  >
+      <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.nombre}}</td>
+        <td>{{item.institucion}}</td>
+        <td>{{item.fecultpago}}</td>
+        <td>{{item.subgrupo}}</td>
+        <td>{{item.ciudad.nombre}}</td>
+        <td>{{item.enable && 'Si' || 'No'}}</td>
+        <td class="with-btn" nowrap>
+          <button type="button" class="btn btn-white height-30 " (click)="elijo(item)"
+          title="Seleccionar"><span class="fa fa-check btn-icon mr-2" style="font-size:12px"></span> </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-white" (click)="d('Close click')">Close</button>
+</div>

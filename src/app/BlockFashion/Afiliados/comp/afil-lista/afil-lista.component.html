@@ -1,0 +1,264 @@
+<panel title="Lista de afiliad@s">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div>
+            <div class="form-group row m-b-15">
+                <div class="col-md-2">
+                    <select class="form-control" (change)="onChangeFiltro($event.target.value)">
+                        <option *ngFor="let item of varsFiltro; index as i" [selected]="i == idFiltro" [ngValue]="elfiltro" >{{item}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2 height-30">
+                    <input type="text" class="form-control input-white height-30" [(ngModel)]="buscar" placeholder="Enter keywords here..." />
+                </div>
+                <div class="col-md-1 height-30">
+                    <button type="button" class="btn btn-gray height-30 width-40"
+                    title=""  (click)="refiltro()" ><span class="fa fa-search btn-icon mr-2"></span></button>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" (change)="onChangeFicha($event.target.value)">
+                        <option *ngFor="let item of varsFicha; let i = index" [selected]="i == idFicha" [ngValue]="laficha" >{{item}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control" (change)="onChangeNucleo($event.target.value)">
+                        <option *ngFor="let item of varsNucleo; let i = index" [selected]="i == idNucleo" [ngValue]="elnucleo" >{{item.id}} {{item.nombre}} </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-warning height-30 width-40 m-l-20"
+                    title=""  (click)="limpieza()" ><span class="fa fa-redo btn-icon mr-2"></span></button>
+
+                    <button *ngIf="nivel == 10 " type="button" (click)="solicitudAfil()" class="btn btn-white height-30 width-140 m-l-20 "
+                    title=""  routerLinkActive="router-link-active">
+                    <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Nuevo Afiliado</button>
+                    <button *ngIf="nivel == 50 || nivel == 90" type="button" class="btn btn-white height-30 width-140 m-l-20 "
+                    [routerLink]="['/afil-editar/0']" title=""  routerLinkActive="router-link-active">
+                    <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Nuevo Afiliado</button>
+
+                    <button type="button" class="btn btn-primary height-30 width-40 m-l-20"
+                    title=""  (click)="exportExcel()" ><span class="fa fa-file-excel btn-icon mr-2"></span></button>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de PrimeNg -->
+        <p-table #dt [paginator]="true" (onFilter)="teFiltro($event, dt)" [rows]="20" [value]="lista" [responsive]="true" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} "  >
+        <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="cedula" width="8%">
+            Cedula
+            <p-sortIcon field="cedula" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="apellidos" width="20%">
+            Apellidos
+            <p-sortIcon field="apellidos" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombres" width="12%">
+            Nombres
+            <p-sortIcon field="nombres" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="tipo" width="8%">
+            Tipo
+            <p-sortIcon field="tipo" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="status" width="8%">
+            Status
+          </th>
+          <th pSortableColumn="enable" width="8%">
+            Activ@
+            <p-sortIcon field="enable" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="fecsoling" width="10%">
+            Fecha Ing.
+            <p-sortIcon field="fecsoling" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="elnucleo" width="6%">
+            Nucleo
+            <p-sortIcon field="elnucleo" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th width="20%">Opciones</th>
+        </tr>
+        <tr>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'cedula', 'contains')">
+          </th>
+          <th>
+              <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'apellidos', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'nombres', 'contains')">
+          </th>
+          <th>
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'Status', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'enable', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'feculing', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'elnucleo', 'contains')">
+          </th>
+          <th></th>
+        </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          <tr>
+            <td>{{item.cedula}}</td>
+            <td>{{item.apellidos}}</td>
+            <td>{{item.nombres}}</td>
+            <td>
+              <span *ngIf="item.tipo=='A'">Afiliado</span>
+              <span *ngIf="item.tipo=='F'">Fundador</span>
+              <span *ngIf="item.tipo=='O'">Otro</span>
+            </td>
+            <td>
+              <span *ngIf="item.status=='I'">Iniciada</span>
+              <span *ngIf="item.status=='A'">Aprobada</span>
+              <span *ngIf="item.status=='C'">Condicional</span>
+              <span *ngIf="item.status=='T'">Terminada</span>
+              <span *ngIf="item.status=='R'">Rechazada</span>
+              <span *ngIf="item.status=='P'">P.Revision</span>
+              <span *ngIf="item.status=='S'" style="background-color: red;">Sol.Reingreso</span>
+            </td>
+            <td>
+              <span *ngIf="!item.enable && item.status=='T'" style="background-color: red;">{{item.enable && 'Si' || 'No'}}</span>
+              <span *ngIf="item.enable || item.status!='T'">{{item.enable && 'Si' || 'No'}}</span>
+            </td>
+            <td>{{item.fecsoling}}</td>
+            <td>{{item.elnucleo}}</td>
+
+            <td class="with-btn" nowrap>
+              <button type="button" class="btn btn-white height-30 " [routerLink]="['/afil-editar', item.cedula]"  routerLinkActive="router-link-active"
+              title="Editar afiliado/a"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>
+              <button type="button" class="btn btn-white height-30 " (click)="pdfficha(item.cedula)"  routerLinkActive="router-link-active"
+              title="Imprimir solicitud"><span class="fa fa-print btn-icon mr-2" style="font-size:12px"></span> </button>
+              <!-- *ngIf="nivel == 50 || nivel == 90" -->
+              <span>
+                  <span *ngIf="item.enable">
+                    <button type="button" class="btn btn-white height-30 "
+                    (click)="inhab(modalDialog, item.cedula,'B')"
+                    routerLinkActive="router-link-active"
+                    title="Marcar inactivo/a"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+                  </span>
+              </span>
+
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+<ng-template #modalDialog let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <span *ngIf="modobaja=='A'">
+            <h4 class="modal-title">Reingreso de afiliada/o</h4>
+        </span>"
+        <span *ngIf="modobaja=='B'">
+            <h4 class="modal-title">Baja de afiliado/a</h4>
+        </span>"
+        <button type="button" class="close" (click)="d('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row row-space-10 ">
+            <label class="control-label col col-md-2">Cédula</label>
+            <div class="col-md-2 m-b-15">
+                <input type="text" [value]="objAfi != undefined ? objAfi.cedula :''" name="id" class="form-control" disabled  />
+            </div>
+        </div>
+        <div class="row row-space-10 ">
+            <label class="control-label col col-md-2">Apellidos</label>
+            <div class="col-md-4 m-b-15">
+                <input type="text" [value]="objAfi != undefined ? objAfi.apellidos : ''" name="ape" class="form-control" disabled  />
+            </div>
+        </div>
+        <div class="row row-space-10 ">
+            <label class="control-label col col-md-2">Nombres</label>
+            <div class="col-md-4 m-b-15">
+                <input type="text" [value]="objAfi != undefined ? objAfi.nombres: ''" name="nom" class="form-control" disabled  />
+            </div>
+        </div>
+        <div class="row row-space-10 m-b-15">
+            <label class="control-label col col-md-2">Notas</label>
+            <textarea [(ngModel)]="objAfi.notas"name="notas" rows="4" cols="110"> </textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-red" (click)="lobajo()">Confirmar</button>
+        <button class="btn btn-white" (click)="c('Close click')">Cancelar</button>
+    </div>
+  </ng-template>
+
+
+
+
+  <!-- <div class="table-responsive">
+    <table class="table table-striped m-b-0">
+        <thead>
+            <tr>
+                <th>CI</th>
+                <th width="20%">Nombre</th>
+                <th>Tipo</th>
+                <th>Status</th>
+                <th>Activa/o</th>
+                <th>Ing.Ficha</th>
+                <th>Nucleo</th>
+                <th width="1%">
+                    <button type="button" class="btn btn-white height-30 width-150 "
+                    [routerLink]="['/afil-editar/0']" title=""  routerLinkActive="router-link-active">
+                    <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Crear Afiliada/o</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of lista">
+                <td>{{item.cedula}}</td>
+                <td>{{item.apellidos}}, {{item.nombres}}</td>
+                <td>
+                    <span *ngIf="item.tipo=='A'">Afiliado</span>
+                    <span *ngIf="item.tipo=='F'">Fundador</span>
+                    <span *ngIf="item.tipo=='O'">Otro</span>
+                </td>
+                <td>
+                    <span *ngIf="item.status=='I'">Iniciada</span>
+                    <span *ngIf="item.status=='A'">Aprobada</span>
+                    <span *ngIf="item.status=='C'">Condicional</span>
+                    <span *ngIf="item.status=='T'">Terminada</span>
+                    <span *ngIf="item.status=='R'">Rechazada</span>
+                    <span *ngIf="item.status=='S'" style="background-color: red;">Sol.Reingreso</span>
+                </td>
+                <td>
+                  <span *ngIf="!item.enable && item.status=='T'" style="background-color: red;">{{item.enable && 'Si' || 'No'}}</span>
+                  <span *ngIf="item.enable || item.status!='T'">{{item.enable && 'Si' || 'No'}}</span>
+                </td>
+                <td>{{item.fecsoling}}</td>
+                <td>{{item.elnucleo}}</td>
+                <td class="with-btn" nowrap>
+
+                        <button type="button" class="btn btn-white height-30 " [routerLink]="['/afil-editar', item.cedula]"  routerLinkActive="router-link-active"
+                        title="Editar afiliado/a"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>
+                        <button type="button" class="btn btn-white height-30 " (click)="pdfficha(item.cedula)"  routerLinkActive="router-link-active"
+                        title="Imprimir solicitud"><span class="fa fa-print btn-icon mr-2" style="font-size:12px"></span> </button>
+
+                        <span *ngIf="nivel == 50 || nivel == 90">
+                            <span *ngIf="item.enable">
+                                <button type="button" class="btn btn-white height-30 "
+                                (click)="inhab(modalDialog, item.cedula,'B')"
+                                routerLinkActive="router-link-active"
+                                title="Marcar inactivo/a"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+                            </span>
+                        </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div> -->

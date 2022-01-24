@@ -1,0 +1,108 @@
+<panel title="Proximo Nucleo">
+
+    <!-- end register-content -->
+
+    <!-- Tabla de PrimeNg -->
+    <p-table #dt [paginator]="true" [rows]="15" [value]="listDataTable" [responsive]="true"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">
+                    Id
+                    <p-sortIcon field="id" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th pSortableColumn="subgrupo">
+                    Subgrupo
+                    <p-sortIcon field="subgrupo" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th pSortableColumn="region">
+                    Region
+                    <p-sortIcon field="region" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th pSortableColumn="proximo">
+                    Proximo
+                    <p-sortIcon field="proximo" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText style="width: 100%;" type="text"
+                        (input)="dt.filter($event.target.value, 'id', 'contains')">
+                </th>
+                <th>
+                    <input pInputText style="width: 100%;" type="text"
+                        (input)="dt.filter($event.target.value, 'subgrupo', 'contains')">
+                </th>
+                <th>
+                    <input pInputText style="width: 100%;" type="text"
+                        (input)="dt.filter($event.target.value, 'region', 'contains')">
+                </th>
+                <th>
+                    <input pInputText style="width: 100%;" type="text"
+                        (input)="dt.filter($event.target.value, 'proximo', 'contains')">
+                </th>
+                <th>
+                    <button type="button" class="btn btn-md btn-danger mx-2 height-30 " (click)="refresh()"
+                        title="actualizar">
+                        <i class="fas fa-sync"></i> Actualizar
+                    </button>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+            <tr>
+                <td>
+                    {{item.id}}
+                </td>
+                <td>
+                    {{item.subgrupo}}
+                </td>
+                <td>
+                    {{item.region}}
+                </td>
+                <td>
+                    {{item.proximo}}
+                </td>
+                <td class="with-btn" nowrap>
+                    <button type="button" class="btn btn-white height-30 " (click)="popupProximo(proximoNucleo, item.proximo,rowIndex)"
+                        title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    
+
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <!-- Fin tabla PrimeNg -->
+    <!-- end panel -->
+</panel>
+
+
+
+<ng-template #proximoNucleo let-c='close' let-d='dismiss'>
+    <div class='modal-header'>
+        <h4 class='modal-title'>Editar Proximo</h4>
+        <button type='button' class='close' (click)="c(' Cross click')">×</button>
+    </div>
+    <div class='modal-body'>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <input type="number" [(ngModel)]="currentItem" name="prox" class="form-control" placeholder="" required />
+            </div>
+        </div>
+        
+    </div>
+    <div class='modal-footer'>
+        <button class='btn btn-white' (click)="d(' Close click')">Grabar</button>
+    </div>
+</ng-template>

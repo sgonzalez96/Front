@@ -1,0 +1,81 @@
+<!-- begin #header -->
+<div id="header" class="header navbar-default">
+    <!-- begin navbar-header -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle pull-left" *ngIf="this.pageSidebarTwo" (click)="mobileRightSidebarToggle()">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">
+        <img [src]="previewUrl" height="150px" style="text-align: center;"/>
+      </a>
+
+      <!-- <a href="/" class="navbar-brand"><span class="navbar-logo"></span> <b>Color</b> Admin</a> -->
+      <button type="button" class="navbar-toggle pt-0 pb-0 mr-0" (click)="mobileTopMenuToggle()" *ngIf="this.pageSettings.pageTopMenu && !this.pageSettings.pageWithoutSidebar">
+        <span class="fa-stack fa-lg text-inverse">
+          <i class="far fa-square fa-stack-2x"></i>
+          <i class="fa fa-cog fa-stack-1x"></i>
+        </span>
+      </button>
+      <button type="button" class="navbar-toggle pt-0 pb-0 mr-0" (click)="mobileMegaMenuToggle()" *ngIf="this.pageSettings.pageMegaMenu">
+        <span class="fa-stack fa-lg text-inverse">
+          <i class="far fa-square fa-stack-2x"></i>
+          <i class="fa fa-cog fa-stack-1x"></i>
+        </span>
+      </button>
+      
+      
+      
+      
+      <button type="button" class="navbar-toggle" (click)="mobileSidebarToggle()" *ngIf="!this.pageSettings.pageWithoutSidebar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <button type="button" class="navbar-toggle" (click)="mobileTopMenuToggle()" *ngIf="this.pageSettings.pageTopMenu && this.pageSettings.pageWithoutSidebar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <!-- end navbar-header -->
+  
+    
+  
+    <!-- begin header-nav -->
+    <ul class="navbar-nav navbar-right">
+      <li href="javascript:;" *ngIf="!this.pageSettings.pageWithoutSidebar">
+        <span style="color: #1e1e1e;">{{elusu.fullname}}</span> 
+        <!-- <img [src]="usuimg" alt="" />  -->
+      </li>
+
+      <li class="dropdown navbar-user" ngbDropdown>
+        <a href="javascript:;" class="dropdown-toggle" ngbDropdownToggle>
+          <span class="d-none d-md-inline" style="color: #1e1e1e;">{{elusu.fullname}}</span> <b class="caret" style="color:#1e1e1e;"></b>
+          <img [src]="usuimg" alt="" />
+        </a>
+        
+        <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+          <a href="javascript:;" [routerLink]="['/account']" routerLinkActive="router-link-active" class="dropdown-item">Editar mi cuenta</a>
+          <a href="javascript:;" [routerLink]="['/usupass']" routerLinkActive="router-link-active" class="dropdown-item">Cambiar contraseña</a>
+          <div class="dropdown-divider"></div>
+          <a href="javascript:;" [routerLink]="['/contact']" routerLinkActive="router-link-active" class="dropdown-item">Contactarnos ...</a>
+          <div class="dropdown-divider"></div>
+          <a href="javascript:;" class="dropdown-item" [routerLink]="['/logout']">Salir</a>
+        </div>
+      </li>
+      <li class="divider d-none d-md-block" *ngIf="this.pageSidebarTwo">
+        <span class="d-none d-md-inline">{{elusu.fullname}}</span>  
+      </li>
+      <li class="d-none d-md-block" *ngIf="this.pageSidebarTwo">
+        <a href="javascript:;" (click)="toggleSidebarRight()" class="f-s-14">
+          <i class="fa fa-th"></i>
+        </a>
+      </li>
+    </ul>
+    <!-- end header navigation right -->
+  </div>
+  <!-- end #header -->
+  

@@ -1,0 +1,38 @@
+<!-- begin login -->
+<div class="login-cover">
+    <div class="login-cover-image" [ngStyle]="{ 'background-image': 'url(../assets/img/login-bg/login.jpg)' }"></div>
+    <div style="background-position: center; background-size: inherit;"></div>
+</div>
+
+<!-- begin login -->
+<div class="login login-v2" >
+    
+    <!-- begin login-content -->
+    <div class="log-content">
+        <form #f="ngForm" (ngSubmit)="formSubmit()" class="margin-bottom-0">
+            <div class="news-caption">
+                <h4>
+                    La sesion de la aplicación ha sido cerrada correctamente ...
+                </h4>
+            </div>
+            <div class="icon">
+                <i class="fa fa-sign-in-alt"></i>
+              </div>
+            <div class="login-buttons">
+                <button type="submit" class="btn btn-block btn-lg" style="background-color:#bd171e; color:white">Ir al login</button>
+            </div>
+            
+            <!--
+            <div class="m-t-20">
+                Not a member yet? Click <a href="javascript:;">here</a> to register.
+            </div>
+            -->
+        </form>
+    </div>
+    
+
+
+    <!-- end login-content -->
+</div>
+<!-- end login -->
+

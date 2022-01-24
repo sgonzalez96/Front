@@ -1,0 +1,252 @@
+<panel title="Crear un recibo">
+  <div class="register-content">
+    <form #f="ngForm" (ngSubmit)="crearRecibo(f)" class="margin-bottom-0">
+      <div class="row row-sd-10 " *ngIf="haymov || haypago">
+        <div class="col-md-6">
+          <span *ngIf="haymov">
+            <div class="note note-primary">
+              <div class="note-icon"><i class="fa fa-cash-register"></i></div>
+              <div class="note-content">
+                <h5><b>Ingreso de pago automático</b></h5>
+                <p> El día {{objBcoMov.fecha}} ingresó un pago {{objBcoMov.descripcion}} con documento
+                  {{objBcoMov.documento}} y asunto {{objBcoMov.asunto}} por el importe debito {{objBcoMov.debito}} y
+                  crédito {{objBcoMov.credito}} </p>
+              </div>
+            </div>
+          </span>
+        </div>
+        <div class="col-md-6">
+          <span *ngIf="haypago">
+            <!-- with right icon -->
+            <div class="note note-warning note-with-right-icon">
+              <div class="note-icon"><i class="fa fa-money-bill"></i></div>
+              <div class="note-content text-right">
+                <h5><b>Pago del usuario</b></h5>
+                <p> El día El día {{objBcoPago.fecha}} ingresó un pago {{objBcoPago.referencia}} con documento
+                  {{objBcoPago.referencia}} por el importe {{objBcoPago.importe}} </p>
+              </div>
+            </div>
+
+          </span>
+        </div>
+      </div>
+
+
+      <div class="row row-space-10">
+        <label class="control-label col-md-1">Via de Pago<span class="text-danger">*</span></label>
+        <div class="col-md-3" *ngIf="vavia">
+          <select class="form-control" (change)="onChangeVia($event.target.value)">
+            <option *ngFor="let via of varsVia" [selected]="lavia.nombre.trim() == via.nombre.trim()" [ngValue]="lavia">
+              {{via.nombre}}</option>
+          </select>
+        </div>
+        <div class="col-md-3" *ngIf="!vavia">
+          <input [(ngModel)]="objRec.viapago.nombre" name="vapai" class="form-control" disabled />
+        </div>
+
+        <label class="control-label col-md-1">Recibo</label>
+        <div *ngIf="objRec.viapago != undefined" class="col-md-2">
+          <input *ngIf="objRec.viapago.id == 1" [(ngModel)]="objRec.recibo" name="recibo" class="form-control" />
+          <input *ngIf="objRec.viapago.id != 1" [(ngModel)]="objRec.recibo" name="recibo" class="form-control"
+            disabled />
+        </div>
+
+        <label class="control-label col-md-1 m-b-15">Fecha <span class="text-danger">*</span></label>
+        <div class="col-md-2">
+          <input type="date" [(ngModel)]="fechoy" (change)="onChangeDate($event.target.value)" name="fecha"
+            class="form-control" placeholder="" required />
+        </div>
+      </div>
+
+      <div class="row row-space-10 m-b-15 m-t-15">
+        <label class="control-label col col-md-1">Descripcion</label>
+        <div class="col col-md-10">
+          <textarea type="text" [(ngModel)]="objRec.descripcion" name="txtfichaDescr" class="form-control"
+            placeholder="" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="row row-space-10 m-t-10">
+        <label class="control-label col-md-1">Referencia</label>
+        <div class="col-md-10">
+          <input [(ngModel)]="objRec.referencia" name="refe" class="form-control" placeholder="Id para automatizaciones"
+            required maxlength="60" />
+        </div>
+      </div>
+
+
+      <!-- begin table-responsive -->
+      <h5 class="m-t-20 border-bottom"><i class="fa fa-check"></i> Detalle del pago</h5>
+
+      <div class="table-responsive">
+        <table class="table table-striped m-b-5" style="margin-bottom: solid;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>AAAAMM</th>
+              <th>Nucleo</th>
+              <th>Afiliado</th>
+              <th>Cantidad</th>
+              <th>Monto</th>
+              <th width="5%">
+                <button type="button" class="btn btn-white height-30 width-50 " (click)="ite_open(modalDialog)"
+                  title="">
+                  <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span></button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of objRec.detalle, let i=index">
+              <td>{{i}} </td>
+              <td>{{item.mespago}}</td>
+              <td>{{item.nucleo.id}} - {{item.nucleo.nombre}}</td>
+              <td>
+                <span *ngIf="item.afiliado != undefined && item.afiliado != null ">
+                  {{item.afiliado.cedula}} - {{item.afiliado.apellidos}}
+                </span>
+              </td>
+              <td>{{item.cantidad}}</td>
+              <td>{{item.importe}}</td>
+              <td class="with-btn" nowrap>
+                <button type="button" class="btn btn-white height-30 " (click)="ite_edit(modalDialog,i)"
+                  title="Editar item del recibo"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span>
+                </button>
+                <button type="button" class="btn btn-white height-30 " (click)="ite_baja(i)" title="Baja del item"><span
+                    class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- <h5 class="m-t-20 border-bottom"><i class="fa fa-bullhorn"></i>  Pie del </h5> -->
+      <div class="row row-space-10 m-t-20 m-b-15">
+
+        <div class="col-md-2" style="text-align: center; background-color: lightgreen ">Total abonar: <strong
+            class="mx-1">{{saldo_ini}}</strong></div>
+        <span class="col col-md-5"></span>
+        <label class="control-label col-md-1 m-t-10 ">Moneda</label>
+        <div class="col-md-1">
+          <select class="form-control" (change)="onChangeMon($event.target.value)">
+            <option *ngFor="let mon of varsMon" [selected]="lamon.simbolo.trim() == mon.simbolo.trim()"
+              [ngValue]="lamon">{{mon.simbolo}}</option>
+          </select>
+        </div>
+        <div class="col-md-2" style="text-align: right; background-color: lightgreen ">Sumatoria: <strong
+            class="mx-1">{{objRec.importe}}</strong></div>
+      </div>
+
+      <div class="row row-space-10 m-b-15">
+        <label class="control-label col col-md-1">Observaciones</label>
+        <div class="col col-md-10">
+          <textarea type="text" [(ngModel)]="objRec.notas" name="txtfichaNotas" class="form-control" placeholder=""
+            rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row m-b-15 m-l-40">
+        <div class="register-buttons">
+          <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span
+              class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+          <button type="submit" class="btn btn-white height-30 m-l-20 width-150" title="">
+            <span class="fa fa-check btn-icon mr-2" style="color: darkred"></span>Confirmar</button>
+
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+
+
+<ng-template #modalDialog let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Agregar línea de recibo</h4>
+    <button type="button" class="close" (click)="d('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="row row-space-10 m-b-10">
+      <label class="control-label col-md-2">Núcleo:</label>
+      <div class="col-md-2 m-b-15">
+        <input *ngIf="habnuc" type="text" [(ngModel)]="nucId" name="id_nuc" class="form-control"
+          (change)="cambioNucleoId($event.target.value)" placeholder="" appOnlydigits maxlength="6" />
+        <input *ngIf="!habnuc" type="text" [(ngModel)]="nucId" name="id_nuc" class="form-control"
+          (change)="cambioNucleoId($event.target.value)" placeholder="" appOnlydigits maxlength="6" disabled />
+      </div>
+      <div class="col col-md-6">
+        <input *ngIf="objDet.nucleo != null && objDet.nucleo !=undefined" type="text" [(ngModel)]="objDet.nucleo.nombre"
+          name="nomnucs" class="form-control" placeholder="" disabled />
+      </div>
+      <button *ngIf="habnuc" type="button" (click)="openNuc(selectNuc)" class="btn btn-white height-30  m-l-10 width-40"
+        title="">
+        <span class="fa fa-search btn-icon mr-2"></span></button>
+    </div>
+    
+    <div class="row row-space-10 m-b-10">
+      <label class="control-label col-md-2">Mes imputado</label>
+      <div class="col-md-3">
+        <input type="month" [(ngModel)]="objDet.mespago" name="detaamm" class="form-control" placeholder="AAAAMM"
+          required />
+      </div>
+    </div>
+
+
+    <div *ngIf="nucId == 1" class="row row-space-10 m-b-10">
+      <label class="control-label col-md-2">Afiliado</label>
+      <div class="col-md-2 m-b-15">
+        <input type="text" [(ngModel)]="afiId" name="id_afi" class="form-control"
+          (change)="cambioAfiliado($event.target.value)" placeholder="" appOnlydigits maxlength="8" />
+      </div>
+      <div class="col col-md-6">
+        <input *ngIf="objDet.afiliado != null && objDet.afiliado !=undefined" type="text"
+          [(ngModel)]="objDet.afiliado.apellidos" name="apeafi" class="form-control" placeholder="" disabled />
+      </div>
+      <button type="button" (click)="openAfi(selectAfi)" class="btn btn-white height-30  m-l-10 width-40" title="">
+        <span class="fa fa-search btn-icon mr-2"></span></button>
+    </div>
+
+    <div class="row row-space-10 m-b-10">
+      <label class="control-label col-md-2">Importe<span class="text-danger">*</span></label>
+      <div class="col-md-3">
+        <input type="number" [(ngModel)]="objDet.importe" name="detmonto" class="form-control" (keyup)="cambioImporte()"
+          placeholder="Importe total" required />
+      </div>
+      <div  class="row col-3 row-space-10 m-b-10">
+        <div class="form-group row" style="font-size: medium; font-weight: 600; font-style: oblique; color: rgb(18, 174, 212);">
+          <p class="col-auto ">{{objDet.nucleo.tipo_cot == 'P'? 'Cotiza el 1%' : ''}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row row-space-10 m-b-10">
+      <label class="control-label col-md-2">Cotizantes<span class="text-danger">*</span></label>
+      <div class="col-md-3">
+        <input [(ngModel)]="objDet.cantidad" name="detcoti" class="form-control" placeholder="Cantidad de afiliados"
+          required />
+      </div>
+    </div>
+
+    <button *ngIf="nucId!=0" type="button" class="btn btn-white height-30 m-l-20 width-150" title="" (click)="agrego()">
+      <span class="fa fa-check btn-icon mr-2" style="color: darkred"></span>Confirmar</button>
+    <button *ngIf="nucId==0" type="button" class="btn btn-white height-30 m-l-20 width-150" title="" (click)="agrego()"
+      disabled>
+      <span class="fa fa-check btn-icon mr-2" style="color: darkred"></span>Confirmar</button>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-white" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #selectNuc let-c="close" let-d="dismiss">
+  <app-helpnuc (nucleoChange)="objNuc=$event" (winNChange)="elijoNuc()" (winNClose)="closeNuc()"></app-helpnuc>
+</ng-template>
+
+<ng-template #selectAfi let-c="close" let-d="dismiss">
+  <app-helpafi [nucleo]="objDet.nucleo" (afiliadoChange)="objAfi=$event" (winAChange)="elijoAfi()"
+    (winAClose)="closeAfi()"></app-helpafi>
+</ng-template>

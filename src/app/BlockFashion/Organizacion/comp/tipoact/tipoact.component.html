@@ -1,0 +1,106 @@
+<panel title="Lista de {{tit}}">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+            <div *ngIf="abierto" class="m-l-20 card-body " style="background-color:lightsteelblue;">
+                <form #f="ngForm" (ngSubmit)="creoObj(f)" class="margin-bottom-0">
+                    <div class="row row-space-10">
+                        <label class="control-label col col-md-2">Nombre<span class="text-danger">*</span></label>
+                        <div class="m-b-15 col col-md-4">
+                            <input type="text" [(ngModel)]="objObj.descripcion" name="desc" class="form-control rigth" placeholder="Nombre del item" required />
+                        </div>
+                    </div>
+                    <div class="row row-space-10">                    
+                        <label class="control-label col col-md-2">Icono<span class="text-danger">*</span></label>
+                        <div class="m-b-15 col col-md-4">
+                            <input type="text" [(ngModel)]="objObj.icono" name="icono" class="form-control rigth" placeholder="Icono por ej fa-bug" required />
+                        </div>
+                    </div>
+                    <div class="row row-space-10 m-b-15">
+                        <div class="checkbox checkbox-css col col-md-2">
+                            <input type="checkbox" [(ngModel)]="objObj.inscribe" [value]="true" id="inscr" name="inscr" />
+                            <label for="inscr">&nbsp;Es por inscripción</label>
+                        </div>
+                    
+                        <div class="checkbox checkbox-css col col-md-2">
+                            <input type="checkbox" [(ngModel)]="objObj.asistencia" [value]="true" id="asis" name="asis" />
+                            <label for="asis">&nbsp;Se marca asistencia</label>
+                        </div>
+                    
+                        <div class="checkbox checkbox-css col col-md-2">
+                            <input type="checkbox" [(ngModel)]="objObj.evalua" [value]="true" id="eval" name="eval" />
+                            <label for="eval">&nbsp;Admite evaluación</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group m-l-40">
+                        <div class="register-buttons">
+                            <button type="submit" class="btn btn-white height-30 m-l-20 width-30" title="">
+                                            <span class="fa fa-check btn-icon mr-2" style="color: darkred"></span></button>
+                            <button type="button" class="btn btn-white height-30 m-l-20 width-30" title="" 
+                                            (click)="cerrarAltaObj()"><span class="fa fa-window-close btn-icon mr-2"></span></button>                                
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="!abierto" class="col-md-4 offset-md-8">
+                <button type="button" class="btn btn-white height-30 width-140 m-l-20 " 
+                (click)="altaObj()" title=""  routerLinkActive="router-link-active">
+                <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Crear</button>           
+                            <!-- <button type="button" class="btn btn-white height-30 width-100 m-l-20 " (click)="exportExcel()" title=""><span class="fa fa-file-excel btn-icon mr-2"></span>Exportar</button>            -->
+            </div>           
+            <div class="table-responsive">
+                <table class="table table-striped m-b-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Descripcion</th>
+                                <th>Inscribe</th>
+                                <th>Asistencia</th>
+                                <th>Evalua</th>
+                                <th width="1%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lista;let i=index" (click)="selObj(item)">
+                                <td>{{item.id}}</td>
+                                <td>
+                                    <span *ngIf="item.id == elObj.id" style="color: darkred;">{{item.descripcion}}</span>
+                                    <span *ngIf="item.id != elObj.id">{{item.descripcion}}</span>
+                                </td>
+                                <td class="with-checkbox">
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" [(ngModel)]="item.inscribe" [value]="item.inscribe" id="ins{{item.id}}" name="ins{{item.id}}" [checked]="item.inscribe" disabled />
+                                        <label for="ins{{item.id}}">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td class="with-checkbox">
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" [(ngModel)]="item.asistencia" [value]="item.asistencia" id="asi{{item.id}}" name="asi{{item.id}}" [checked]="item.asistencia" disabled/>
+                                        <label for="asi{{item.id}}">&nbsp;</label>
+                                    </div>
+                                </td>
+                                <td class="with-checkbox">
+                                    <div class="checkbox checkbox-css">
+                                        <input type="checkbox" [(ngModel)]="item.evalua" [value]="item.evalua" id="eva{{item.id}}" name="eva{{item.id}}" [checked]="item.evalua" disabled/>
+                                        <label for="eva{{item.id}}">&nbsp;</label>
+                                    </div>
+                                </td>
+
+                                <td class="with-btn" nowrap>
+                                    <button type="button" class="btn btn-white height-30 " 
+                                    (click)="modifObj(item)"  routerLinkActive="router-link-active" 
+                                    title="Editar"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>           
+                                    
+                                    <button type="button" class="btn btn-white height-30 " (click)="baja_obj(item.id)"  routerLinkActive="router-link-active" 
+                                    title="Borrar"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>                                        
+                                </td>
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            <!-- end table-responsive -->
+        </div>           
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+

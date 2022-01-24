@@ -1,0 +1,257 @@
+<panel title="Conciliación REDPAGOS">
+  <div class="register-content">
+      <!-- begin table-responsive -->
+      <div>
+          <div class="form-group row m-b-15">
+              <label class="col col-md-1" >Desde/Hasta</label>
+              <div class="m-l-10">
+                  <input type="date" [(ngModel)]="fecini" name="feci" class="form-control" placeholder="" required maxlength="100"/>
+              </div>
+              <div class="m-l-10">
+                  <input type="date" [(ngModel)]="fecfin" name="fecf" class="form-control" placeholder="" required maxlength="100"/>
+              </div>
+              <div class="m-l-10">
+                  <button type="button" class="btn btn-warning height-30 width-40 m-l-20"
+                  title=""  (click)="cargo()" ><span class="fa fa-redo btn-icon mr-2"></span></button>
+              </div>
+
+              <button *ngIf="haysel" type="button" class="btn btn-white height-30  m-l-40 " [routerLink]="['/recalta']"
+              title=""  routerLinkActive="router-link-active"><span class="fa fa-plus btn-icon mr-2" style="color: darkred;"></span>Crear Recibo</button>
+              <button *ngIf="!haysel" type="button" class="btn btn-white height-30  m-l-40 "
+              title=""  routerLinkActive="router-link-active" disabled><span class="fa fa-plus btn-icon mr-2" style="color: darkred;"></span>Crear Recibo</button>
+
+          </div>
+      </div>
+
+      <div class="row row-sd-10">
+        <div class="card col-md-6">
+
+          <div class="table-responsive">
+              <table class="table table-striped m-b-0">
+                  <thead>
+                      <tr>
+                          <th>Fecha</th>
+                          <th>Descripcion</th>
+                          <th>Documento </th>
+                          <th>Asunto</th>
+                          <th>Importe</th>
+                          <th width="1%"></th>
+                          <th width="1%"></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let item of listamov; let i = index">
+                          <td>{{item.mov.fecha|date:'dd/MM/yy'}}</td>
+                          <td>{{item.mov.descripcion}}</td>
+                          <td>{{item.mov.documento}}</td>
+                          <td>{{item.mov.asunto}}</td>
+                          <td>
+                            <span *ngIf="item.mov.debito != 0" style="text-align: right; color: red;">{{item.mov.debito}}</span>
+                            <span *ngIf="item.mov.credito != 0" style="text-align: right; ">{{item.mov.credito}}</span>
+                          </td>
+                          <td class="with-checkbox">
+                            <div class="checkbox checkbox-css">
+                                <input type="checkbox" [(ngModel)]="item.selected" [value]="item.selected" id="{{item.mov.id}}" name="{{item.mov.id}}" [checked]="item.selected" (click)="cambio(i)"/>
+                                <label for="{{item.mov.id}}">&nbsp;</label>
+                            </div>
+                          </td>
+                          <td class="with-btn" nowrap>
+                            <button type="button" class="btn btn-white height-30 " (click)="mov_open(verMovBco,item)"  routerLinkActive="router-link-active"
+                            title="Ver movimiento"><span class="fa fa-eye btn-icon mr-2" style="font-size:12px"></span> </button>
+                          </td>
+
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+        <!-- end table-responsive -->
+        </div>
+        <div class="card col col-md-6 ">
+          <span *ngIf="haysel" >
+            <div class="row row-space-10">
+              <button *ngIf="hayfec" class="btn btn-primary " (click)="apago('0')">Fecha</button>
+              <button *ngIf="!hayfec" class="btn btn-default" (click)="activo('0')">Fecha</button>
+              <button *ngIf="hayfec5" class="btn btn-primary m-l-5" (click)="apago('1')">Fecha +/- 5</button>
+              <button *ngIf="!hayfec5" class="btn btn-default m-l-5" (click)="activo('1')">Fecha +/- 5</button>
+              <button *ngIf="hayimpo" class="btn btn-primary m-l-5" (click)="apago('2')">Importe</button>
+              <button *ngIf="!hayimpo" class="btn btn-default m-l-5" (click)="activo('2')">Importe</button>
+              <button *ngIf="haydoc" class="btn btn-primary m-l-5" (click)="apago('3')">Documento</button>
+              <button *ngIf="!haydoc" class="btn btn-default m-l-5" (click)="activo('3')">Documento</button>
+
+
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped m-b-0">
+                  <thead>
+                      <tr>
+                          <th>Fecha</th>
+                          <th>Descripcion</th>
+                          <th>Referencia </th>
+                          <th>Importe</th>
+                          <th width="1%"></th>
+                          <th width="1%"></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let item of listapago; let j = index">
+                          <td>{{item.pago.fecha|date:'dd/MM/yy'}}</td>
+                          <td>{{item.pago.descripcion}}</td>
+                          <td>{{item.pago.referencia}}</td>
+                          <td>
+                            <span style="text-align: right; ">{{item.pago.importe}}</span>
+                          </td>
+                          <td class="with-checkbox">
+                            <div class="checkbox checkbox-css">
+                                <input type="checkbox" [(ngModel)]="item.selected" [value]="item.selected" id="{{item.pago.id}}" name="{{item.pago.id}}" [checked]="item.selected" (click)="cambioPago(j)"/>
+                                <label for="{{item.pago.id}}">&nbsp;</label>
+                            </div>
+                          </td>
+                          <td class="with-btn" nowrap>
+                            <button type="button" class="btn btn-white height-30 " (click)="pago_open(verPagoBco,item)"
+                            title="Ver movimiento"><span class="fa fa-eye btn-icon mr-2" style="font-size:12px"></span> </button>
+                          </td>
+
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+          </span>
+        </div>
+      </div>
+  </div>
+  <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+
+<ng-template #verMovBco let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Ver pago ingresado automáticamente</h4>
+    <button type="button" class="close" (click)="d('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="register-content">
+      <label class="control-label col-md-2">Fecha</label>
+      <div class="col-md-4">
+        <input [(ngModel)]="objRec.fecha" name="viapago" class="form-control" disabled />
+      </div>
+
+      <label class="control-label col-md-4">Descripcion</label>
+      <div class="col-md-8">
+          <input [(ngModel)]="objRec.descripcion" name="recibo" class="form-control" disabled />
+      </div>
+
+      <label class="control-label col-md-2">Documento</label>
+      <div class="col-md-8">
+          <input [(ngModel)]="objRec.documento" name="docu" class="form-control" disabled />
+      </div>
+
+      <label class="control-label col-md-2">Depósito</label>
+      <div class="col-md-8">
+          <input [(ngModel)]="objRec.deposito" name="depo" class="form-control" disabled />
+      </div>
+      <label class="control-label col-md-2">Asunto</label>
+      <div class="col-md-8">
+          <input [(ngModel)]="objRec.asunto" name="asunto" class="form-control" disabled />
+      </div>
+
+      <span class="row row-space-10">
+      <div class="col-md-6">
+        <label class="control-label col-md-2">Débito</label>
+        <div class="col-md-10">
+            <input [(ngModel)]="objRec.debito" name="debito" class="form-control" disabled />
+        </div>
+      </div>
+      <div class="col-md-6">
+
+        <label class="control-label col-md-2">Crédito</label>
+        <div class="col-md-10">
+            <input [(ngModel)]="objRec.credito" name="credito" class="form-control" disabled />
+        </div>
+      </div>
+      </span>
+
+      <label class="control-label col-md-2">Estado</label>
+      <div class="col-md-4">
+          <input [(ngModel)]="objRec.estado" name="estado" class="form-control" disabled />
+      </div>
+
+
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-white" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+
+<ng-template #verPagoBco let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Ver pago de usuario</h4>
+    <button type="button" class="close" (click)="d('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="row row-space-10 m-b-10">
+      <label class="control-label col-md-2">Núcleo</label>
+      <div class="col-md-2 m-b-15">
+        <input type="text" [(ngModel)]="objPago.nucleo.id" name="id_nuc" class="form-control" disabled maxlength="6" />
+      </div>
+      <div class="col col-md-6">
+        <input type="text" [(ngModel)]="objPago.nucleo.nombre" name="nomnucs" class="form-control" placeholder="" disabled/>
+      </div>
+    </div>
+
+    <div *ngIf="objPago.nucleo.id == 1" class="row row-space-10 m-b-10">
+      <label class="control-label col-md-2">Afiliado</label>
+      <div class="col-md-2 m-b-15">
+        <input type="text" [(ngModel)]="objPago.afiliado.cedula" name="id_afi" class="form-control" disabled placeholder="" appOnlydigits maxlength="8" />
+      </div>
+      <div class="col col-md-6">
+        <input type="text" [(ngModel)]="objPago.afiliado.apellidos" name="apeafi" class="form-control" placeholder="" disabled/>
+      </div>
+    </div>
+
+
+      <div class="row row-space-10">
+          <label class="control-label col-md-2">Fecha <span class="text-danger">*</span></label>
+          <div class="col-md-4">
+              <input type="date" [(ngModel)]="objPago.fecha" name="fecha" class="form-control" placeholder="" disabled/>
+          </div>
+      </div>
+
+      <div class="row row-space-10 m-t-10">
+        <label class="control-label col-md-2">Descripcion<span class="text-danger">*</span></label>
+        <div class="col-md-6">
+            <input [(ngModel)]="objPago.descripcion" name="dsc" class="form-control" placeholder="" disabled  maxlength="60"/>
+        </div>
+      </div>
+      <div class="row row-space-10 m-t-10">
+        <label class="control-label col-md-2">Referencia</label>
+        <div class="col-md-6">
+            <input [(ngModel)]="objPago.referencia" name="refe" class="form-control" placeholder="" disabled maxlength="60"/>
+        </div>
+      </div>
+
+      <div class="row row-space-10 m-b-10">
+        <label class="control-label col-md-2">Importe<span class="text-danger">*</span></label>
+        <div class="col-md-6">
+          <input type="number" [(ngModel)]="objPago.importe" name="detmonto" class="form-control" placeholder="Cobranza tal ..." disabled  />
+        </div>
+      </div>
+
+      <!-- <h5 class="m-t-20 border-bottom"><i class="fa fa-bullhorn"></i>  Pie del </h5> -->
+      <div class="row row-space-10 m-b-15">
+        <label class="control-label col col-md-2">Observaciones</label>
+        <div class="col col-md-8">
+          <textarea type="text" [(ngModel)]="objPago.notas" name="txtficha" class="form-control" placeholder="" disabled rows="3"></textarea>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-white" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+
+

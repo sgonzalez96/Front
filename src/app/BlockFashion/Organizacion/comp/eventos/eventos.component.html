@@ -1,0 +1,77 @@
+<panel title="Lista de eventos">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div>            
+            <div class="form-group row m-b-15">
+                <label class="control-label col-md-1">Desde</label>
+                <div class="col-md-2 m-b-15">
+                    <input type="date" [(ngModel)]="fecini" name="feci" class="form-control" placeholder="" required maxlength="100"/>
+                </div>
+    
+                <label class="control-label col-md-1">Hasta</label>
+                <div class="col-md-2 m-b-15">
+                    <input type="date" [(ngModel)]="fecfin" name="fecf" class="form-control" placeholder="" required maxlength="100"/>
+                </div>
+    
+                <div class="col col-md-2">
+                    <select class="form-control " (change)="onChangeTipo($event.target.value)">  
+                        <option *ngFor="let item of varsOpcion" [selected]="eltipo.descripcion == item.descripcion" [ngValue]="eltipo" name="cmbmar">{{item.descripcion}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary height-30 width-150 m-l-5" (click)="cargo()" title=""><span class="fa fa-file-upload btn-icon m-r-20"></span>Cargar</button>           
+                    <button type="button" class="btn btn-white height-30 width-150 m-l-20 " 
+                    [routerLink]="['/evenew']" title=""  routerLinkActive="router-link-active">
+                    <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Crear Evento</button>           
+                    
+                </div>
+            </div>           
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Tipo</th>
+                        <th>Nombre</th>
+                        <th>Lugar</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                        <th width="1%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let evento of lista">
+                        <td>{{evento.id}}</td>
+                        <td>{{evento.fecha}}</td>
+                        <td>{{evento.hora}}</td>
+                        <td>{{evento.tipoact.descripcion}}</td>
+                        <td>{{evento.nombre}}</td>
+                        <td>{{evento.lugar}}</td>
+                        <td>{{evento.desde}}</td>
+                        <td>{{evento.hasta}}</td>
+                        <td class="with-btn" nowrap>
+                            <button type="button" class="btn btn-white height-30 " [routerLink]="['/evemanager', evento.id]"   routerLinkActive="router-link-active" 
+                            title="Administrar el evento e invitaciones"><span class="fa fa-id-card btn-icon mr-2" style="font-size:12px"></span> </button>                                        
+
+                            <button type="button" class="btn btn-white height-30 " [routerLink]="['/eveedi', evento.id]"  routerLinkActive="router-link-active" 
+                            title="Editar"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>           
+                            
+                            <button type="button" class="btn btn-white height-30 " (click)="baja_eve(evento.id)"  routerLinkActive="router-link-active" 
+                            title="Borrar"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>                                        
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end table-responsive -->
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+
+
+

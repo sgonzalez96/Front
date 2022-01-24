@@ -1,0 +1,101 @@
+<panel title="Consultas de un afiliado">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div>
+            <div class="form-group row m-b-15">
+                <label class="control-label col-md-2">Solicitada Desde-Hasta</label>
+                <div class="col-md-2 m-b-15">
+                    <input type="date" [(ngModel)]="fecini" name="feci" class="form-control" placeholder="" required maxlength="100"/>
+                </div>
+
+                <div class="col-md-2 m-b-15">
+                    <input type="date" [(ngModel)]="fecfin" name="fecf" class="form-control" placeholder="" required maxlength="100"/>
+                </div>
+                <label class="control-label col-md-1">Cédula</label>
+                <div class="col-md-2 m-b-15">
+                    <input type="text" [(ngModel)]="idDato" name="id_afil" class="form-control" (change)="cambioId($event.target.value)" placeholder="" appOnlydigits maxlength="8" />
+                </div>
+                <div *ngIf="objDato != null && objDato!=undefined" class="col col-md-3">
+                    <input  type="text" [(ngModel)]="objDato.apellidos" name="nomdis" class="form-control" placeholder="" disabled/>
+                        <!-- <input type="text" [(ngModel)]="objAfil.nombres" name="nonodis" class="form-control" placeholder="" disabled/> -->
+                </div>
+                <button type="button" (click)="openAfi(selectAfi)" class="col-auto btn btn-white height-30 width-40 m-l-20" title="" >
+                    <i class="fa fa-search"></i></button>
+
+            </div>
+            <div class="form-group row m-b-15">
+                <label class="control-label col-md-2">Agendada Desde-Hasta</label>
+                <div class="col-md-2 m-b-15">
+                    <input type="date" [(ngModel)]="afecini" name="afeci" class="form-control" placeholder="" required maxlength="100"/>
+                </div>
+                <div class="col-md-2 m-b-15">
+                    <input type="date" [(ngModel)]="afecfin" name="afecf" class="form-control" placeholder="" required maxlength="100"/>
+                </div>
+                <div class="col col-md-2">
+                    <select class="form-control " (change)="onChangeTipo($event.target.value)">
+                        <option *ngFor="let item of varsOpcion" [selected]="eltipo.trim() == item.trim()" [ngValue]="eltipo" name="cmbmar">{{item}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary height-30 width-150 m-l-5" (click)="cargo()" title=""><span class="fa fa-file-upload btn-icon m-r-20"></span>Cargar</button>
+                    <button type="button" class="btn btn-white height-30 width-150 m-l-20 "
+                    [routerLink]="['/citanew']" title=""  routerLinkActive="router-link-active">
+                    <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Crear consulta</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mb-3">
+                <button type="button" (click)="exportToExcel()" [disabled]="lista.length == 0" class="btn btn-success btn-md"><i class="fa fa-file-excel btn-icon mr-2"></i>Exportar</button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>Solicitado</th>
+                        <th>Cedula</th>
+                        <th>Afiliado</th>
+                        <th>Nucleo</th>
+                        <th width="20%">Motivo</th>
+                        <th>Prefiere</th>
+                        <th>Status</th>
+                        <th>Agendado</th>
+                        <th>Abogado</th>
+                        <th width="1%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cita of lista">
+                        <td>{{cita.fecsol|date:'dd/MM/yy'}}</td>
+                        <td>{{cita.afiliado.cedula}}</td>
+                        <td>{{cita.afiliado.apellidos}}</td>
+                        <td>{{cita.nucleo.nombre}}</td>
+                        <td>{{cita.motivo}}</td>
+                        <td>{{cita.prefiere}}</td>
+                        <td>{{cita.status}}</td>
+                        <td>{{cita.fecagenda|date:'dd/MM/yy'}} {{cita.horagenda}}</td>
+                        <td><span *ngIf="cita.abogado != null">
+                            {{cita.abogado.nombre}}
+                            </span>
+                        </td>
+                        <td class="with-btn" nowrap>
+                            <button type="button" class="btn btn-white height-30 " [routerLink]="['/cita-editar', cita.id, 'V']"   routerLinkActive="router-link-active"
+                            title="Consultas laborales"><span class="fa fa-eye btn-icon mr-2" style="font-size:12px"></span> </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end table-responsive -->
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+<ng-template #selectAfi let-c="close" let-d="dismiss">
+    <app-helpafi  (afiliadoChange)="objDato=$event"  (winAChange)="elijoAfi()" (winAClose)="c()" ></app-helpafi>
+</ng-template>

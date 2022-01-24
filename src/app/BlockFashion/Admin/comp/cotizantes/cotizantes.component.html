@@ -1,0 +1,302 @@
+<panel title="Informe de cotizantes">
+    <div>
+        <form #f="ngForm" id='form' [formGroup]='form'>
+            <div class="row">
+                <div class="col-4">
+                    <div class="row form-group">
+                        <label class="col-auto" for="sub">Subgrupos</label>
+                        <select class="col-8 form-control" id="sub" formControlName="subgrupo">
+                            <option value="0">Todos</option>
+                            <option value="1">Subgrupo 1</option>
+                            <option value="2">Subgrupo 2</option>
+                            <option value="3">Subgrupo 3</option>
+                            <option value="4">Subgrupo 4</option>
+                            <option value="5">Subgrupo 5</option>
+                            <option value="6">Subgrupo 6</option>
+                            <option value="7">Subgrupo 7</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row form-group">
+                        <label class="col-auto" for="sub">Departamento</label>
+                        <select class="col-8 form-control" id="sub" formControlName="dep">
+                            <option *ngFor="let item of listLocalidades" [value]="item.id">{{item.nombre}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <button type="button" [disabled]="!f.valid" class="btn btn-primary height-30 width-140 m-l-20 "
+                        (click)="buscar()">
+                        <i class="fas fa-sync mx-2"></i>Cargar</button>
+                </div>
+                <div *ngIf="listDataTable.length != 0" class="col-2">
+                    <button type="button" class="btn btn-info height-30 width-140 m-l-20 " (click)="exportExcel()">
+                        <i class="fas fa-file-excel mx-2"></i>Excel</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <!-- end register-content -->
+
+
+    <!-- Tabla de PrimeNg -->
+    <div *ngIf="listDataTable.length">
+        <p-table #dt [paginator]="true" [rows]="15" [value]="listDataTable" [responsive]="true"
+            [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="codNucleo">
+                        Codigo
+                        <p-sortIcon field="codNucleo" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th [style.width]="'200px'" pSortableColumn="nombNucleo">
+                        Nombre
+                        <p-sortIcon field="nombNucleo" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="cantCotUltRevibo">
+                        Cant.Ult.Rec
+                        <p-sortIcon field="cantCotUltRevibo" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="cantCotizantes">
+                        Cant.Cot
+                        <p-sortIcon field="cantCotizantes" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="cantAfiliados">
+                        Cant.Afil
+                        <p-sortIcon field="cantAfiliados" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="idUltRecibo">
+                        id.Ult.Rec
+                        <p-sortIcon field="idUltRecibo" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="mesCancelaUltRecibo">
+                        Mes.Ult.Rec
+                        <p-sortIcon field="mesCancelaUltRecibo" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="cedDelegado">
+                        Cedula
+                        <p-sortIcon field="cedDelegado" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th [style.width]="'200px'" pSortableColumn="nombDelegado">
+                        Nombre
+                        <p-sortIcon field="nombDelegado" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="teleDelegado">
+                        Telefono
+                        <p-sortIcon field="teleDelegado" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'codNucleo', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'nombNucleo', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'cantCotUltRevibo', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'cantCotizantes', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'cantAfiliados', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'idUltRecibo', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'mesCancelaUltRecibo', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'cedDelegado', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'nombDelegado', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'teleDelegado', 'contains')">
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                <tr>
+                    <td>
+                        {{item.codNucleo}}
+                    </td>
+                    <td>
+                        {{item.nombNucleo}}
+                    </td>
+                    <td class="text-center">
+                        {{item.cantCotUltRevibo}}
+                    </td>
+                    <td class="text-center">
+                        {{item.cantCotizantes}}
+                    </td>
+                    <td class="text-center">
+                        {{item.cantAfiliados}}
+                    </td>
+
+                    <td class="text-center">
+                        {{item.idUltRecibo}}
+                    </td>
+                    <td>
+                        {{item.mesCancelaUltRecibo}}
+                    </td>
+                    <td>
+                        {{item.cedDelegado}}
+                    </td>
+                    <td>
+                        {{item.nombDelegado}}
+                    </td>
+                    <td>
+                        {{item.teleDelegado}}
+                    </td>
+
+                    <td class="with-btn" nowrap>
+                        <button type="button" class="btn btn-white height-30 " (click)="filterAfilNucleo(item.codNucleo)"
+                            title="filtro">
+                            <i class="fas fa-eye"></i>
+                        </button>
+
+
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!-- Fin tabla PrimeNg -->
+    <!-- end panel -->
+</panel>
+
+<ng-template #modalFilter let-c='close' let-d='dismiss'>
+    <div class='modal-header'>
+        <h4 class='modal-title'>Detalle del nucleo</h4>
+        <button type='button' class='close' (click)="c(' Cross click')">×</button>
+    </div>
+    <div class='modal-body'>
+        <p-table #dt [paginator]="true" [rows]="15" [value]="listAfilNucleo" [responsive]="true"
+            [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords}" 
+            [globalFilterFields]="['id','afiliado.cedula','afiliado.nombres','afiliado.apellidos','cotizante']"
+            >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="id">
+                        Id
+                        <p-sortIcon field="id" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="afiliado.cedula">
+                        Cedula
+                        <p-sortIcon field="afiliado.cedula" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="afiliado.nombres">
+                        Nombres
+                        <p-sortIcon field="afiliado.nombres" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="afiliado.apellidos">
+                        Apellidos
+                        <p-sortIcon field="afiliado.apellidos" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="cotizante">
+                        Cotizantes
+                        <p-sortIcon field="cotizante" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    
+                </tr>
+                <tr>          
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'id', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'afiliado.cedula', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'afiliado.nombres', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'afiliado.apellidos', 'contains')">
+                    </th>
+                    <th>
+                        <input #ch  type="checkbox"  checked
+                        (input)="dt.filter(ch.checked, 'cotizante', 'equals')">
+
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                <tr>
+                    <td>
+                        {{item.id}}
+                    </td>
+                    <td>
+                        {{item.afiliado.cedula}}
+                    </td>
+                    <td>
+                        {{item.afiliado.nombres}}
+                    </td>
+                    <td>
+                        {{item.afiliado.apellidos}}
+                    </td>
+                    <td>
+                        {{item.cotizante ? "SI" : "NO"}}
+                    </td>
+                    
+                    
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+   
+</ng-template>

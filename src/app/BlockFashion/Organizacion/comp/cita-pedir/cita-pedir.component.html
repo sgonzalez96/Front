@@ -1,0 +1,250 @@
+<span *ngIf="activos">
+    <div class="row row-space-10">
+        <div class="col col-m-d-8 m-l-5">
+            <b>Consultas vigentes</b>
+        </div>
+        <div class="col col-m-d-2 m-l-5 ">
+            <button type="button" class="btn btn-gray m-l-10 pull-right" (click)="switch()" title=""
+                routerLinkActive="router-link-active">
+                <span class="fa fa-archive btn-icon m-r-5"></span></button>
+        </div>
+    </div>
+    <div *ngIf="lista.length == 0">
+        <form #fmod="ngForm" (ngSubmit)="solicito()" class="margin-bottom-0 margin-top-10">
+            <div class="note note-primary m-t-10">
+                <!-- <div class="note-icon"><i class="fab fa-warning"></i></div> -->
+                <div class="note-content">
+                    <h4><b>Información para la solicitud</b></h4>
+                    <p *ngIf="objDato != undefined"> {{objDato.horariolegal}}</p>
+                </div>
+            </div>
+            <div class="m-b-10">
+                <label class="control-label ">Núcleo</label>
+                <div>
+                    <input type="text" [(ngModel)]="objNucleo.nombre" name="nucleo" class="form-control" disabled />
+                </div>
+
+                <label class="control-label ">Motivo</label>
+                <div class="m-b-10">
+                    <textarea [(ngModel)]="motivo" name="motivo" class="form-control" rows="3"></textarea>
+                </div>
+
+                <label class="control-label ">Día y horario de preferencia</label>
+                <div>
+                    <input type="text" [(ngModel)]="prefiere" name="prefiere" class="form-control" />
+                </div>
+            </div>
+
+            <hr> 
+            <h4 class="text-left">Abogados disponibles</h4>
+            <div class="row">
+                <div class="col-2 mx-4">
+                    <input class="form-check-input" [(ngModel)]="preferAbogado" checked type="radio" name="without"  value="Sin preferencia" />
+                    <label for="without">Sin Preferencias</label>
+                </div>
+                <div class=" col-12 table-responsive">
+                    <table class="table table-striped m-b-0">
+                        <thead>
+                            <tr>
+                                <th>Abogado</th>
+                                <th>Horario</th>
+                                <th>Disponibilidad</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listAbogados;index as index">
+                                <td>
+                                    {{item.nombre}}
+                                </td>
+                                <td>
+                                    {{item.horario}}
+                                </td>
+                                <td>
+                                    {{item.dias}}
+                                </td>
+                                <td>
+                        
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" [(ngModel)]="preferAbogado" id="index" value="{{item.nombre}}">
+                                      </div>
+                                      
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <hr>
+            <div class="col col-m-d-6">
+                <div class="row">
+                    <label class="control-label ">Adjuntar documentación</label>
+                    <div class="m-l-5">
+                        <input #imageInput type="file" accept="/*" (change)="processFile($event)" multiple>
+                    </div>
+                    <div class="bg-white col-12" style="border-radius: 5px;">
+                        <ul class="my-2" *ngFor="let item of files;index as index">
+                            <li>
+                                <span>{{index+1}}. {{item.nameFile}} --- {{item.size}}bytes</span>
+                                <span class="mx-3">
+                                    <a href="javascript:;" (click)="deleteFile(index)"
+                                        class="btn btn-danger btn-icon btn-circle btn-xs"><i
+                                            class="fa fa-times"></i></a>
+                                </span>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-3 row-space-10 m-b-10">
+                <div class="register-buttons align-content-center m-l-40">
+                    <button type="submit" class="btn btn-success m-l-10 " title=""
+                        routerLinkActive="router-link-active" [disabled]="isSubmit">
+                        <span class="fa fa-balance-scale btn-icon m-r-5" style="text-align: center;"></span>Solicitar
+                        consulta laboral</button>
+                </div>
+            </div>
+
+
+
+        </form>
+
+    </div>
+    <div *ngIf="lista.length > 0">
+        <div class="note note-warning m-t-10">
+            <div class="note-content">
+                <h4><b>¡Existen consultas vigentes!</b></h4>
+                <p> Si usted tiene consultas vigentes no puede volver a solicitarla. En caso de que su consulta no haya
+                    sido archivada por nuestro departamento legal comunicarse con sintep@legal.izar </p>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered m-b-0">
+                <thead>
+                    <tr>
+                        <th width="20%"></th>
+                        <th width="70%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#Id. Consulta</td>
+                        <td>{{lista[0].cita.id}}</td>
+                    </tr>
+                    <tr>
+                        <td>Solicitada</td>
+                        <td>{{lista[0].cita.fecsol|date:'dd/MM/yyyy'}}</td>
+                    </tr>
+                    <tr>
+                        <td>Motivo</td>
+                        <td>{{lista[0].cita.motivo}}</td>
+                    </tr>
+                    <tr>
+                        <td>Estado</td>
+                        <td>{{lista[0].cita.status}}</td>
+                    </tr>
+                    <tr>
+                        <td>Abogado de preferencia</td>
+                        <td>{{lista[0].cita.abogPrefiere}}</td>
+                    </tr>
+                    <tr *ngIf="lista[0].cita.status == 'Agendada'">
+                        <td>Agendada </td>
+                        <td>{{lista[0].cita.fecagenda|date:'dd/MM/yyyy'}} a las {{lista[0].cita.horagenda}}</td>
+                    </tr>
+                    <tr *ngIf="lista[0].cita.resultado != null">
+                        <td>Resultado </td>
+                        <td>{{lista[0].cita.resultado}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- modulo para lo archivos adjuntos -->
+        <div class="row my-4">
+            <div class="col-12 m-l-5">
+                <input #imageInput type="file" accept="/*" (change)="processFile($event)" multiple>
+            </div>
+            <div class="my-3 table-responsive col-12 col-md-8">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nº</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">fecha</th>
+                            <th scope="col" class="text-center">Tamaño</th>
+                            <th scope="col" width="20%"></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let item of files; index as index">
+                        <tr>
+                            <th scope="row">{{index+1}}</th>
+                            <td>{{item.name}}</td>
+                            <td>{{item.fecha | date:'dd/MM/yyyy HH:MM'}}</td>
+                            <td class="text-right byte">{{item.size | number}}</td>
+                            <td class="row">
+                                <span class="col-auto">
+                                    <a href="javascript:;" (click)="deleteAdjunto(item,index)"
+                                        class="btn btn-danger btn-icon btn-circle btn-sm"><i
+                                            class="fa fa-times"></i></a>
+                                </span>
+                                <span class="col-auto" *ngIf="lista.length > 0" class="mx-2">
+                                    <a href="javascript:;" (click)="download(item)"
+                                        class="btn btn-success btn-icon btn-circle btn-sm"><i
+                                            class="fa fa-download"></i></a>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</span>
+<span *ngIf="!activos">
+    <div class="row row-space-10">
+        <div class="col col-m-d-8 m-l-5">
+            <b>Consultas archivadas</b>
+        </div>
+        <div class="col col-m-d-2 m-l-5 ">
+            <button type="button" class="btn btn-gray  m-l-10 pull-right" (click)="switch()" title=""
+                routerLinkActive="router-link-active">
+                <span class="fa fa-check btn-icon m-r-5"></span></button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped m-b-0">
+            <thead>
+                <tr>
+                    <th width="80%"></th>
+                    <th width="20%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let citas of lista">
+                    <td class="media-body">
+                        <h6 class="media-heading">{{citas.cita.motivo}}
+                        </h6>
+                        <div *ngIf="citas.cita.status=='Cumplida'" class="text-muted f-s-10">{{citas.cita.fecagenda}}
+                            {{citas.cita.horagenda}}</div>
+                    </td>
+                    <td class="media-right">
+                        <a *ngIf="citas.cita.status == 'Cumplida'">
+                            <span class="fa fa-check fa-1x btn-icon text-green m-l-5"></span></a>
+                        <a *ngIf="citas.cita.status == 'Cancelada'">
+                            <span class="fa fa-thumbs-down fa-1x btn-icon text-danger-darker m-l-5"></span></a>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</span>

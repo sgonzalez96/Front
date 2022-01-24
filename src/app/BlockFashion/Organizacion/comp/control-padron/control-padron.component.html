@@ -1,0 +1,105 @@
+<panel title="Control de padrones">
+
+    <!-- head -->
+    <div class="row justify-content-between">
+        <div class="col-auto">
+            <h5><strong>{{listDataNucleo.length}} a comprobar </strong></h5>
+        </div>
+        
+        <!-- <div class="col-2">
+            <button type="button" [disabled]="currentNucleo.padron == 'Comprobado' " class="btn btn-warning height-30 width-140 m-l-20 " (click)="checkPadron()">
+                Comprobar</button>
+        </div> -->
+    </div>
+
+    <!-- table -->
+    <p-table #dt [paginator]="true" [rows]="20" [value]="listDataNucleo" [responsive]="true" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+        <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id" width="5%">
+            Id
+            <p-sortIcon field="id" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombre" width="10%">
+            Nucleo
+            <p-sortIcon field="nombre" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="delegado1" width="10%">
+            Delegado
+            <p-sortIcon field="delegado1" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="telefono" width="10%">
+            Telefono
+            <p-sortIcon field="telefono" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email" width="15%">
+            eMail
+            <p-sortIcon field="email" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="fecrev" width="10%">
+            Ult.Revision
+            <p-sortIcon field="fecultpago" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="padron" width="10%">
+            Estado
+            <p-sortIcon field="padron" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th width="5%">Opciones</th>
+        </tr>
+        <tr>
+          <th>
+
+          </th>
+          <th>
+              <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'delegado1', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'telefono', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'email', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'fecrev', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'padron', 'contains')">
+          </th>
+          <th></th>
+        </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.nombre}}</td>
+            <td>{{item.delegado1}}</td>
+            <td>{{item.telefono}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.fecrev | date:'dd/mm/yyyy HH:MM'}}</td>
+            <td>{{item.padron}}</td>
+
+            <td class="with-btn" nowrap>
+              <button type="button" class="btn btn-white "  [routerLink]="['/comprobar-padron/'+item.id]" routerLinkActive="router-link-active"
+              title="Comprobado"><i  class="fa fa-eye"></i></button>
+
+              <!-- <button type="button" (click)="opend1(modalDialog2,item.id)" class="btn btn-white height-30" title="Ver afiliados del núcleo" >
+              <span class="fa fa-eye btn-icon mr-2"></span></button> -->
+<!-- 
+              <span *ngIf="!item.enable && (nivel == 50 || nivel == 90) ">
+                  <button type="button" class="btn btn-white height-30 " (click)="rehabilitar(item.id)"  routerLinkActive="router-link-active"
+                  title="Re-habilitar"><span class="fa fa-check btn-icon mr-2" style="font-size:12px"></span> </button>
+              </span>
+              <span *ngIf="item.enable && (nivel == 50 || nivel == 90)">
+                  <button type="button" class="btn btn-white height-30 " (click)="inhabilitar(item.id)"  routerLinkActive="router-link-active"
+                  title="Marcar inactivo"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+              </span> -->
+
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+</panel>

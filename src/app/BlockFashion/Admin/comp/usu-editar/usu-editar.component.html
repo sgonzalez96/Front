@@ -1,0 +1,118 @@
+<panel title="Editar un usuario">
+    <div class="register-content">
+
+        <form #f="ngForm" (ngSubmit)="modificarUsuario(f)" class="margin-bottom-0">
+        <div class="form-group row" >
+        <div class="col m-l-6">
+            <label class="control-label">Usuaria/o<span class="text-danger">*</span></label>
+            <div class="row m-b-15">
+                <div class="col-md-8">
+                    <input  [(ngModel)]="objPerfil.userName" name="name" class="form-control" placeholder="Id del usuario" required maxlength="60" disabled/>
+                </div>
+            </div>
+            
+            <label class="control-label">Nombre Completo<span class="text-danger">*</span></label>
+            <div class="row m-b-15">
+                <div class="col-md-8">
+                    <input [(ngModel)]="objPerfil.fullname" name="fname" class="form-control" placeholder="Nombre completo" required maxlength="60"/>
+                </div>
+            </div>
+
+            <label class="control-label">eMail</label>
+            <div class="row m-b-15">
+                <div class="col-md-8">
+                    <input type="email" [(ngModel)]="objPerfil.email" name="email" class="form-control" placeholder="Email address" required maxlength="60"/>
+                </div>
+            </div>
+        
+            <label class="control-label">Numero de Afiliado<span class="text-danger">*</span></label>
+            <div class="row m-b-15">
+                <div class="col-md-3">
+                    <input [(ngModel)]="objPerfil.afinro" name="fullname" class="form-control" placeholder="Nombre completo" required maxlength="60"/>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="col m-l-3" >
+            <div class="image-preview mb-3">
+                <span *ngIf="previewUrl!='' && previewUrl!=null">
+                    <img [src]="previewUrl" height="200" >
+                </span>
+            </div>
+        </div>
+        </div>
+            <!-- begin table-responsive -->
+            <label class="control-label">Lista de roles<span class="text-danger">*</span></label>
+            <div class="table-responsive">
+                <table class="table table-striped m-b-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Descripción</th>
+                            <th>Nivel</th>
+                            <th>M</th>
+                            <th width="1%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of rolesMarcados">
+                            <td>{{item.rol.idRol}}</td>
+                            <td>{{item.rol.nombre}}</td>
+                            <td>{{item.rol.nivel}}</td>
+                            <td class="with-checkbox">
+                                <div class="checkbox checkbox-css">
+                                    <input type="checkbox" [(ngModel)]="item.selected" [value]="item.selected" id="{{item.rol.idRol}}" name="{{item.rol.idRol}}" [checked]="item.selected" />
+                                    <label for="{{item.rol.idRol}}">&nbsp;</label>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group row m-b-15 m-l-40">
+                <div class="register-buttons">
+                    <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+                    <button type="submit" class="btn btn-white height-30 m-l-20 width-150" title="">
+                        <span class="fa fa-check btn-icon mr-2" style="color:darkred"></span>Confirmar</button>
+                    <button type="button" class="btn btn-warning height-30 m-l-20 width-150" title="" (click)="reseteoPass()"><span class="fa fa-key btn-icon mr-2"></span>Resetar Contraseña</button>
+                    <button *ngIf="!veolog" type="button" class="btn btn-primary height-30 m-l-20 width-150" title="" (click)="veoLog()"><span class="fa fa-lock-open btn-icon mr-2"></span>Ver logs de usuario/a</button>
+                    <button *ngIf="veolog" type="button" class="btn btn-primary height-30 m-l-20 width-150" title="" (click)="ocultoLog()"><span class="fa fa-lock btn-icon mr-2"></span>Ocultar logs de usuaria/o</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="veolog">
+        <label class="control-label">Historial</label>
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Evento</th>
+                        <th>Notas</th>
+                        <th>Autor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of listalog">
+                        <td>{{log.id}}</td>
+                        <td>{{log.fecha}}</td>
+                        <td>{{log.evento}}</td>
+                        <td>{{log.descripcion}}</td>
+                        <td>{{log.autor.userName}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+

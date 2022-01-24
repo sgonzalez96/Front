@@ -1,0 +1,29 @@
+<!-- begin breadcrumb -->
+<ol class="breadcrumb float-xl-right">
+	<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+	<li class="breadcrumb-item"><a href="javascript:;">Tables</a></li>
+	<li class="breadcrumb-item active">Ngx DataTable</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Ngx DataTable <small>header small text goes here...</small></h1>
+<!-- end page-header -->
+
+<panel title="Ngx DataTable" footerClass="p-b-0 p-t-20 b-t-0">
+  <div class="row">
+    <div class="col-lg-4">
+      <input *ngIf="config.filtering" placeholder="Filter all columns" [ngTableFiltering]="config.filtering" class="form-control" (tableChanged)="onChangeTable(config)"/>
+    </div>
+    <div class="col-lg-8 text-center">
+      <label class="col-form-label pt-2 pb-0 pt-xl-0 float-lg-right" *ngIf="config.paging">Page: {{page}} / {{numPages}}</label>
+    </div>
+  </div>
+  <ng-container outsideBody>
+    <div class="table-responsive text-nowrap">
+      <ng-table [config]="config" (tableChanged)="onChangeTable(config)" (cellClicked)="onCellClick($event)" [rows]="rows" [columns]="columns"></ng-table>
+    </div>
+  </ng-container>
+  <ng-container footer>
+    <ngb-pagination *ngIf="config.paging" class="d-flex justify-content-center" [(page)]="page" [maxSize]="maxSize" [boundaryLinks]="true" [collectionSize]="length" [rotate]="false" (pageChange)="onChangeTable(config, $event)" (numPages)="numPages = $event"></ngb-pagination>
+  </ng-container>
+</panel>

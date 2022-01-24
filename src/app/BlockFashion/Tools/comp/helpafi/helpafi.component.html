@@ -1,0 +1,77 @@
+<div class="modal-header">
+  <h4 class="modal-title">Seleccion de afiliados</h4>
+  <button type="button" class="close" (click)="d('Cross click')">×</button>
+</div>
+
+<div class="modal-body register-content">
+  <p-table #dt [paginator]="true" [rows]="20" [value]="lista"
+  selectionMode="single" [(selection)]="idAfi" dataKey="id" (onRowSelect)="elijo($event)"
+  [responsive]="true" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+        <!-- Tabla de PrimeNg -->
+          <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="cedula" width="15%">
+              Cedula
+              <p-sortIcon field="cedula" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th pSortableColumn="apellidos" width="40%">
+              Apellidos
+              <p-sortIcon field="apellidos" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th pSortableColumn="nombres" width="35%">
+              Nombres
+              <p-sortIcon field="nombres" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th pSortableColumn="fcultpago" width="15%">
+              Ult.Pago
+              <!-- <p-sortIcon field="fcultpago" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon> -->
+            </th>
+            <th pSortableColumn="enable" width="5%">
+              Act
+              <p-sortIcon field="enable" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th width="10%"></th>
+          </tr>
+          <tr>
+            <th>
+              <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'cedula', 'contains')">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'apellidos', 'contains')">
+            </th>
+            <th>
+              <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'nombres', 'contains')">
+            </th>
+            <th>
+              <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'enable', 'contains')">
+            </th>
+            <th></th>
+            <th></th>
+          </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+            <tr>
+              <td>{{item.cedula}}</td>
+              <td>{{item.apellidos}}</td>
+              <td>{{item.nombres}}</td>
+              <td>{{item.fecultpago}}</td>
+              <td>
+                <span *ngIf="!item.enable && item.status=='T'" style="background-color: red;">{{item.enable && 'Si' || 'No'}}</span>
+                <span *ngIf="item.enable || item.status!='T'">{{item.enable && 'Si' || 'No'}}</span>
+              </td>
+
+              <td class="with-btn" nowrap>
+                <button type="button" class="btn btn-white height-30 " (click)="elijo(item)"
+                title="Seleccionar"><span class="fa fa-check btn-icon mr-2" style="font-size:12px"></span> </button>
+
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-white" (click)="d('Close click')">Close</button>
+</div>

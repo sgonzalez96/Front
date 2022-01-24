@@ -1,0 +1,107 @@
+<panel title="Productos">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div>
+            <div class="form-group row m-b-15">
+                <div class="col-md-2 offset-md-10">
+                    <button type="button" class="btn btn-white height-30 width-140 m-l-40 "
+                        (click)="popup(dataProduct, null)" title="" routerLinkActive="router-link-active"><span
+                            class="fa fa-plus btn-icon mr-2" style="color: darkred;"></span>Crear</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- end register-content -->
+
+    <!-- Tabla de PrimeNg -->
+    <p-table #dt [paginator]="true" [rows]="15" [value]="lista" [responsive]="true" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nombre">
+                    Descripcion
+                    <p-sortIcon field="nombre" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th pSortableColumn="nivel">
+                    Notas
+                    <p-sortIcon field="nivel" ariaLabel="Activate to sort"
+                        ariaLabelDesc="Activate to sort in descending order"
+                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText style="width: 100%;" type="text"
+                        (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+                </th>
+                <th>
+                    <input pInputText style="width: 100%;" type="text"
+                        (input)="dt.filter($event.target.value, 'nivel', 'contains')">
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+            <tr>
+                <td>
+                    {{item.descripcion}}
+                </td>
+                <td>
+                    {{item.notas}}
+                </td>
+                <td class="with-btn" nowrap>
+                    <button type="button" class="btn btn-white height-30 " (click)="popup(dataProduct,item)"
+                        routerLinkActive="router-link-active" title="Editar"><span class="fa fa-edit btn-icon mr-2"
+                            style="font-size:12px"></span> </button>
+
+                    <button type="button" class="btn btn-white height-30 " (click)="deleteProduct(item.id)"
+                        routerLinkActive="router-link-active" title="Crear"><span class="fa fa-trash btn-icon mr-2"
+                            style="font-size:12px"></span> </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <!-- Fin tabla PrimeNg -->
+    <!-- end panel -->
+</panel>
+
+<ng-template #dataProduct let-c='close' let-d='dismiss'>
+    <div class='modal-header'>
+        <h4 class='modal-title'>{{titlePopup}}</h4>
+        <button type='button' class='close' (click)='c("Cross click")'>×</button>
+    </div>
+    <div class='modal-body'>
+        <form #f="ngForm">
+            <div class="row">
+                <div class="col-6">
+                    <label class="control-label">Descripción <span class="text-danger">*</span></label>
+
+                    <div>
+                        <input type="text" [(ngModel)]="currentProduct.descripcion" name="descripcion"
+                            class="form-control" placeholder="" required />
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <label class="control-label">Notas</label>
+
+                    <div>
+                        <input type="text" [(ngModel)]="currentProduct.notas" name="notas" class="form-control"
+                            placeholder="" required />
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </form>
+    </div>
+    <div class='modal-footer'>
+        <button class='btn btn-white' [disabled]="!f.valid" (click)='d("Close click")'>Guardar</button>
+    </div>
+</ng-template>

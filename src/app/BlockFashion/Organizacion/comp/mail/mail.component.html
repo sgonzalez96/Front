@@ -1,0 +1,25 @@
+<form id="form" [formGroup]='form'>
+    <!-- begin email to -->
+    <div class="input-group my-3 mb-3">
+        <span class="input-group-text" id="basic-addon1">Para</span>
+        <input type="text" class="form-control" formControlName="para" aria-label="mail" aria-describedby="basic-addon1">
+      </div>
+    <!-- end email to -->
+
+    <!-- begin email subject -->
+    <div class="email-subject">
+        <input type="text" class="form-control form-control-lg" formControlName="asunto" placeholder="Asunto" />
+    </div>
+    <!-- end email subject -->
+    <!-- begin email content -->
+    <div class="email-content p-t-15">
+        <textarea class="textarea form-control" id="wysihtml5" formControlName="cuerpo" placeholder="..." rows="20"></textarea>
+    </div>
+    <!-- end email content -->
+
+    <!-- actions -->
+    <div class="wrapper text-right">
+        <button type="button" (click)="close()" class="btn btn-white p-l-40 p-r-40 m-r-5">cancelar</button>
+        <button type="button" (click)="enviar()" class="btn btn-primary p-l-40 p-r-40">Enviar</button>
+    </div>
+</form>

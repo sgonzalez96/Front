@@ -1,0 +1,68 @@
+<panel title="Roles de usuaria/o">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div>
+            <div class="form-group row m-b-15">
+                <div class="col-md-2 offset-md-10">
+                    <button type="button" class="btn btn-white height-30 width-140 m-l-40 " [routerLink]="['/rolnew']"
+                    title=""  routerLinkActive="router-link-active"><span class="fa fa-plus btn-icon mr-2" style="color: darkred;"></span>Crear Rol</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- end register-content -->
+
+    <!-- Tabla de PrimeNg -->
+    <p-table #dt [paginator]="true" [rows]="15" [value]="lista" [responsive]="true" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+      <ng-template pTemplate="header">
+          <tr>
+              <th pSortableColumn="idRol">
+                  Id
+                  <p-sortIcon field="idRol" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+              <th pSortableColumn="nombre">
+                  Descripcion
+                  <p-sortIcon field="nombre" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+              <th pSortableColumn="nivel">
+                  Nivel
+                  <p-sortIcon field="nivel" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+              <th></th>
+          </tr>
+          <tr>
+              <th>
+
+              </th>
+              <th>
+                  <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+              </th>
+              <th>
+                  <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'nivel', 'contains')">
+              </th>
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          <tr>
+            <td>{{item.idRol}}</td>
+            <td>
+              {{item.nombre}}
+            </td>
+            <td>
+              {{item.nivel}}
+            </td>
+            <td class="with-btn" nowrap>
+              <button type="button" class="btn btn-white height-30 " [routerLink]="['/roledi', item.idRol]"  routerLinkActive="router-link-active"
+              title="Editar rol}"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>
+
+              <button type="button" class="btn btn-white height-30 " (click)="baja_rol(item.idRol)"  routerLinkActive="router-link-active"
+              title="Crear rol"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+            </td>
+          </tr>
+      </ng-template>
+    </p-table>
+    <!-- Fin tabla PrimeNg -->
+<!-- end panel -->
+</panel>

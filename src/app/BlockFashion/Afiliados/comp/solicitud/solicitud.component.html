@@ -1,0 +1,354 @@
+<!-- begin login -->
+<!-- <div class="login-cover">
+    <div class="login-cover-image" [ngStyle]="{ 'background-image': 'url(../assets/img/login-bg/login.jpg)' }"></div>
+    <div style="background-position: center; background-size: inherit;"></div>
+</div> -->
+<panel title="Solicitud de afilición" >
+    <div class="register-content" >
+        <form #f="ngForm" (ngSubmit)="creoAfiliado(f)" class="margin-bottom-0 margin-top-10">
+
+            <div class="row row-space-10 m-b-10">
+                <span class="col col-md-6">
+                    <img src="/assets/img/logo/cabezal.PNG" alt="" />
+                </span>
+                <span *ngIf="lopido" class="m-l-20 card-body col-md-5" style="background-color:salmon;">
+                    <div class="row row-space-10 ">
+                        <label class="control-label">Cédula</label>
+                        <div class="col-md-4 m-b-15">
+                            <input type="text" [(ngModel)]="idAfil" name="id" class="form-control" (change)="cambioId($event.target.value)" placeholder="" appOnlydigits maxlength="8"/>
+                        </div>
+                        <button type="button" class="btn btn-white height-30  m-l-10 width-100" title="" (click)="cambioId(idAfil)">
+                        <span class="fa fa-lock btn-icon mr-2"></span>Editar <br></button>
+                    </div>
+                    <div class="row row-space-10">
+                        <p style="color:black"> 1) Debe descargar esta ficha luego de confirmar sus datos <br> 2) Imprimirla y firmarla <br> 3) Enviarla escaneada o en fotografiada a organizacion@sintep.org.uy; o entregarla al delegado/SINTEP</p>
+                    </div>
+                </span>
+                <span *ngIf="!lopido" class="m-l-20 card-body col-md-5" style="background-color:lightsteelblue;">
+                    <div class="row row-space-10 ">
+                        <label class="control-label">Cédula</label>
+                        <div class="col-md-4 m-b-15">
+                            <input type="text" [(ngModel)]="idAfil" name="id" class="form-control" placeholder="" disabled />
+                        </div>
+                        <div class="register-buttons">
+                            <button type="button" class="btn btn-white height-35  m-l-10 width-40" title="" (click)="reabro()">
+                            <span class="fa fa-lock-open btn-icon mr-2"></span></button>
+                            <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+
+                        </div>
+                    </div>
+                    <p style="color:black"> 1) Debe descargar esta ficha luego de confirmar sus datos <br> 2) Imprimirla y firmarla <br> 3) Enviarla escaneada o en fotografiada a organizacion@sintep.org.uy; o entregarla al delegado/SINTEP</p>
+                    <!-- <p style="color:red"> {{objDato.textoficha}}</p> -->
+                </span>
+
+            </div>
+
+            <div *ngIf="!lopido">
+
+                <div class="row row-space-10 m-b-15 m-l-20">
+                    <span> Cpro/a Secretario/a General de SINTEP, <br>
+                        Solicito por la presente, se me admita como afiliado/a de SINTEP, declarando asimismo estar de acuerdo con el estatuto del sindicato.
+                    </span>
+                </div>
+
+                <h5 class="m-t-40 border-bottom m-b-30"><i class="fa fa-calendar"></i>   Cabezal</h5>
+
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Departamento  <span class="text-danger">*</span></label>
+                    <div class="col col-md-4">
+                      <span *ngIf="objAfil != undefined">
+                          <input type="text" [(ngModel)]="objAfil.txtdepto" name="txtdep" class="form-control" placeholder="" />
+                      </span>
+                    </div>
+                    <div class="col col-md-3 offset-md-1">
+                      <label class="control-label">Fecha: {{fechoy}}</label>
+                      <!-- <input type="text" [(ngModel)]="fechoy" name="fsol" class="form-control" placeholder="" disabled /> -->
+                    </div>
+                </div>
+
+                <h5 class="m-t-40 border-bottom m-b-30"><i class="fa fa-address-card"></i>   Ficha personal</h5>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Apellidos <span class="text-danger">*</span></label>
+                    <div class="col col-md-8">
+                        <span *ngIf="objAfil != undefined">
+                            <input type="text" [(ngModel)]="objAfil.apellidos" name="ape" class="form-control" placeholder="" />
+                        </span>
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Nombres <span class="text-danger">*</span></label>
+                    <div class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.nombres" name="nom" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">E-Mail</label>
+                    <div class="col col-md-8">
+                        <input type="text" [(ngModel)]="objAfil.email" name="emai" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Dirección</label>
+                    <div class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.direccion" name="dir" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Ciudad  <span class="text-danger">*</span></label>
+                    <div class="col col-md-8">
+                        <span *ngIf="objAfil != undefined">
+                            <input type="text" [(ngModel)]="objAfil.txtciudad" name="txtciu" class="form-control" placeholder="" />
+                        </span>
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Localidad/Zona <span class="text-danger">*</span></label>
+                    <div class="col col-md-8">
+                        <span *ngIf="objAfil != undefined">
+                            <input type="text" [(ngModel)]="objAfil.txtlocalidad" name="txtLocalidad" class="form-control" placeholder="" />
+                        </span>                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Celular </label>
+                    <div class="col col-md-3">
+                        <input type="text" [(ngModel)]="objAfil.celular" name="cel" class="form-control" placeholder="" />
+                    </div>
+                    <label class="control-label col col-md-2">Telefonos </label>
+                    <div class="col col-md-3">
+                        <input type="text" [(ngModel)]="objAfil.telefonos" name="telef" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Fecha de Nacimiento (yyyy/mm/dd) <span class="text-danger">*</span></label>
+                    <div class="col-md-4 m-b-15">
+                        <input type="date" [(ngModel)]="objAfil.fecnac" name="fecnac" class="form-control" placeholder="" />
+                    </div>
+                </div>
+
+                <div class="form-group row row-space-10 m-b-15">
+                    <label class="col-md-2 col-form-label m-l-10">Sexo <span class="text-danger">*</span></label>
+                    <div class="col-md-9 m-l-10">
+                            <div class="radio radio-css radio-inline">
+                                <input type="radio" [(ngModel)]="objAfil.sexo" name="radio_css_inline" id="inlineCssRadio1" value="M" checked />
+                                <label for="inlineCssRadio1">Masculino</label>
+                            </div>
+                            <div class="radio radio-css radio-inline">
+                                <input type="radio" [(ngModel)]="objAfil.sexo" name="radio_css_inline" id="inlineCssRadio2" value="F" />
+                                <label for="inlineCssRadio2">Femenino</label>
+                            </div>
+                    </div>
+                </div>
+
+
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Composición familiar</label>
+                    <div class="col-md-2 m-l-10">
+                        <select class="form-control" (change)="onChangeFC($event.target.value)">
+                            <option *ngFor="let forc of forma;let i=index" [selected]="forma[laforma].trim() == forc.trim()" [ngValue]="forc" >{{forc}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h5 class="m-t-40 border-bottom m-b-30"><i class="fa fa-address-card"></i>   Situación laboral</h5>
+                <div class="row row-space-10">
+                    <div class="col col-md-6">
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Cargo <span class="text-danger">*</span></label>
+                            <div class="col col-md-8">
+                                <span *ngIf="objAfil != undefined">
+                                    <input type="text" [(ngModel)]="objAfil.txtcargo" name="txtCargo" class="form-control" placeholder="" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Año de ingreso institución </label>
+                            <div class="col col-md-3">
+                                <input type="number" [(ngModel)]="objAfil.anioinginst" name="inginst" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Año de ingreso sector </label>
+                            <div class="col col-md-3">
+                                <input type="number" [(ngModel)]="objAfil.anioingsec" name="ingsec" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Trabaja en sector público</label>
+                            <div class="checkbox checkbox-css m-l-20">
+                                <input type="checkbox" [(ngModel)]="objAfil.publico" [value]="true" id="espub" name="espub" />
+                                <label for="espub">&nbsp;</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <label class="control-label"><strong> Si el núcleo o institución en que trabaja no está en la lista, ingrese como afiliado al núcleo 0 y detalle en las notas la institución por la que se afilia.</strong></label>
+                        <label class="control-label"><strong> Si trabaja en mas de una institución, asocie la institución por la cual cotiza e indique las restantes en las notas. </strong></label>
+                        <div class="row row-space-10 m-b-15 table-responsive card-body" style="background-color: cadetblue;">
+                            <table class="table table-striped m-b-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nucleo por el que cotiza</th>
+                                        <th>Institución</th>
+                                        <th>Cotiza</th>
+                                        <th>Delegada/o</th>
+                                        <th>Suplente</th>
+                                        <th>
+
+                                            <button *ngIf="listanuc.length ==0 " type="button" class="btn btn-white height-30 width-140 m-l-20 "
+                                            (click)="nuc_open(modalDialog)" title="">
+                                            <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Agregar</button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of listanuc; let i=index">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.nucleo.nombre}}</td>
+                                        <td>{{item.nucleo.institucion}}</td>
+                                        <td>
+                                            <span *ngIf="item.cotizante" style="color:maroon;">
+                                                {{item.cotizante && 'Si' || 'No'}}
+                                            </span>
+                                            <span *ngIf="!item.cotizante">
+                                                {{item.cotizante && 'Si' || 'No'}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="item.del1" style="color:maroon;">
+                                                {{item.del1  && 'Si' || 'No'}}
+                                            </span>
+                                            <span *ngIf="!item.del1">
+                                                {{item.del1  && 'Si' || 'No'}}
+                                            </span>
+                                        <td>
+                                            <span *ngIf="item.del2" style="color:maroon;">
+                                                {{item.del2  && 'Si' || 'No'}}
+                                            </span>
+                                            <span *ngIf="!item.del2">
+                                                {{item.del2  && 'Si' || 'No'}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <!-- <button type="button" class="btn btn-white height-30 " (click)="nuc_cotizar(i)"  routerLinkActive="router-link-active"
+                                            title="Cotizar"><span class="fa fa-money-bill btn-icon mr-2" style="font-size:12px"></span> </button>            -->
+
+                                            <button type="button" class="btn btn-white height-30 " (click)="nuc_borrar(i)"  routerLinkActive="router-link-active"
+                                            title="Desafectar al núcleo"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <h5 class="m-t-40 border-bottom m-b-30"><i class="fa fa-bullhorn"></i>  Datos en Sintep</h5> -->
+
+                <div class="row row-space-10 m-b-15 m-l-5">
+                    <label class="control-label col col-md-2">Notas</label>
+                    <textarea [(ngModel)]="objAfil.notas"name="notas" [readonly]="isAfil" rows="2" class="m-l-5" cols="110" placeholder="indique las diferentes instituciones en las que trabaja ademas de la institución por la cual cotiza"> </textarea>
+                </div>
+
+                <div class="row row-space-10 m-b-15">
+                <div class="col col-md-5 m-t-25" >
+                    <button type="submit" class="btn btn-white height-30 m-l-20 width-150" title=""><span class="fa fa-check btn-icon mr-2" style="color:darkred"></span>Confirmar</button>
+                    <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="valido()"><span class="fa fa-edit btn-icon mr-2"></span>Validar</button>
+                    <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+                    <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="generatePdf()">PDF</button>
+                </div>
+
+                <div class="col col-md-5 m-b-15">
+                        <img src="/assets/img/logo/pie.PNG" alt="" />
+
+                </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+<ng-template #modalDialog let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Seleccionar un núcleo existente</h4>
+      <button type="button" class="close" (click)="d('Cross click')">×</button>
+    </div>
+    <div class="modal-body register-content">
+        <p-table #dt [paginator]="true" [rows]="20" [value]="nucleos"
+        selectionMode="single" [(selection)]="idNucleo" dataKey="id" (onRowSelect)="elijo($event)"
+        [responsive]="true" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+      
+          <ng-template pTemplate="header">
+      
+            <tr>
+              <th pSortableColumn="id" width="8%">
+                Id
+                <p-sortIcon field="id" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+              <th pSortableColumn="nombre" width="30%">
+                Nucleo
+                <p-sortIcon field="nombre" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+              <th pSortableColumn="institucion" width="15%">
+                Institucion
+                <p-sortIcon field="institucion" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+              <th pSortableColumn="subgrupo" width="8%">
+                SubGr
+                <p-sortIcon field="subgrupo" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+              <th width="12%">Opciones</th>
+            </tr>
+      
+      
+          <tr>
+            <th>
+              <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
+            </th>
+            <th>
+                <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+            </th>
+            <th>
+              <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'institucion', 'contains')">
+            </th>
+            <th>
+              <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'subgrupo', 'contains')">
+            </th>
+            <th></th>
+          </tr>
+          </ng-template>
+      
+          <ng-template pTemplate="body" let-item let-rowIndex="rowIndex"  >
+            <tr>
+                <td>{{item.id}}</td>
+                <td>{{item.nombre}}</td>
+                <td>{{item.institucion}}</td>
+                <td>{{item.subgrupo}}</td>
+              <td class="with-btn" nowrap>
+                <button type="button" class="btn btn-white height-30 " (click)="elijo(item)"
+                title="Seleccionar"><span class="fa fa-check btn-icon mr-2" style="font-size:12px"></span> </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      
+      
+      </div>
+    <div class="modal-footer">
+      <button class="btn btn-white" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+  
+
+
+
+<!-- <ng-template #altaCiudad let-c="close" let-d="dismiss">
+    <app-ciud-crear (ciudadChange)="objCiudad= $event"  (winChange)="elijoCiudad()" (winClose)="closeCiud()" ></app-ciud-crear>
+</ng-template>
+
+<ng-template #altaLoc >
+    <app-loc-crear [ciudad]=(laCiud) (localidadChange)="objLoc=$event"  (winLChange)="elijoLoc()" (winLClose)="closeCiud()" ></app-loc-crear>
+</ng-template>   -->

@@ -1,0 +1,502 @@
+<panel title="Ficha de afiliado/a" >
+    <div class="register-content" >
+
+        <form #f="ngForm" (ngSubmit)="creoAfiliado(f)" class="margin-bottom-0 margin-top-10">
+            <div class="row row-space-10 m-b-10">
+                <span *ngIf="lopido" class="m-l-20 card-body col-md-8" style="background-color:salmon;">
+                    <div class="row row-space-10 ">
+                    <label class="control-label">Cédula</label>
+                    <div class="col-md-2 m-b-15">
+                        <input type="text" [(ngModel)]="idAfil" name="id" class="form-control" (change)="cambioId($event.target.value)" placeholder="" appOnlydigits maxlength="8" />
+                    </div>
+                        <div class="register-buttons">
+                            <button type="button" class="btn btn-white height-30  m-l-10 width-150" title="" (click)="cambioId(idAfil)">
+                                <span class="fa fa-lock btn-icon mr-2"></span>Editar </button>
+                            <!-- <button type="button" (click)="open(modalDialog)" class="btn btn-white height-30  m-l-10 width-40" title="" (click)="reabro()">
+                                <span class="fa fa-search btn-icon mr-2"></span></button> -->
+                        </div>
+                    </div>
+                </span>
+                <span *ngIf="!lopido" class="m-l-20 card-body col-md-8" style="background-color:lightsteelblue;">
+                    <div class="row row-space-10 ">
+                    <label class="control-label">Cédula</label>
+                    <div class="col-md-2 m-b-15">
+                        <input type="text" [(ngModel)]="idAfil" name="id" class="form-control" placeholder="" disabled />
+                    </div>
+                    <div *ngIf="nivel > 0" class="register-buttons">
+                        <button type="button" class="btn btn-white height-35  m-l-10 width-40" title="" (click)="reabro()">
+                        <span class="fa fa-lock-open btn-icon mr-2"></span></button>
+                    </div>
+                        <div class="col col-md-6">
+                            <input type="text" [(ngModel)]="objAfil.apellidos" name="nomdis" class="form-control" placeholder="" disabled/>
+                            <!-- <input type="text" [(ngModel)]="objAfil.nombres" name="nonodis" class="form-control" placeholder="" disabled/> -->
+                        </div>
+                    </div>
+                </span>
+                <div class="form-group col col-md-3 m-b-15 m-l-40">
+                    <div class="register-buttons row">
+                        <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!lopido">
+
+                <h5 class="m-t-35 border-bottom m-b-20" ><i class="fa fa-user"></i>   Datos Afiliada/o</h5>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Apellidos <span class="text-danger">*</span></label>
+                    <div class="col col-md-8">
+                        <span *ngIf="objAfil != undefined">
+                            <input type="text" [(ngModel)]="objAfil.apellidos" name="ape" class="form-control" placeholder="" />
+                        </span>
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Nombres <span class="text-danger">*</span></label>
+                    <div class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.nombres" name="nom" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">E-Mail</label>
+                    <div class="col col-md-8">
+                        <input type="text" [(ngModel)]="objAfil.email" name="emai" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Dirección</label>
+                    <div class="col col-md-8 ">
+                        <input type="text" [(ngModel)]="objAfil.direccion" name="dir" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div *ngIf="nivel >= 10" class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Ciudad: {{objAfil.txtdepto}}/{{objAfil.txtciudad}} </label>
+                    <div class="col-md-2 m-l-10">
+                        <select *ngIf="varsCiud !== undefined && laCiud !== undefined" class="form-control" (change)="onChangeCiud($event.target.value)">
+                            <option *ngFor="let item of varsCiud" [selected]="laCiud.nombre.trim() == item.nombre.trim()" [ngValue]="item" >{{item.nombre}}</option>
+                        </select>
+                    </div>
+                    <button *ngIf="nivel == 50 || nivel == 90" type="button" (click)="openCiud(altaCiudad)" class="btn btn-white height-35  m-l-10 width-40" title=""  >
+                    <span class="fa fa-plus-circle btn-icon mr-2"></span></button>
+                </div>
+                <div *ngIf="nivel == 50 || nivel == 90" class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Localidad: {{objAfil.txtlocalidad}}</label>
+                    <div class="col-md-2 m-l-10">
+                        <select class="form-control" (change)="onChangeLoc($event.target.value)">
+                            <option *ngFor="let itlo of varsLoc" [selected]="laLoca.nombre.trim() == itlo.nombre.trim()" [ngValue]="itlo" >{{itlo.nombre}}</option>
+                        </select>
+                    </div>
+                    <button *ngIf="nivel == 50 || nivel == 90" type="button" (click)="openLoc(altaLoc)" class="btn btn-white height-35  m-l-10 width-40" title=""  >
+                    <span class="fa fa-plus-circle btn-icon mr-2"></span></button>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Celular </label>
+                    <div class="col col-md-3">
+                        <input type="text" [(ngModel)]="objAfil.celular" name="cel" class="form-control" placeholder="" />
+                    </div>
+                    <label class="control-label col col-md-2">Telefonos </label>
+                    <div class="col col-md-3">
+                        <input type="text" [(ngModel)]="objAfil.telefonos" name="telef" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Fecha de Nacimiento (yyyy/mm/dd) </label>
+                    <div class="col-md-4 m-b-15">
+                        <input type="date" [(ngModel)]="objAfil.fecnac" name="fecnac" class="form-control" placeholder="" />
+                    </div>
+                </div>
+
+                    <div class="form-group row row-space-10 m-b-15">
+                        <label class="col-md-2 col-form-label m-l-10">Sexo</label>
+                        <div class="col-md-9 m-l-10">
+                          <div class="radio radio-css radio-inline">
+                            <input type="radio" [(ngModel)]="objAfil.sexo" name="radio_css_inline" id="inlineCssRadio1" value="M" checked />
+                            <label for="inlineCssRadio1">Masculino</label>
+                          </div>
+                          <div class="radio radio-css radio-inline">
+                            <input type="radio" [(ngModel)]="objAfil.sexo" name="radio_css_inline" id="inlineCssRadio2" value="F" />
+                            <label for="inlineCssRadio2">Femenino</label>
+                          </div>
+                        </div>
+                    </div>
+
+
+                <div class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Composición</label>
+                    <div class="col-md-2 m-l-10">
+                        <select class="form-control" (change)="onChangeFC($event.target.value)">
+                            <option *ngFor="let forc of forma" [selected]="forma[laforma].trim() == forc.trim()" [ngValue]="forc" >{{forc}}</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+
+                <h5 class="m-t-40 border-bottom m-b-30"><i class="fa fa-address-card"></i>   Situación laboral</h5>
+
+
+                    <div class="row row-space-10 m-b-15 table-responsive card-body" style="background-color: cadetblue;">
+                        <table class="table table-striped m-b-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th width="40%">Nucleo</th>
+                                    <th>Cot?</th>
+                                    <th>Del.</th>
+                                    <th>Supl.</th>
+                                    <th>Lab</th>
+                                    <th>
+                                        <button *ngIf="nivel == 50 || nivel == 90" type="button" class="btn btn-white height-30 width-50 "
+                                        (click)="nuc_open(modalDialog)" title="">
+                                        <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span></button>
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listanuc; let i=index">
+                                    <td>{{item.nucleo.id}}</td>
+                                    <td>{{item.nucleo.nombre}}</td>
+                                    <td>
+                                        <span *ngIf="item.cotizante" style="color:maroon;">
+                                            {{item.cotizante && 'Si' || 'No'}}
+                                        </span>
+                                        <span *ngIf="!item.cotizante">
+                                            {{item.cotizante && 'Si' || 'No'}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="item.del1" style="color:maroon;">
+                                            {{item.del1  && 'Si' || 'No'}}
+                                        </span>
+                                        <span *ngIf="!item.del1">
+                                            {{item.del1  && 'Si' || 'No'}}
+                                        </span>
+                                    <td>
+                                        <span *ngIf="item.del2" style="color:maroon;">
+                                            {{item.del2  && 'Si' || 'No'}}
+                                        </span>
+                                        <span *ngIf="!item.del2">
+                                            {{item.del2  && 'Si' || 'No'}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                      <span *ngIf="item.lab" style="color:maroon;">
+                                          {{item.lab  && 'Si' || 'No'}}
+                                      </span>
+                                      <span *ngIf="!item.lab">
+                                          {{item.lab  && 'Si' || 'No'}}
+                                      </span>
+                                  </td>
+                                    <td>
+                                        <button *ngIf="nivel == 50 || nivel == 90" type="button" class="btn btn-white height-30 width-30" (click)="nuc_cotizar(i)"  routerLinkActive="router-link-active"
+                                        title="Cotizar"><span class="fa fa-money-bill btn-icon " ></span> </button>
+
+                                        <button *ngIf="nivel == 50 || nivel == 90" type="button" class="btn btn-white height-30 width-30" (click)="nuc_del1(i)"  routerLinkActive="router-link-active"
+                                        title="Delegado"><span class="fa fa-user btn-icon " ></span> </button>
+
+                                        <button *ngIf="nivel == 50 || nivel == 90" type="button" class="btn btn-white height-30 width-30" (click)="nuc_del2(i)"  routerLinkActive="router-link-active"
+                                        title="Delegado Suplente"><span class="fa fa-user-circle btn-icon " ></span> </button>
+
+                                        <button type="button" class="btn btn-white height-30 width-30" (click)="nuc_lab(i)"  routerLinkActive="router-link-active"
+                                        title="Delegado Laboral"><span class="fa fa-balance-scale btn-icon " ></span> </button>
+
+                                        <button *ngIf="nivel == 50 || nivel == 90" type="button" class="btn btn-white height-30 width-30 m-l-5" (click)="nuc_borrar(i)"  routerLinkActive="router-link-active"
+                                        title="Desafectar al núcleo"><span class="fa fa-trash btn-icon " ></span> </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+
+
+                        <div *ngIf="nivel >= 10" class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-2">Cargo: {{objAfil.txtcargo}}</label>
+                            <div class="col-md-3 m-l-10" *ngIf="elCargo!= undefined && elCargo.nombre != undefined">
+                                <select class="form-control" (change)="onChangeCargo($event.target.value)">
+                                    <option *ngFor="let item of varsCargo" [selected]="elCargo.nombre.trim() == item.nombre.trim()" [ngValue]="item" >{{item.nombre}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-2">Año de ingreso institución </label>
+                            <div class="col col-md-2">
+                                <input type="number" [(ngModel)]="objAfil.anioinginst" name="inginst" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-2">Año de ingreso sector </label>
+                            <div class="col col-md-2">
+                                <input type="number" [(ngModel)]="objAfil.anioingsec" name="ingsec" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-2">Trabaja en sector público</label>
+                            <div class="checkbox checkbox-css m-l-20">
+                                <input type="checkbox" [(ngModel)]="objAfil.publico" [value]="true" id="espub" name="espub" />
+                                <label for="espub">&nbsp;</label>
+                            </div>
+                        </div>
+
+
+
+
+
+                <h5 class="m-t-40 border-bottom m-b-30"><i class="fa fa-bullhorn"></i>  Datos en Sintep</h5>
+
+
+
+
+                <div class="row row-space-10 m-b-15">
+                    <div class="col col-m-d-6">
+                        <div class="row row-space-10">
+                        <span *ngIf="objAfil.enable">
+
+                                <label class="control-label col col-md-4">Afiliado/a esta activo/a</label>
+                                <label class="control-label col col-md-4">Desde: {{objAfil.feculting}}</label>
+                        </span>
+                        <span *ngIf="!objAfil.enable">
+                                <label class="control-label m-l-15" style="color: darkred; font-size: 28px;">Afiliada/o esta inactiva/o</label>
+                        </span>
+                        </div>
+
+                        <div *ngIf="cotizante == 1" class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Ultimo pago </label>
+                            <div class="col col-md-6">
+                                <span *ngIf="nivel > 50 ">
+                                    <input type="text" [(ngModel)]="objAfil.fecultpago" name="fecult" class="form-control" placeholder="AAAAMM" maxlength="6" appOnlyDigits />
+                                </span>
+                                <span *ngIf="nivel <= 50 ">
+                                    <input type="text" [(ngModel)]="objAfil.fecultpago" name="fecult" class="form-control" placeholder="AAAAMM" maxlength="6" appOnlyDigits disabled/>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row row-space-10">
+                            <label class="control-label col col-md-4">Status de la ficha</label>
+                            <div *ngIf="nivel == 90" class="col-md-4 m-l-10">
+                                <select class="form-control" (change)="onChangeStat($event.target.value)">
+                                    <option *ngFor="let stat of status" [selected]="status[elstat].trim() == stat.trim()" [ngValue]="stat" >{{stat}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="nivel <= 50" class="col-md-4 m-l-10">
+                                <input type="input" [(ngModel)]="status[elstat]" name="elstat" class="form-control" disabled />
+                            </div>
+                        </div>
+                        <div class="row row-space-10 checkbox-css m-b-10 m-l-10">
+                            <input type="checkbox" [(ngModel)]="objAfil.fichapapel" [value]="true" id="pape" name="pape" />
+                            <label for="pape">&nbsp;Trajo la ficha en papel</label>
+                        </div>
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label col col-md-4">Tipo de afiliado/a</label>
+                            <div *ngIf="nivel > 10" class="col-md-4 m-l-10">
+                                <select class="form-control" (change)="onChangeTipo($event.target.value)">
+                                    <option *ngFor="let tipito of tipo" [selected]="tipo[eltipo].trim() == tipito.trim()" [ngValue]="tipito" >{{tipito}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="nivel <= 10" class="col-md-4 m-l-10">
+                                <input type="input" [(ngModel)]="tipo[eltipo]" name="tipota" class="form-control" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-m-d-6">
+                        <div class="row row-space-10 m-b-15">
+                            <label class="control-label ">Imagen de la ficha</label>
+                            <div class="m-l-5">
+                                <input #imageInput type="file" accept="image/*" (change)="processFile($event)">
+                            </div>
+                            <div class="image-preview mb-3 ">
+                                <span *ngIf="previewUrl!='' && previewUrl!=null">
+                                    <img [src]="previewUrl" height="200" >
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row row-space-10 m-b-15 table-responsive card-body" style="background-color: cadetblue;">
+                    <table class="table table-striped m-b-0">
+                        <thead>
+                            <tr>
+                                <th width="25%">Fecha</th>
+                                <th>Autor</th>
+                                <th>Nivel</th>
+                                <th>Nota</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of notas">
+                                <td>{{item.fecha}}</td>
+                                <td>{{item.autor}} - {{item.autornom}}</td>
+                                <td>{{item.nivel}}</td>
+                                <td>{{item.nota}}</td>
+                                <td>
+                                    <!-- <button *ngIf="nivel == 50 || nivel == 90" type="button" class="btn btn-white height-30 width-30" (click)="nuc_cotizar(i)"  routerLinkActive="router-link-active"
+                                    title="Cotizar"><span class="fa fa-money-bill btn-icon " ></span> </button>
+
+                                    <button *ngIf="nivel == 50 || nivel == 90" type="button" class="btn btn-white height-30 width-30 m-l-5" (click)="nuc_borrar(i)"  routerLinkActive="router-link-active"
+                                    title="Desafectar al núcleo"><span class="fa fa-trash btn-icon " ></span> </button>            -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+                <div *ngIf="nivel >= 10 && idAfil != elusu.afinro.toString()" class="row row-space-10 m-b-15">
+                    <label class="control-label col col-md-2">Nueva nota</label>
+                    <textarea [(ngModel)]="objAfil.notas"name="notas" rows="4" cols="110"> </textarea>
+                </div>
+                <div class="form-group row m-b-15 m-l-40">
+                    <div class="register-buttons">
+                        <button *ngIf="nivel != 45" type="submit" class="btn btn-white height-30 m-l-20 width-150" title=""><span class="fa fa-check btn-icon mr-2" style="color:darkred"></span>Confirmar</button>
+                        <span *ngIf="nivel == 10 && (objAfil.status=='I' || objAfil.status=='S')">
+                            <button type="button" (click)="Aprobar()" class="btn btn-primary height-30 m-l-20 width-150" title=""><span class="fa fa-edit btn-icon mr-2"></span>Aprobar</button>
+                            <button type="button" (click)="Condicionar()" class="btn btn-warning height-30 m-l-20 width-150" title=""><span class="fa fa-warning btn-icon mr-2"></span>Condicional</button>
+                        </span>
+                        <span *ngIf="nivel == 50 || nivel==90 && (objAfil.status!='T' && objAfil.status!='R')">
+                            <button type="button" (click)="Terminar()" class="btn btn-success height-30 m-l-20 width-150" title=""><span class="fa fa-edit btn-icon mr-2"></span>Terminar</button>
+                            <button type="button" (click)="Rechazar()" class="btn btn-danger height-30 m-l-20 width-150" title=""><span class="fa fa-warning btn-icon mr-2"></span>Rechazar</button>
+                        </span>
+
+                        <button *ngIf="nivel == 50 || nivel == 90" type="button" (click)="ExcelLog()" class="btn btn-secondary height-30 m-l-20 width-150" title=""><span class="fa fa-file-excel btn-icon mr-2"></span>Log de actividad</button>
+                        <button type="button" class="btn btn-white height-30  m-l-20 width-150" title="" (click)="volver()"><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+<ng-template #modalDialog let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Seleccionar un núcleo existente</h4>
+      <button type="button" class="close" (click)="d('Cross click')">×</button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <!-- <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Institución</th>
+                        <th>SubGrupo</th>
+                        <th>Ciudad</th>
+                        <th>Teléfono</th>
+                        <th>Activo</th>
+                        <th width="1%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of nucleos" (click)="elijo(item)">
+                        <td>{{item.id}}</td>
+                        <td>{{item.nombre}}</td>
+                        <td>{{item.institucion}}</td>
+                        <td>{{item.subgrupo}}</td>
+                        <td>{{item.ciudad.nombre}}</td>
+                        <td>{{item.telefono}}</td>
+                        <td>{{item.enable && 'Si' || 'No'}}</td>
+                    </tr>
+                </tbody>
+            </table> -->
+            <p-table #dt [paginator]="true" [rows]="20" [value]="nucleos"
+            [responsive]="true" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+
+              <ng-template pTemplate="header">
+
+                <tr>
+                  <th pSortableColumn="id" width="8%">
+                    Id
+                    <p-sortIcon field="id" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="nombre" width="30%">
+                    Nucleo
+                    <p-sortIcon field="nombre" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="institucion" width="15%">
+                    Institucion
+                    <p-sortIcon field="institucion" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="subgrupo" width="8%">
+                    SubGr
+                    <p-sortIcon field="subgrupo" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="ciudad.nombre" width="12%">
+                    Ciudad
+                    <p-sortIcon field="ciudad.nombre" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="enable" width="8%">
+                    Activ@
+                    <p-sortIcon field="enable" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th width="12%">Opciones</th>
+                </tr>
+
+
+              <tr>
+                <th>
+                  <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
+                </th>
+                <th>
+                    <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+                </th>
+                <th>
+                  <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'institucion', 'contains')">
+                </th>
+                <th>
+                  <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'subgrupo', 'contains')">
+                </th>
+                <th>
+                  <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'ciudad.nombre', 'contains')">
+                </th>
+                <th>
+                  <input pInputText style="width: 100%;" type="text" (input)="dt.filter($event.target.value, 'enable', 'contains')">
+                </th>
+                <th></th>
+              </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-item let-rowIndex="rowIndex" [pSelectableRow]="item" >
+                <tr>
+                  <td>{{item.id}}</td>
+                  <td>{{item.nombre}}</td>
+                  <td>{{item.institucion}}</td>
+                  <td>{{item.subgrupo}}</td>
+                  <td>{{item.ciudad.nombre}}</td>
+                  <td>{{item.enable && 'Si' || 'No'}}</td>
+                  <td class="with-btn" nowrap>
+                    <button type="button" class="btn btn-white height-30 " (click)="elijo(item)"
+                    title="Seleccionar"><span class="fa fa-check btn-icon mr-2" style="font-size:12px"></span> </button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-white" (click)="c('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+
+
+<ng-template #altaCiudad let-c="close" let-d="dismiss">
+    <app-ciud-crear (ciudadChange)="objCiudad= $event"  (winChange)="elijoCiudad()" (winClose)="closeCiud()" ></app-ciud-crear>
+</ng-template>
+
+<ng-template #altaLoc >
+    <app-loc-crear [ciudad]=(laCiud) (localidadChange)="objLoc=$event"  (winLChange)="elijoLoc()" (winLClose)="closeCiud()" ></app-loc-crear>
+</ng-template>

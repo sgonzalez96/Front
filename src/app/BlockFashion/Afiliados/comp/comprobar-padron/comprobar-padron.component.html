@@ -1,0 +1,147 @@
+<panel title="Comprobar padrón">
+
+    <!-- head -->
+    <div class="row justify-content-between">
+        <div class="col-auto">
+            <h5><strong>{{currentNucleo.id}}</strong> - {{currentNucleo.nombre}}</h5>
+        </div>
+        <div class="col-auto">
+            <h5><strong>Estado - {{currentNucleo.padron != null ? currentNucleo.padron : "Sin Asignar"}}</strong></h5>
+        </div>
+
+        <div *ngIf="!isOrg" class="col-2">
+            <button type="button" [disabled]="currentNucleo.padron.trim() != 'Comprobado'"
+                class="btn btn-warning height-30 width-140 m-l-20 " (click)="checkPadron()">
+                Marcar actualizado</button>
+        </div>
+        <div *ngIf="isOrg" class="row col-3">
+            <div class="col">
+                <button type="button" class="btn btn-warning height-30 width-140 m-l-20 " (click)="back()">
+                    Volver</button>
+
+            </div>
+            <div class="col">
+                <button type="button" title="Validar" [disabled]="currentNucleo.padron.trim() == 'Comprobado' "
+                    class="btn btn-primary height-30 width-140 m-l-20 " (click)="checkPadron()">
+                    Comprobado</button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- table -->
+    <!-- Tabla de PrimeNg -->
+    <div *ngIf="listaAfil.length" class="my-2">
+        <p-table #dt [paginator]="true" (onFilter)="teFiltro($event, dt)" [rows]="20" [value]="listaAfil"
+            [responsive]="true" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="cedula" width="8%">
+                        Cedula
+                        <p-sortIcon field="cedula" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="apellidos" width="20%">
+                        Apellidos
+                        <p-sortIcon field="apellidos" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="nombres" width="12%">
+                        Nombres
+                        <p-sortIcon field="nombres" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="status" width="8%">
+                        Status
+                    </th>
+                    <th pSortableColumn="enable" width="8%">
+                        Activo
+                        <p-sortIcon field="enable" ariaLabel="Activate to sort"
+                            ariaLabelDesc="Activate to sort in descending order"
+                            ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th width="10%"></th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'cedula', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'apellidos', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'nombres', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'Status', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText style="width: 100%;" type="text"
+                            (input)="dt.filter($event.target.value, 'enable', 'contains')">
+                    </th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                <tr [ngClass]="{'text-danger':item.status == 'P'}">
+                    <td>{{item.cedula}}</td>
+                    <td>{{item.apellidos}}</td>
+                    <td>{{item.nombres}}</td>
+                    <td>
+                        <span *ngIf="item.status=='I'">Iniciada</span>
+                        <span *ngIf="item.status=='A'">Aprobada</span>
+                        <span *ngIf="item.status=='C'">Condicional</span>
+                        <span *ngIf="item.status=='T'">Terminada</span>
+                        <span *ngIf="item.status=='R'">Rechazada</span>
+                        <span *ngIf="item.status=='P'">P.Revision</span>
+                        <span *ngIf="item.status=='S'" style="background-color: red;">Sol.Reingreso</span>
+                    </td>
+                    <td>
+                        <span *ngIf="!item.enable && item.status=='T'" style="background-color: red;">{{item.enable &&
+                            'Si' || 'No'}}</span>
+                        <span *ngIf="item.enable || item.status!='T'">{{item.enable && 'Si' || 'No'}}</span>
+                    </td>
+                    <!-- [routerLink]="['/afil-editar', item.cedula]" -->
+                    <td class="with-btn" nowrap>
+                        <button *ngIf="!isOrg" [disabled]="item.status == 'P'" type="button" class="btn btn-white"
+                            (click)="checkAfil(modalDialog, item)" routerLinkActive="router-link-active"
+                            title="Comprobar"><i class="text-danger fab fa-rev"></i> </button>
+                        <button *ngIf="isOrg" [disabled]="item.status == 'T'" type="button" class="btn btn-white"
+                            (click)="checkAfil(modalDialog, item)" routerLinkActive="router-link-active"
+                            title="Comprobar"><i class="far fa-check-circle"></i> </button>
+                        <button type="button" class="btn btn-white mx-2 " [routerLink]="['/afil-editar', item.cedula]"
+                            routerLinkActive="router-link-active" title="Editar afiliado/a"><span
+                                class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</panel>
+
+<!-- modal check Afil -->
+<ng-template #modalDialog let-c='close' let-d='dismiss'>
+    <div class='modal-header'>
+        <h4 class='modal-title'>Observaciones</h4>
+        <button type='button' class='close' (click)="c('Cross click')">×</button>
+    </div>
+    <div class='modal-body'>
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <textarea #obs class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+            </div>
+        </div>
+    </div>
+    <div class='modal-footer'>
+        <button class='btn btn-white' [disabled]="obs.value.length == 0" (click)="d(obs.value)">Enviar</button>
+    </div>
+</ng-template>

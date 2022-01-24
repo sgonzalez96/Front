@@ -1,0 +1,39 @@
+<div class="login-cover">
+    <div class="login-cover-image" [ngStyle]="{ 'background-image': 'url(../assets/img/login-bg/login.jpg)' }"></div>
+    <div style="background-position: center; background-size: inherit;"></div>
+</div>
+
+<!-- begin login -->
+<div class="login login-v2" >
+
+
+    <!-- begin login-content -->
+    <div class="log-content">
+        <form #f="ngForm" (ngSubmit)="formSubmit(f)" class="margin-bottom-0">
+            <div class="form-group m-b-20">
+                <input type="text" class="form-control form-control-lg" style="background-color: #252525; color: white;" name="usu" placeholder="Usuaria/o" [(ngModel)]="usuario" required />
+            </div>
+            <div class="form-group m-b-20">
+                <input type="password" class="form-control form-control-lg" style="background-color: #252525; color: white;" name="pass" placeholder="Password" [(ngModel)]="password" required />
+            </div>
+
+            <div class="login-buttons">
+                <button type="submit" class="btn btn-block btn-lg" style="background-color:#bd171e; color:white">Ingresar</button>
+            </div>
+            
+        </form>
+    </div>
+    
+
+
+    <!-- end login-content -->
+</div>
+<!-- end login -->
+
+<!--
+<ul class="login-bg-list clearfix">
+    <li *ngFor="let list of bgList" [ngClass]="{ 'active': list.active }">
+        <a href="javascript:;" (click)="changeBg(list)" [ngStyle]="{ 'background-image': 'url(' + list.bg + ')' }"></a>
+    </li>
+</ul>
+-->

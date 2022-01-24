@@ -1,0 +1,514 @@
+Version actual: 1.0.3
+
+Usuario super usuario - raul - 12345
+Usuario delegado 1103 - 2223444 - 2223444
+Usuario de organizacion - usuario1 - 11111112
+Usuario de legal - 67899193
+Uusario afiliado comun - 6666667
+
+Con Marcelo
+    Cuenta de salida de sintep
+    Deploy final
+    Google compartido con el cliente
+
+
+Con Ale
+    Mostrar avances en gastos
+    Mostrar avances en recibos
+    Mostrar avances en redpagos
+
+    !! Los afiliados del nucleo 1 no estan (Pendiente)
+    !! Discutir forma de pago e inicio asistencia y bitacora unificada ... slack o lo que sea
+
+
+Temas que me surgen:
+
+- Buscar usuarios que no esten como afiliados que no esten
+
+
+
+* En recibos si es efectivo poder modificar el numero
+* Mostrar id del gasto
+* En recibos si cotizantes = 0 que no controle
+* Los mensajes de ok de gastos y recibos no ponerlos
+* Poner swal de procesando a todo finanzas
+* Quitar impresion de recibo
+* Cargar saldo inicial en vias y sacarlo del vtoc
+* La planilla contable poner recibo, saldo ini, col saldo,  ordenada por fecha/recibo
+  * Crear servicio para recibir saldo a una fecha (dia anterior ) via = 0 todas
+  * En planilla hacer un dto con el movcont y el saldo, recorrer resul y generarlista
+  * Modificar html con saldo inicial en la fila = 0
+* Modificando excel planilla contable
+* En items de recibos tener ayuda de nucelo y socio
+
+*  Descripcion de recibo y gasto mas grande
+* En conciliacion poder mover la ventana de items al crear recibos
+* En conciliacion crear recicbo que tenga ayuda de nucleo y socio ,,,
+* Me dejo poner en el recibo nucleo 1, una cedula y resulta que ese tenia otro nucleo !!
+* Ver importacion BROU
+- Descartar en conciliacion brou
+- Revisar exceles de finanzas
+
+
+$ Incluir CC en gastos para poder evaluar por comision, evento etc ...
+$ Automatizar la carga del item del recibo, Pensar en automatizaciones a futuro ... incluir nucleo, cotizantes, ver si es al 1%, monto cuota en vtoc
+$ Tools de control
+
+
+
+
+
+
+
+
+Retorno de test 1
+=================
+En manejo de Eventos:
+  * Cambiar boton invitar para formulario pop-up de rangos multiples
+  * Cuando el pago de viaticos esta hecho que se peuda filtrar o ver los que tienen pagos hechos
+  * Asociar una url a un formulario en un alta de evento para la evaluacion
+  * Pantalla de Eventos que recuerde fechas
+* En la ficha del afiliado hay un detalle de socios agregar boton para delegado y suplente que no esten habilitados si ya se ocupan
+* Al confirmar ficha terminada por primera no lo deja activo enable
+* Sugerir sin ciudad el alta ficha
+
+
+Temas para terminar sprints anteriores (dificiles)
+=======================================
+    * Al crear nucleos da error .. trim()
+    - Mal los tildes en los cargos profesionales dentro de la BD
+    - Hacer paginado de
+      recibos
+      gastos
+      planilla
+      otros contables, otros de otros, lista de eventos, admin de eventos !!!
+
+    + No funciona la url de solicitud (Marcelo)
+    + Generar el pdf de la solicitud
+    + Envio de mail con el ingreso de una solicitud al delegado y al usuario con attach ficha pdf
+    + Mejorar exportacion padron (filtro nucleos check, solo cotizante check, y meter toodos los datos)
+    + Mailing a invitados de un evento y a recordatorios
+    + Impresión de certificados de asistencia
+    + Mail al usu + nucleo de cita agendada
+    + Listar excel - Reporte Operativo
+    + Generar pdf de recibos
+    + Listados heavys de funcionalidades
+    + Notificacion de pago (ver h1)
+    - Tratar de forzar que no pueda ser delegado si aun si clave es la cedula ...
+
+    - Las tools !!!
+
+
+ROADMAP Para el cierre o futuras versiones
+==================================
+8   - Alta de padrones y conversion !desde csv
+4   - Mejorar informe del log de nucleos y afiliados
+3   - Tools de control
+        - Tools para nucleos sin delegado 1
+        - Tools para nucleos sin delegado 2
+        - Tools para afiliados sin nucelo, sin cotiza, mas de 1 cotiza
+        - Tools para afiliados como delegado de mas de 1 nucleo
+        - Tools para fichas pendientes de aprobacion (en estado Aprobada o condicional)
+        - Crear una funcioanlidad para mover el ID de un nucleo por ejemplo del 6103 al 7103 ...
+
+Configurar los eventos a loguear
+Modo "ver" en nucleos y afiliados
+Si cambia algo en la ficha o el nucleo, si toca los afiliados o nucleos que el confirmar tenga un efecto
+Configurar Que puede tocar el delegado del nucleo y del afiliado
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ya hechos sprint 1
+==================
+* Crear la tabla de "datos" (VTOC), back end y editarla en el front
+* Crear la tabla de monedas , lista y edicion
+* Menu de super usuario (nivel = 30)
+* Menu de administrativo (nivel = 20)
+* Menu de delegado de nucleo (nivel = 10)
+* Menu de afiliado (nivel = 0)
+* Crear la lista de usuarios
+* Crear funciones de usuario - super usuario
+* Crear funciones de usuario logueado
+* Crear la lista de roles, crear y editar
+* Crear la tabla de tipo de cambio, servicios, enganche desde mon por aaaa/mm, excel
+* Funcionalidad de tipo de cambio para un dia con date picker bloqueado, calendario y atras adelante
+* Modelar usuarios con su relacion con afiliados
+    afinro -> number no muy modelable a cero o null en alta usuario
+* Crear la tabla de logs de usuario y afiliado, el metodo para grabarlo, y la ui para revisarlos
+    Long id
+    fecha/hora
+    usuafi U/A
+    id (number)
+    tipoevento
+    usuafi autor
+    id (number) (puede ser el como usuario o un super usuario)
+    varchar
+* Hacer la lista de eventos de usuario a loguear para ir generandolos
+    * Se crea un usuario
+    * Se cambia la contraseña
+    * Se resetea la contraseña
+    * Se desactiva un usuario
+    * Se crea un afiliado (status = a revision)
+    * Se aprueba afiliacion (status = aprobado)
+    * Se desafilia (status= inhabilitado )
+    * Se reafilia (status = aprobado, maneja fechas diferentes)
+
+Ya hechos sprint 2
+==================
+* Bug de tcam con multimoneda al habilitar euros daba problemas
+* Estructura de direcciones (deptos, ciudades, localidades)
+* Estructura de cargos profesionales
+* Estructura de canales de pago (Bancos, redes, depositos)
+* Modificar la estructura de usuarios/afiliados para dejar previsto el doble login
+* Armar estetica de login
+* Armar estetica de header y sidebar
+* Armar css de primary y success colors
+* Bug de tipo de cambio id = 0 , y traida de back end !!
+
+Crear la tabla de nucleos y el BAM con log...
+    * Lista con buscar () y excluir activos
+    * Listado de excel
+    * Alta/Edicion segun la clave
+    * Datos del alta en modo editar
+    * Levantar en modificacion los datos bien
+    * Buscar modal lupa, candado para la clave post key
+    * Manejo de fechas 1 y 2
+    * Cambio de delegado 1
+    * Cambio de delegado 2
+    * Modelar la relacion delegado 1 y 2 , controlar duplicado
+    * Dejar el log en el afiliado ante los cambios al grabar el nucleo ...
+    * Crear ciudad desde nucleos
+    * Crear localidad
+    * Lista de log con fechas
+    * Excel del log ,
+
+Crear la tabla de afiliados y el BAM
+    * Crear las tablas
+    * BackEnd
+    * Ficha de afiliado completa crear
+    * Manejo de campo fecha
+    * Traer los datos al editar
+    * En el visor no se ven
+    * Modelar la relacion nucleo/afiliado, pertenece y cotiza afiliado,
+    * Crear ciudad y localidad desde aca
+    * Swichear rol entre 0 y 10 y es o deja de ser delegado
+    * Modelar enable/disable + notas y motivos con un log especial de tipos Status
+
+Ciclo de afiliaciones
+
+    - Envio de ficha de solicitud un NO AFILIADO ...
+        * Sacar del bck el tema de usuario y rol x ahora
+        * Sacar del bck el tema de usuario y rol x ahora
+        * Servicios para check Afil y getNucleos
+        * Retorno a la pagina
+    * Si "t"erminar ficha de afiliado crear usuario con enable = true
+    * Si habilitar/inhabiitar afiliado hacerlo con el usuario y viceversa
+    * Botones abajo o al costado para Ciclo de afiliaciones, rechazo (solo 20>), condicional 10>, aprobacion 10, terminada 20
+    * Menu de afiliado
+    * Menu de delegado
+    * Menu de Organizacion
+
+Ya hechos ajuste al sprint 1 y 2 - v 0.2.1
+==========================================
+* Mover los niveles a 90, 50, 10, 0
+* El $A no permite insertar
+* Mover las labels a inclusivas
+* En la pantalla de nucleos
+    * Editando el nucleo ver pop ups no dejo crear ciudad
+    * Agregar nombre fantasia
+    * Excel de afiliados del nucleo desde super usuario
+    * Si es 1104 es 01 el subgrupo
+    * El id del nucleo empieza del 1 al 7
+
+    El delegado sobre su nucleo
+    *   No cambiar el nimbre el subgrupo
+    *   Log de actividad que no lo vea
+
+* En la lista de nucleos
+    * Agregar columna de Ver ultimo mes pago
+    * filtrar nucleos a 1 en los delegados
+
+- En la pantalla de solicitud
+    * Agregar el depto en la solicitud ... para tener referencia
+
+- En la lista de afiliados
+    * Poner fecha de solicitud en la grilla y verla en la ficha
+    * En la lista de afiliados rangos:
+        * Un commbo de status (Pendientes/Finalizados/Todos) inicia pendientes
+        * Para superusuario - Un combo con nucleos ([0] ======= todos)
+        * El ver activos/inactivos/todos (inicia todos)
+    * Poner el nucleo en la grilla y que se vea solo el cotzante si ve ======todos entonces no filtra
+    * El delegado no puede habilitar o deshabilitar afiliado
+    * Mejorar el visor de afiliados las columnas ...
+    * Guardar en sesion storage los parametros
+
+- En la pantalla de afiliados
+    * Los dos botones de super usuario en afiliado son terminar o rechazar y entonces no tiene sentido tocar el combo
+
+- Otras funcionalidades para terminar sprint 2 ()
+* 2   3 Rediseñar las notas , Las notas se irian agregando en el historial del afiliado y deberian ser por tipo .. notas le podemos poner un nivel
+* 2   1 Modelar el estado de iniciada reafiliacion (Solicita Reingreso)
+* 12  2 Estetica de la ficha externa, que indique que hay que imprimir formar escanear
+* 2   1 Emision de padrones, con y sin cotizantes
+* 4   1 Modelar el check y la imagen de la ficha scaneada
+* 2   1 Control de cedula del afiliado en un componente
+* 1   0 Control de tcam numerico
+
+
+Sprint 3 - Organizacion sindical
+================================
+* Crear la tabla de tipo de actividad
+* Crear la tabla de eventos
+
+- Manager de eventos
+    * Cabezal de evento con cambio de estado
+    * Agregar cedulas a Mano
+    * Insertar desde un archivo
+        * Crear cedula por pgadmin
+        * mejorar si viene por cedula y null el afilaido que lo arme
+        * Manejar el mode en la entrada del metodo
+        * Manejar los nulos del final del csv
+        * Devolver un DTO de resultados
+        * Pataer por inhabilitados (Warning)
+        * Devolver resultado con colores !!!
+    * Combo al haber algo seleccionado!
+    * Operacion desde el seleccionado -> borrar
+    * Seleccionar todo arriba de la columna
+    * Operacion desde el seleccionado -> Exportacion a excel de los seleccionados
+    * Operacion desde el seleccionado -> Cambiar estado
+    * ver una ficha en pop-up
+    * exportar a excel toda la lista del evento
+
+Definicion de costos de traslados
+    * Agregar campo ciudad al evento
+    * Manejo de costo entre ciudades
+    * Agregar campo costo a la invitacion, estado del costo Definido (calcualtor), Confirmado (check-square), Pago (money-bill-alt)
+    * Seleccion de "con traslado " un check de la lista en manager eventos
+    * Ver ciudad origen en grilla de manager
+    * Ver el costo en manager con indicador del status
+    * Cambiar el costo a un elemento de invitacion
+    * Cambiar status de costo a elementos varios en combo mayor
+
+- Inscripcion de evento
+    * Manejar un logo del tipo de actividad
+    * Hacer menu de afilaidito  y opcion eventos
+    * Ir a eventos como ppal de afiliadito ...
+    * Tabla de eventos del afiliado ... por fecha de evento con
+        Icono
+        estado
+        tipo
+        descirpcion
+        link
+        acciones posibles
+    * Modelar estados y acciones en el visor de eventos
+        * Flag de se inscribio
+        * Flag de asisitio
+        * Datos de evaluacion
+        * Inscribir + log
+        * Rechazar + log
+        * Faltar
+        * Archivar + log
+        * Evaluar + log
+
+* Marcado de asistencias en el manager
+
+* Historico de eventos es la grilla
+    *  Agregar filtro de fechas y combo de tipos
+    *  consulta excel evaluaciones, asistencias
+
+* Hay un bug al cambiar constraseña o terminar ficha se duplica el usuario si ya existia!
+* Eventos de un usuario
+    * pedir afiliado
+    * rango de fechas
+    * combo de tipos
+    * ver el estado en la grilla de la invitacion  ...
+    * boton de ir al manager
+
+- Manejo de asistencia laboral
+    * Una lista de dias y horas disponibles en un texto vtoc
+    * Modelar la tabla "citas legales"
+    * Funcion de afiliado de solicitar cita y ver citas pendientes con su status...
+    * Nucleo en la solciitud
+    * Manager de abogados, agendar , cancelar, cumplir
+        * Crear
+        * Ver
+        * Agendar
+        * Cancelar
+        * Cumplir
+        * Usuarios de tipo abogado y pedirlo
+        * Filtro de la pantalla
+            [ ] Ver inactivas
+            Fecha de agendada desde-hasta
+            Fecha de ingresada desde-hasta
+        * Logs en save
+    * Consulta por usuario, nucleo y abogado de las citas laborales
+
+* Aplicacion del QR
+
+============================================================================
+Posteriores a la priemr entrega version 1.0.1
+    * Crear un atributo subgrupo en la tabla de cargos
+    * Manejar el subgrupo de tipo number en Cargo
+    * Encolumnados de nucl- eos
+
+    * Mostrar cargos por subgrupo en ficha de afiliado y solicitud
+    * Hacer inclusive el menu
+    * Las fechas quedaron AAAA-MM-DD
+    * El primer alta de afiliados no detecto el 0 ahora ya hay
+    * Existia le usuario con nro de afiliado pero sin afiliado ... y armo relajo el alta, nucleo etc. lo duplico
+    * Un alta incompleta dejo el nucleo ensartado no fue transaccional
+    * Si es de nucleo 1 no carga cargos
+    * Si edita no carga cargos
+
+    Manejo de recibos
+        * Planilla
+        * Ws con tipini/tipfin
+        - Crear recibo
+          * Tema fecha del recibo ...
+          * Item Control de ya existente
+          * Item Captura de nucleo
+          * Item Captura de afiliado
+          * Item Control de formato AAAAMM
+          * Item Cotizante = 1 si es individuales
+          * Control de vacios y grabaciones
+          * fkmov esta vacio y no trae el get
+          * Que controle nucleo en null no avance en el item!
+          * Edit Item
+          * Baja de item de recibo
+        * WS actualizar ultimo pago afil/nucleo en garbar recibo y anular recibo ... un recalculador con el max)
+        * Ver
+        * Anular
+        * Memoria de la consulta de la lista al entrar a crear y ver etc.
+
+    Manejo del BROU
+        * Interfaz para cargar movimientos BROU
+          * Importar
+            * Grabar bien la fecha
+            * Excluis saldos iniciales y finales
+            * Mostrar bien las fechas y los montos
+            * Arreglar el texto del formato de integracion
+
+          * Grabar rangos
+          * Ver
+          * Listado a Excel
+          * Descartar (solo pendientes)
+          * Reactivar a pendiente (solo inactivos)
+
+      * Pagos BROU
+        * Crear tabla mov BROU y el back end para insertar, borrar, lista y gets
+        * Crear la tabla mov BROU_PAGO y el back
+        * Interfaz de movimeientos bancarios
+        * Interfaz de superusuario para ver nucleo, afiliado
+          * El cargar explota
+          * Hacer alta
+          * Hacer editar
+          * Hacer ver
+          * Probar baja
+          * Levantar permisos y seteos de rangos
+        * Interfaz de nucleo y usuario para insertar y ver pagos BROU
+
+* Pantalla de Tcambio de inicio solo al superusuario
+* Admin -  Menu monedas y Tcambio - Superusuario
+* Subgrupo 3 al crear un cargo quedo feo el formulario
+* No heredo el depto ni el cargo desde la solicitud
+* Quise inhabilitar nucleo Dumbo .. y dio error
+* Inactivamos a un afiliado y no quedo
+* Pintar de rojo las terminadas activos no o solic de reingreso
+
+* Conciliacion bancaria BROU - Recibos
+        * Meter los pagos en menu Finanzas
+        * Pantalla de conciliacion y generacion de recibos, baja items marcados
+          - Listado de movimientos
+            * con check y
+            * visor
+            * memoria o ver en pop up
+          - Listado de pagos
+            *  con check y
+            *  filtros fecha fecha+-5 importe +-100 documento
+            *  Visor
+            * memoria o visor a popup
+
+          - Creacion de recibo
+            * con la via
+            * con memoria en cards mejorarlas
+            * cambio de estados, y link al movcont para conciliar
+
+* Conciliacion bancaria BROU - Recibos
+        * Excluir del menu, el pago de los usuarios que no son aislados nivel 0 o delegados nivel 10
+        * Generar via de pago en el pago de usuario y movbanco,
+        * filtros de via para uno y otro leido ...
+        * Filtro +-5 en conciliacion
+
+* Con Jose
+    * Paginado
+    * Grilla con buscar
+    * Combos con buscar para ciudades
+
+- Vista Redpagos similar RedBrou con el filtro de la via
+        - Planilla
+        - Agregar archivo
+        - Crear movimiento
+        - ver mov
+        - Anular
+        - Listado Excel
+
+    - Conciliacion Redpagos
+        - Todo lo de conciliacion
+
++ Baja de recibos ... en java a bajo nivel
+      - Reconstitucion de fecha ultimo pago nucleo/afiliado
+      - Que desconcilie operaciones
+      - ¿Que  pasa con el numerador? si es el ultimo vuelve para nod ejar huecos .. y sino? un log?
+
+- Gastos  --- igual a recibos igual igual
+    - Reporte Historico de un nucleo
+    - Reporte Historico de afiliados individuales
+
+- Se podrian agregar gastos a conciliacion bancaria
+        - Integrarlos y filtrar recibos o gastos segun el signo
+        - Marcar como gasto con la referencia de boleta
+
+- Planilla de movimientos contables ordenado por fecha todo en debe haber , filtro R/G via etc.
+        - Planilla
+        - Crear
+        - Ver
+        - Anular
+        - Listado
+
+- Movimientos raros P/N en Gastos .. (Tipo y signo)
+
+
+Temas para terminar sprints anteriores (dificiles)
+=======================================
+    * Bajar el departamento en la ficha de solicitud que queda perdido ahi arriba
+
+- Hacer paginado de
+      * usuarios,
+      * afiliados y
+      * nucleos
+
+Retorno de test 1
+=================
+* Delegado dice que no deberias estar con nucleo JAVIER GREZZI al ingresar pago
+* Cotiza pocitos y delegada de santa helena ... el power es de otro nucleo ...
+* En el boton de filiados del nucleo sale un excel directo y no marca si es cotiza delegado suplete
+* Al borrarle un nucleo a un afiliado, estaba ligado como delegado y no se lo limpio del nucleo
+* Borre el nucleo del afiliado y lo agregue y lo metio 3 veces !
+* Boton para crear afiliado desde rol 50 o 90 en lalista
+* En la ayuda de nucleos y afiliados para delegados grilla nueva?
+

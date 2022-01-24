@@ -1,0 +1,61 @@
+<panel title="Lista de monedas">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div>            
+            <div class="form-group row m-b-15">
+                <div class="col-md-3 offset-md-9">
+                    <button type="button" class="btn btn-white height-30 width-140 m-l-20 " 
+                    [routerLink]="['/monnew']" title=""  routerLinkActive="router-link-active">
+                    <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Crear Moneda</button>           
+                    <!-- <button type="button" class="btn btn-white height-30 width-100 m-l-20 " (click)="exportExcel()" title=""><span class="fa fa-file-excel btn-icon mr-2"></span>Exportar</button>            -->
+                </div>
+            </div>           
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Descripcion</th>
+                        <th>Simbolo</th>
+                        <th>ISO-4217</th>
+                        <th width="1%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lamoneda of lista">
+                        <td>{{lamoneda.id}}</td>
+                        <td>{{lamoneda.descripcion}}</td>
+                        <td>{{lamoneda.simbolo}}</td>
+                        <td>{{lamoneda.iso}}</td>
+                        <td class="with-btn" nowrap>
+                            <span *ngIf="lamoneda.iso=='UYU'">
+                                <button type="button" class="btn btn-white height-30 " 
+                                [routerLink]="['/tcam-lista',lamoneda.id]"  routerLinkActive="router-link-active" title="La moneda nacional no tienen cotización" disabled>
+                                <span class="fa fa-ban btn-icon mr-2" style="color: darkred;"></span></button>
+                            </span>
+                            <span *ngIf="lamoneda.iso!='UYU'">
+                                <button type="button" class="btn btn-white height-30 " 
+                                [routerLink]="['/tcam-lista',lamoneda.id]"  routerLinkActive="router-link-active" title="Cotiazaciones de la moneda">
+                                <span class="fa fa-check btn-icon mr-2" style="color: darkred"></span></button>
+                            </span>
+                            
+                                
+                            <button type="button" class="btn btn-white height-30 " [routerLink]="['/monedi', lamoneda.id]"  routerLinkActive="router-link-active" 
+                            title="Editar"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>           
+                            
+                            <button type="button" class="btn btn-white height-30 " (click)="baja_mon(lamoneda.id)"  routerLinkActive="router-link-active" 
+                            title="Borrar"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>                                        
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end table-responsive -->
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+
+
+

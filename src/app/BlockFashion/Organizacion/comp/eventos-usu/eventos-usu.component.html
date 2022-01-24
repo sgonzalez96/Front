@@ -1,0 +1,89 @@
+<panel title="Lista de eventos de un/a afiliada/o">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+                <div class="row row-space-10 m-b-10">
+                    <label class="control-label col col-md-1">Cédula</label>
+                    <div class="col col-md-2 m-b-15">
+                        <input type="text" [(ngModel)]="idAfil" name="id_afil" class="form-control" (change)="cambioId($event.target.value)" placeholder="" appOnlydigits maxlength="8" />
+                    </div>
+                    <div class="col col-md-6">
+                        <input *ngIf="objAfil != null && objAfil!=undefined" type="text" [(ngModel)]="objAfil.apellidos" name="nomdis" class="form-control" placeholder="" disabled/>
+                        <!-- <input type="text" [(ngModel)]="objAfil.nombres" name="nonodis" class="form-control" placeholder="" disabled/> -->
+                    </div>
+                </div>
+                <div class="row row-space-10 m-b-10">
+                    <label class="control-label col-md-1">Fechas</label>
+                    <div class="col-md-2 m-b-15 m-l-5">
+                        <input type="date" [(ngModel)]="fecini" name="feci" class="form-control" placeholder="" required maxlength="100"/>
+                        
+                    </div>
+                    <div class="col-md-2 m-b-15">
+                        <input type="date" [(ngModel)]="fecfin" name="fecf" class="form-control" placeholder="" required maxlength="100"/>
+                    </div>
+                    <div class="col col-md-2">
+                        <select class="form-control " (change)="onChangeTipo($event.target.value)">  
+                            <option *ngFor="let item of varsOpcion" [selected]="eltipo.descripcion == item.descripcion" [ngValue]="eltipo" name="cmbmar">{{item.descripcion}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary height-30 width-150 m-l-5" (click)="cargo()" title=""><span class="fa fa-file-upload btn-icon m-r-20"></span>Cargar</button>           
+                        <button type="button" class="btn btn-white height-30 width-150 m-l-10 " (click)="exportExcel()" 
+                        title="Exportar lista de eventos"><span class="fa fa-file-excel btn-icon mr-2"></span>Excel</button>                        
+                    </div>
+                </div>
+        
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Tipo</th>
+                        <th>Nombre</th>
+                        <th>Lugar</th>
+                        <th>Status</th>
+                        <th>Costo</th>
+                        <th></th>
+                        <th>Evaluacion</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let invi of lista">
+                        <td>{{invi.evento.id}}</td>
+                        <td>{{invi.evento.fecha}}</td>
+                        <td>{{invi.evento.hora}}</td>
+                        <td>{{invi.evento.tipoact.descripcion}}</td>
+                        <td>{{invi.evento.nombre}}</td>
+                        <td>{{invi.evento.lugar}}</td>
+                        <td>{{invi.status}}</td>
+                        <td style="text-align: right;">{{invi.costo}}
+                        </td>
+                        <td>
+                            <span *ngIf="invi.costostat==null || invi.costostat=='D'">
+                                <i class="fas fa-calculator"></i>
+                            </span>
+                            <span *ngIf="invi.costostat=='C'">
+                                <i class="fas fa-check-square"></i>
+                            </span>
+                            <span *ngIf="invi.costostat=='P'">
+                                <i class="fas fa-money-bill-alt"></i>
+                            </span>
+                        </td>
+                        <td>{{invi.evalnota}}</td>
+                        <td>
+                            <button type="button" [routerLink]="['/evemanager',invi.evento.id]" title=""  routerLinkActive="router-link-active" class="btn btn-white height-30  m-l-10 width-40" title=""  >
+                            <span class="fa fa-id-card btn-icon mr-2"></span></button>
+                            <!-- <button type="button" (click)="nuc_open(modalLog,invi.id)" class="btn btn-white height-30  m-l-10 width-40" title=""  >
+                            <span class="fa fa-lock-open btn-icon mr-2"></span></button> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end table-responsive -->
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->

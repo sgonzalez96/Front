@@ -1,0 +1,69 @@
+<!-- begin panel -->
+<panel title="Históroico de tipos de cambios">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div>
+            <div class="form-group row m-b-15">
+
+                <label class="control-label">Moneda</label>
+                <div class="col-md-2 m-b-15">
+                    <input type="text" [(ngModel)]="lamon.descripcion" name="nombre" class="form-control" placeholder="Nombre de la moneda" disabled />
+                </div>
+                <button type="button" class="btn btn-white height-30 m-l-30 " [routerLink]="['/tcam-crear',lamon.id]" title=""
+                routerLinkActive="router-link-active"><span class="fa fa-plus btn-icon mr-2" style="color:darkred"></span>Crear Cotización</button>
+                <span class="col-m-d-6"></span>
+
+                <div class="col-md-3 offset-md-4">
+                    <button type="button" class="btn btn-white height-30 width-100 m-l-20" (click)="exportExcel()" title=""><span class="fa fa-file-excel btn-icon mr-2"></span>Excel</button>
+                    <button type="button" class="btn btn-white height-30 width-100 m-l-20" (click)="volver()" title=""><span class="fa fa-arrow-left btn-icon mr-2"></span>Volver</button>
+                </div>
+            </div>
+
+            <div class="form-group row m-b-15">
+                <label>Anio    </label>
+                <div class="col-md-2 m-l-20">
+                    <select class="form-control" (change)="onChangeAnio($event.target.value)">
+                        <option *ngFor="let itemAnio of cmbAnios" [selected]="anio == itemAnio" [ngValue]="itemAnio"  >{{itemAnio}}</option>
+                    </select>
+                </div>
+                <label >Mes</label>
+                <div class="col-md-2">
+                    <select class="form-control" (change)="onChangeMes($event.target.value)">
+                        <option *ngFor="let itemMes of cmbMes" [selected]="itemMes == mes" [ngValue]="itemMes" >{{itemMes}}</option>
+                    </select>
+                </div>
+                <button class="btn btn-grey fa fa-arrow-left height-30" (click)="mesAntes()" title = "Mes anterior"><i></i></button>
+                <button class="btn btn-grey fa fa-arrow-right height-30 m-l-2" (click)="mesProx()"title="Mes siguiente" ><i></i></button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped m-b-0">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Valor</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of lista">
+                        <td>{{item.fecha}}</td>
+                        <td style="text-align: right;">{{item.valor}}</td>
+                        <td></td>
+                        <td class="with-btn" nowrap>
+                            <button type="button" class="btn btn-white height-30 " [routerLink]="['/tcam-editar',item.id]"  routerLinkActive="router-link-active"
+                            title="Editar la cotización de ese día"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>
+                            <button type="button" class="btn btn-white height-30 " (click)="BorroTC(item.id)"  title="Borrar cotización de ese día"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px;color:darkred"></span> </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end table-responsive -->
+
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+

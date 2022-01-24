@@ -1,0 +1,73 @@
+<panel title="Lista de {{tit}}">
+    <div class="register-content">
+        <!-- begin table-responsive -->
+        <div class="row row-space-10 m-b-15">
+          <label class="control-label col col-md-2">SubGrupo: </label>
+          <div class="col-md-4 m-l-10">
+            <select class="form-control" (change)="onChangeSub($event.target.value)">
+              <option *ngFor="let forc of varsGrupo" [selected]="varsGrupo[subgrupo].trim() == forc.trim()" [ngValue]="forc" >{{forc}}</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="abierto" class="m-l-20 card-body col-md-8" style="background-color:lightsteelblue;">
+                <form #f="ngForm" (ngSubmit)="creoObj(f)" class="margin-bottom-0 row">
+                    <label class="control-label">Nombre<span class="text-danger">*</span></label>
+                    <div class="col-md-6 m-b-15">
+                        <input type="text" [(ngModel)]="objObj.nombre" name="nomciud" class="form-control rigth" placeholder="Nombre del item" required />
+                    </div>
+
+                    <div class="form-group m-l-40">
+                        <div class="register-buttons">
+                            <button type="submit" class="btn btn-white height-30 m-l-20 width-30" title="">
+                                            <span class="fa fa-check btn-icon mr-2" style="color: darkred"></span></button>
+                            <button type="button" class="btn btn-white height-30 m-l-20 width-30" title=""
+                                            (click)="cerrarAltaObj()"><span class="fa fa-window-close btn-icon mr-2"></span></button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+
+
+
+        <div *ngIf="!abierto" class="col-md-4 offset-md-8">
+          <button type="button" class="btn btn-white height-30 width-140 m-l-20 "
+          (click)="altaObj()" title=""  routerLinkActive="router-link-active">
+          <span class="fa fa-plus btn-icon mr-2" style="color: darkred"></span>Crear</button>
+        </div>
+
+        <div class="table-responsive">
+                <table class="table table-striped m-b-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Sub-Grupo</th>
+                                <th width="1%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lista" (click)="selObj(item)">
+                                <td>{{item.id}}</td>
+                                <td>
+                                    <span *ngIf="item.id == elObj.id" style="color: darkred;">{{item.nombre}}</span>
+                                    <span *ngIf="item.id != elObj.id">{{item.nombre}}</span>
+                                </td>
+                                <td>{{item.subgrupo}}</td>
+                                <td class="with-btn" nowrap>
+                                    <button type="button" class="btn btn-white height-30 "
+                                    (click)="modifObj(item)"  routerLinkActive="router-link-active"
+                                    title="Editar"><span class="fa fa-edit btn-icon mr-2" style="font-size:12px"></span> </button>
+
+                                    <button type="button" class="btn btn-white height-30 " (click)="baja_obj(item.id)"  routerLinkActive="router-link-active"
+                                    title="Borrar"><span class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                </table>
+            <!-- end table-responsive -->
+        </div>
+    </div>
+    <!-- end register-content -->
+</panel>
+<!-- end panel -->
+

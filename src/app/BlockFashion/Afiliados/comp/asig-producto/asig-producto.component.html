@@ -1,0 +1,168 @@
+<panel [title]="nucleo.nombre != undefined ? 'Lista de afiliados del nucleo' + '  ' + nucleo.nombre : '' ">
+  <div class="register-content">
+    <!-- begin table-responsive -->
+    <div>
+      <div class="form-group row m-b-15">
+        <div class="col height-30">
+          <button type="button" class="btn btn-info height-30" title="Exportar a excel" ><span
+              class="fa fa-file-excel mr-2"></span>Excel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de PrimeNg -->
+    <p-table #dt [paginator]="true" (onFilter)="teFiltro($event, dt)" [rows]="20" [value]="lista" [responsive]="true"
+      [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="cedula" width="10%">
+            Cedula
+            <p-sortIcon field="cedula" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombres">
+            Nombres
+            <p-sortIcon field="nombres" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+          <th pSortableColumn="enable" width="10%">
+            Activ@
+            <p-sortIcon field="enable" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th pSortableColumn="producto">
+            Producto
+            <p-sortIcon field="producto" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+          <th pSortableColumn="fechaAsig">
+            Fecha Asig.
+            <p-sortIcon field="fechaAsig" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+          <th pSortableColumn="caracteristicas">
+            Caracteristicas
+            <p-sortIcon field="caracteristicas" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+          <th width="10%">Opciones</th>
+        </tr>
+        <tr>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'cedula', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'nombres', 'contains')">
+          </th>
+          <th>
+
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'producto', 'contains')">
+          </th>
+          <th>
+            <input pInputText style="width: 100%;" type="text"
+              (input)="dt.filter($event.target.value, 'fechaAsig', 'contains')">
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr>
+          <td>{{item.cedula}}</td>
+          <td>{{item.nombres}} {{item.apellidos}}</td>
+          <td>{{item.enable ? "Activo" : "Inactivo"}}</td>
+          <td>{{item.producto}}</td>
+          <td>{{item.fechaAsig | date: 'dd/MM/yyyy'}}</td>
+          <td>{{item.caracteristicas}}</td>
+          <td class="with-btn" nowrap>
+            <button type="button" class="btn btn-white height-30 " (click)="asignar(AsigProd,item)" title="Editar"><span
+                class="fa fa-plus-square btn-icon mr-2" style="font-size:12px"></span> </button>
+            <button type="button" class="btn btn-white height-30 " (click)="delete(item.cedula)" title="Eliminar"><span
+                class="fa fa-trash btn-icon mr-2" style="font-size:12px"></span> </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <!-- end register-content -->
+</panel>
+
+<!-- modal -->
+<ng-template #AsigProd let-c='close' let-d='dismiss'>
+  <div class='modal-header'>
+    <h4 class='modal-title'>Asignar Productos</h4>
+    <button type='button' class='close' (click)='c("Cross click")'></button>
+  </div>
+  <div class='modal-body'>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label class="control-label">Cedula</label>
+
+        <div>
+          <input type="text" readonly [(ngModel)]="currentAfil.cedula" name="cedula" class="form-control"
+            placeholder="" />
+        </div>
+      </div>
+      <div class="col-6 mb-3">
+        <label class="control-label">Nombres</label>
+
+        <div>
+          <input type="text" readonly [(ngModel)]="currentAfil.nombres" name="nombres" class="form-control"
+            placeholder="" />
+        </div>
+      </div>
+    </div>
+
+    <form #f="ngForm">
+      <div class="row">
+        <div class="col-6 mb-3">
+          <label class="control-label">Productos <span class="text-danger">*</span></label>
+          <select id="index" class="form-select" name="select" (change)="changeValueSelect()" aria-label="Seleccionar"
+            [(ngModel)]="currentProd" required>
+            <option *ngFor="let s of listProd" [ngValue]="s">
+              {{s.descripcion}}</option>
+          </select>
+        </div>
+        <div class="col-12 mb-3">
+          <input type="text" readonly [value]="currentProd != undefined && currentProd.notas != undefined ? currentProd.notas : ''" name="note" class="form-control"
+            placeholder="" />
+        </div>
+        <div class="col-6">
+          <label class="control-label">Caracteristicas</label>
+
+          <div>
+            <input type="text" [(ngModel)]="order.caracteristicas" name="caracteristicas" class="form-control" placeholder=""
+              required />
+          </div>
+
+        </div>
+        
+        <!--
+          <div class="col-6">
+          <div class="column row-space-10 m-b-15">
+            <label class="control-label col">Fecha</label>
+            <div class="col m-b-15">
+                <input type="date" [(ngModel)]="order.fechaAsig" name="fechaAsig" class="form-control" placeholder="" />
+            </div>
+        </div>
+    
+
+        </div>  
+      -->
+
+      </div>
+    </form>
+  </div>
+  <div class='modal-footer'>
+    <button class='btn btn-white' [disabled]="!f.valid || currentProd.notas == undefined" (click)='d("Close click")'>Guardar</button>
+  </div>
+</ng-template>

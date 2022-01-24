@@ -1,0 +1,88 @@
+<panel title="Recibos por núcleo">
+
+    <!-- form -->
+    <form id='form'  [formGroup]="formNucleo">
+
+        <div class="row">
+            <div class="col-12 col-md">
+                <div class="row m-b-10">
+                    <label class="control-label col-md-2">Núcleo:</label>
+                    <div class="col-md-2 m-b-15">
+                        <input type="text" name="nucleoId" (change)="cambioNucleoId($event.target.value)"
+                             class="form-control" formControlName="nucleoId" placeholder="" />
+                    </div>
+                    <div class="col col-md-6">
+                        <input type="text" name="nucleoName"  class="form-control"
+                        formControlName="nucleoName" placeholder="" disabled />
+                    </div>
+                    <button type="button" (click)="openNucleo(selectNuc)"
+                        class="btn btn-white height-30  m-l-10 width-40" title="">
+                        <span class="fa fa-search btn-icon mr-2"></span></button>
+                </div>
+            </div>
+            <div class="col-12 col-md">
+                <div class="row">
+                    <label class="col-2">Desde/Hasta</label>
+                    <div class="col-5">
+                        <input type="date" [ngModel]="fechInic" name="fecini" class="form-control" placeholder=""
+                         formControlName="fecini" (change)="onChangeDate()"  required maxlength="100" />
+                    </div>
+                    <div class="col-5">
+                        <input type="date" [ngModel]="fechEnd"  name="fecfin" class="form-control" placeholder=""
+                        formControlName="fecfin" (change)="onChangeDate()"  required maxlength="100" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- action of form-->
+            <div class='action col-1'>
+                <button type="button" class="btn btn-warning height-30 width-40 m-l-20" title=""
+                   (click)="onSubmit()" ><span class="fa fa-redo btn-icon mr-2"></span></button>
+            </div>
+        </div>
+    </form>
+
+    <div class="table-responsive my-3" *ngIf="lista.length != 0">
+        <button type="button" class="btn btn-info height-30 m-l-20" title="Exportar a excel"
+                   (click)="exportExcel()" ><i class="far fa-file-excel"></i> Exportar</button>
+        <table class="table table-striped m-b-0">
+            <thead>
+                <tr>
+                    <th>Fecha Recibo</th>
+                    <th>Recibos</th>
+                    <th>Referencia</th>
+                    <th>Recibo</th>
+                    <th>Importe</th>
+                    <th width="1%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of lista">
+                    <td>{{item.fecha}}</td>
+                    <td>
+                        <ul *ngFor="let det of item.detalle">
+                            <li>
+                                <span> Fecha: {{det.fecharecibo}}  Mes: {{det.mespago}}</span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td>{{item.referencia}}</td>
+                    <td>{{item.recibo | number}}</td>
+                    <td>{{item.importe | number}}</td>
+                    <td class="with-btn" nowrap>
+
+                            <button type="button" class="btn btn-white height-30 " (click)="cache()" [routerLink]="['/recver', item.id]"  routerLinkActive="router-link-active"
+                            title="Ver recibo"><span class="fa fa-eye btn-icon mr-2" style="font-size:12px"></span> </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</panel>
+<!-- end panel -->
+
+<!-- template modal -->
+<ng-template #selectNuc let-c="close" let-d="dismiss">
+    <app-helpnuc (nucleoChange)="objNuc=$event" (winNChange)="elijoNuc()" (winNClose)="c()"></app-helpnuc>
+</ng-template>

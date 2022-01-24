@@ -1,0 +1,96 @@
+<panel title="Planilla de movimientos">
+  <div class="register-content">
+      <!-- begin table-responsive -->
+      <div>
+          <div class="form-group row m-b-15">
+              <div class="col col-md-2">
+                  <select class="form-control " (change)="onChangeTipo($event.target.value)">
+                      <option *ngFor="let item of varsOpcion" [selected]="item.id == lavia.id" [ngValue]="lavia" name="cmbitm">{{item.nombre}}</option>
+                  </select>
+              </div>
+
+              <label class="col col-md-1" >Desde/Hasta</label>
+              <div class="m-l-10">
+                  <input type="date" [(ngModel)]="fecini" name="feci" class="form-control" placeholder="" required maxlength="100"/>
+              </div>
+              <div class="m-l-10">
+                  <input type="date" [(ngModel)]="fecfin" name="fecf" class="form-control" placeholder="" required maxlength="100"/>
+              </div>
+              <div class="col col-md-2">
+                <select class="form-control " (change)="onChangeModo($event.target.value)">
+                    <option *ngFor="let item of varsModo" [selected]="item == elmodo" [ngValue]="elmodo" name="cmbmodo">{{item}}</option>
+                </select>
+              </div>
+
+              <div class="m-l-10">
+                  <button type="button" class="btn btn-warning height-30 width-40 m-l-20"
+                  title=""  (click)="cargo()" ><span class="fa fa-redo btn-icon mr-2"></span></button>
+                  <button type="button" class="btn btn-white height-30  m-l-40 " [routerLink]="['/otroalta']"
+                  title=""  routerLinkActive="router-link-active"><span class="fa fa-plus btn-icon mr-2" style="color: darkred;"></span>Nuevo movimiento</button>
+                  <button type="button" class="btn btn-white height-30  m-l-20 " (click)="exportExcel()" title=""><span class="fa fa-file-excel btn-icon mr-2"></span>Exportar</button>
+              </div>
+          </div>
+      </div>
+
+      <!-- Aca el saldo anterior -->
+      <div class="table-responsive">
+          <table class="table table-striped m-b-0">
+              <thead>
+                  <tr>
+                      <th width="10%">Fecha</th>
+                      <th width="10%">Recibo</th>
+                      <th width="20%">Descripcion</th>
+                      <th width="10%" >Vía Pago</th>
+                      <th width="15%">Referencia</th>
+                      <th width="5%">Tipo</th>
+                      <th width="8%" >Importe</th>
+                      <th width="8%" >Saldo</th>
+                      <th width="4%"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td></td>
+                      <td></td>
+                      <td>Saldo Inicial</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td style="text-align: right">
+                        <span *ngIf="saldo < 0" style="color: red;">{{saldo}}</span>
+                        <span *ngIf="saldo >= 0" >{{saldo}}</span>
+                      </td>
+                  </tr>
+                  <tr *ngFor="let item of lista">
+                      <td>{{item.fecha}}</td>
+                      <td>{{item.recibo}}</td>
+                      <td>{{item.descripcion}}</td>
+                      <td>{{item.via}}</td>
+                      <td>{{item.referencia}}</td>
+                      <td>{{item.tipo}}</td>
+                      <td style="text-align: right">
+                        <span *ngIf="item.importe < 0 " style="color: red;">-{{item.importe}}</span>
+                        <span *ngIf="item.importe >= 0" >{{item.importe}}</span>
+                      </td>
+                      <td style="text-align: right">
+                        <span *ngIf="item.saldo < 0" style="color: red;">{{item.saldo}}</span>
+                        <span *ngIf="item.saldo >= 0" >{{item.saldo}}</span>
+                      </td>
+                      <td class="with-btn" nowrap>
+                        <button *ngIf="item.tipo == 'R'" type="button" class="btn btn-white height-30 " [routerLink]="['/recver', item.id]"  routerLinkActive="router-link-active"
+                        title="Ver recibo"><span class="fa fa-eye btn-icon mr-2" style="font-size:12px"></span> </button>
+                        <button *ngIf="item.tipo == 'G'" type="button" class="btn btn-white height-30 " [routerLink]="['/gastover', item.id]"  routerLinkActive="router-link-active"
+                        title="Ver gasto"><span class="fa fa-eye btn-icon mr-2" style="font-size:12px"></span> </button>
+                        <button *ngIf="item.tipo != 'R' && item.tipo != 'G'" type="button" class="btn btn-white height-30 " [routerLink]="['/otrover', item.id]"  routerLinkActive="router-link-active"
+                        title="Ver ajuste"><span class="fa fa-eye btn-icon mr-2" style="font-size:12px"></span> </button>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <!-- end table-responsive -->
+  </div>
+  <!-- end register-content -->
+</panel>
+<!-- end panel -->
