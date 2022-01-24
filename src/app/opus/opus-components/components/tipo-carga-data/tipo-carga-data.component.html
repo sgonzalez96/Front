@@ -1,0 +1,52 @@
+<!-- start page title -->
+<app-pagetitle [title]="titulo"></app-pagetitle>
+<!-- end page title -->
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="register-content">
+            <form #f="ngForm" (ngSubmit)="sendTipoCarga(f)" class="margin-bottom-0">
+                <label *ngIf="!esAlta" class="control-label">Id del tipo de carga</label>
+                <div *ngIf="!esAlta" class="row row-space-12">
+                    <div class="col-md-12 m-b-15">
+                        <input type="text" [(ngModel)]="tcarga.id" name="tcid" class="form-control" disabled />
+                    </div>
+                </div>
+                <label class="control-label">Descripción</label>
+                <div class="row row-space-12">
+                    <div class="col-md-12 m-b-15">
+                        <input type="text" [(ngModel)]="tcarga.dsc" name="tcdsc" class="form-control" [disabled]="visor" required />
+                    </div>
+                </div>
+                <label class="control-label">Librerìa del icono</label>
+                <div class="row row-space-12">
+                    <div class="col-md-4 m-b-15">
+                        <input type="text" [(ngModel)]="tcarga.iconLib" name="iclib" class="form-control" [disabled]="visor" />
+                    </div>
+                </div>
+                <label class="control-label">Nombre del icono</label>
+                <div class="row row-space-12">
+                    <div class="col-md-4 m-b-15">
+                        <input type="text" [(ngModel)]="tcarga.iconName" name="icname" class="form-control" [disabled]="visor" />
+                    </div>
+                </div>
+                <label class="control-label">Color del icono</label>
+                <div class="row row-space-12">
+                    <div class="col-md-4 m-b-15">
+                        <input type="text" [(ngModel)]="tcarga.iconColor" name="iccolor" class="form-control" [disabled]="visor" />
+                    </div>
+                </div>
+                <div class="row my-2 row-space-12">
+                    <div class="col-md-6 m-b-15" *ngIf="!visor">
+                        <button class="btn btn-primary btn-block">Confirmar</button>
+                    </div>
+                    <div class="col-md-6 m-b-15">
+                        <button type="button" class="btn btn-danger btn-block" (click)="volver()">Volver</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,111 @@
+
+<!-- start page title -->
+<app-pagetitle title="Mapas de depositos"></app-pagetitle>
+<!-- end page title -->
+
+<div class="card">
+    <div class="card-body">
+        <div class="register-content">
+            <!-- Combo de depositos -->
+            <div class="row">
+                <div class="col-md-8">
+                    <p-dropdown (onChange)="changeStorage($event)" [options]="storageList" [(ngModel)]="selectedStorage" optionLabel="storageDsc"></p-dropdown>
+                </div>
+            </div>
+            <!-- Planos -->
+            <div class=" mt-2">
+                <div class="row mt-3">
+                    <div class="col-md-8">
+                        <h5>Planos</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary btn-block" (click)="creoPlano()">Crear plano</button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <p-table class="probando" [value]="planosList" selectionMode="single" [(selection)]="planoSeleccionado" dataKey="planoId" (onRowSelect)="seleccionoPlano($event)" #plt>
+                            <ng-template pTemplate="body" let-plano let-i="rowIndex">
+                                <tr [pSelectableRow]="plano" [pSelectableRowIndex]="i" class="cabezal">
+                                    <td>{{plano.planoDsc}}</td>
+                                    <td style="text-align: right !important;">
+                                        <button class="btn-warning tablebutton" type="button" (click)="muevoPlano(plano, 'B', i)"><i class="fas fa-arrow-down"></i></button>
+                                        <button class="btn-success tablebutton" type="button" (click)="editoPlano(plano, i)"><i class="fas fa-pen"></i></button>
+                                        <button class="btn-danger tablebutton" type="button" (click)="eliminoPlano(plano)"><i class="fas fa-trash"></i></button>
+                                        <button class="btn-warning tablebutton" type="button" (click)="muevoPlano(plano, 'S', i)"><i class="fas fa-arrow-up"></i></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+            <!-- Puntos -->
+            <div class=" mt-2" *ngIf="planoSeleccionado != null">
+                <div class="row mt-3">
+                    <div class="col-md-8">
+                        <h5>Puntos del plano</h5>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary btn-block" (click)="creoPunto()">Asignar punto</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2" *ngIf="planoSeleccionado != null">
+                <div class="col-md-12">
+                    <p-table class="probando" [value]="puntosList" selectionMode="single" [(selection)]="puntoSeleccionado" dataKey="puntoId" (onRowSelect)="seleccionoPunto($event)" #ptn>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Descripción</th>
+                                <th style="width: 10px;">Orden</th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-punto>
+                            <tr [pSelectableRow]="punto" class="cabezal">
+                                <td>{{punto.puntoDsc}}</td>
+                                <td style="width: 10px;">{{punto.puntoOrd}}</td>
+                                <td style="text-align: right !important;">
+                                    <button class="btn-success tablebutton" type="button" (click)="editoPunto(punto)"><i class="fas fa-pen"></i></button>
+                                    <button class="btn-danger tablebutton" type="button" (click)="eliminoPunto(punto)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <!-- Locaciones -->
+            <div class=" mt-2" *ngIf="puntoSeleccionado != null">
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <h5>Locaciones</h5>
+                    </div>
+                    <div class="col-md-4" *ngIf="haylocaciones">
+                        <button class="btn btn-danger btn-block" (click)="eliminoLocaciones()">Eliminar locaciones</button>
+                    </div>
+                    <div class="col-md-4" *ngIf="!haylocaciones">
+                        <!-- Este div es para que no se mueva el asigno si no hay locaciones -->
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary btn-block" (click)="asignoLocaciones()">Asignar locación</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2" *ngIf="puntoSeleccionado != null">
+                <div class="col-md-12">
+                    <p-table class="probando" [value]="locacionesList" #ploc>
+                        <ng-template pTemplate="body" let-loca>
+                            <tr class="cabezal">
+                                <td>{{loca.locacionId}}</td>
+                                <td style="text-align: right !important;">
+                                    <button class="btn-danger tablebutton" type="button" (click)="eliminoLocacion(loca)"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

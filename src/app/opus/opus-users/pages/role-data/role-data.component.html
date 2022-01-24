@@ -1,0 +1,104 @@
+<!--
+<panel [title]="titulo" [noButton]="true">
+  begin panel -->
+
+  <!-- start page title -->
+<app-pagetitle title="{{titulo}}"></app-pagetitle> 
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="register-content">
+
+                    <!-- form roles -->
+                    <form [formGroup]="formDataRoles" (ngSubmit)="confirmo(f)" class="margin-bottom-0">
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="fw-semibold" for="description">Descripción</label>
+                                <input type="text" formControlName="description" class="form-control" autocomplete="off"
+                                    id="description" placeholder="Descripcion" [disabled]='!esalta'
+                                    [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
+                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.description.errors.required">La descripción es requerida</div>
+                                </div>
+                            </div>                
+
+                            <div class="col-3 form-check mx-4 mb-3" style=" display: flex; align-items: center;">
+                                <input class="form-check-input" type="checkbox" formControlName="rolAdm"
+                                    id="formCheck1">
+                                <label class="form-check-label mx-1" for="formCheck1">
+                                    Es rol administrador
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row my-4 justify-content-md-start">
+                            <div class="col-2">
+                                <div class="register-buttons">
+                                    <button type="button" (click)="volver()" class="btn
+                                    btn-danger btn-block btn-md
+                                    mt-2">Volver</button>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="register-buttons">
+                                    <button type="submit" class="btn btn-primary btn-block
+                                    btn-md
+                                    mt-2">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- <div class="register-content">
+        <form #f="ngForm" (ngSubmit)="confirmo(f)" class="margin-bottom-0">
+            <label class="control-label">Descripción</label>
+            <div class="row row-space-10">
+                <div class="col-md-6 m-b-15">
+                    <input type="text" [(ngModel)]="rol.descripcion" name="rolname" class="form-control" [disabled]="!esalta" required />
+                </div>
+            </div>
+
+            <div class="row row-space-10">
+                <div class="col-md-6 m-b-15">
+                    <label class="control-label">Es rol de administrador</label>
+                    <div class="checkbox checkbox-css">
+                        <input type="checkbox" [(ngModel)]="rol.rolAdm" [value]="rol.rolAdm" id="adm" name="adm" [checked]="rol.rolAdm" />
+                        <label for="adm">&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-b-15">
+                <div class="col-md-4">
+                    <div class="register-buttons">
+                        <button type="button" (click)="volver()" class="btn
+                            btn-danger btn-block btn-lg
+                            mt-5">Volver</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <div class="register-buttons">
+                        <button type="submit" class="btn btn-primary btn-block
+                            btn-lg
+                            mt-5">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div> -->
+    <!-- end register-content -->
+
+<!-- end panel -->

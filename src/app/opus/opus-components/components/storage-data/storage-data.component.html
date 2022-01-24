@@ -1,0 +1,35 @@
+<div class="card">
+    <div class="card-body">
+        <div class="register-content">
+            <form #f="ngForm" (ngSubmit)="sendStorage(f)" class="margin-bottom-0">
+                <label *ngIf="!esAlta" class="control-label">Id del centro logístico</label>
+                <div *ngIf="!esAlta" class="row row-space-12">
+                    <div class="col-md-12 m-b-15">
+                        <input type="text" [(ngModel)]="storage.storageId" name="stid" class="form-control" disabled />
+                    </div>
+                </div>
+                <label class="control-label">Descripción</label>
+                <div class="row row-space-12">
+                    <div class="col-md-12 m-b-15">
+                        <input type="text" [(ngModel)]="storage.storageDsc" name="stdsc" class="form-control" [disabled]="visor" />
+                    </div>
+                </div>
+                <label class="control-label">Código en el ERP</label>
+                <div class="row row-space-12">
+                    <div class="col-md-4 m-b-15">
+                        <input type="text" [(ngModel)]="storage.erpCode" name="erpcode" class="form-control" [disabled]="visor" />
+                    </div>
+                </div>
+                <div class="row row-space-12">
+                    <div class="col-md-6 m-b-15" *ngIf="!visor">
+                        <button class="btn btn-primary btn-block">Confirmar</button>
+                    </div>
+                    <div class="col-md-6 m-b-15">
+                        <button type="button" class="btn btn-danger btn-block" (click)="volver()">Volver</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

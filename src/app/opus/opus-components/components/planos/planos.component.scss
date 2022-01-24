@@ -1,0 +1,23 @@
+:host ::ng-deep .p-dropdown {
+    width: 100%;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+    font-size: 14px;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-item {
+    font-size: 14px;
+}
+
+td,
+th {
+    font-size: 14px;
+}
+
+.tablebutton {
+    height: 25px;
+    width: 25px;
+    font-size: 10px;
+    margin-left: 2px;
+}

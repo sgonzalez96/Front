@@ -1,0 +1,50 @@
+<!-- start page title -->
+<app-pagetitle title="Operarios"></app-pagetitle>
+<!-- end page title -->
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="register-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <button (click)="createOperator()" class="btn btn-primary mb-2">Crear operario</button>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Abreviada</th>
+                        <th scope="col">Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of list">
+                        <th scope="row">{{item.operatorId}}</th>
+                        <td>{{item.operatorDsc}}</td>
+                        <td>{{item.operatorShortname}}</td>
+                        <td *ngIf="item.enabled"><span
+                                style="background-color: green; color: white; font-weight: bold;">Activo</span></td>
+                        <td *ngIf="!item.enabled"><span
+                                style="background-color: red; color: white; font-weight: bold;">Inactivo</span></td>
+                        <td>
+                            <button (click)="operatorData(item, 'V')" class="btn btn-success"><i
+                                    class="fas fa-eye"></i></button>
+                            <button (click)="operatorData(item, 'M')" class="btn btn-warning ml-1"><i
+                                    class="fas fa-edit"></i></button>
+                            <button type="button" class="btn btn-danger ml-1" *ngIf="item.enabled"
+                                (click)="cambioEstado(false, item.operatorId)">Inhabilitar</button>
+                            <button type="button" class="btn btn-success ml-1" *ngIf="!item.enabled"
+                                (click)="cambioEstado(true, item.operatorId)">Habilitar</button>
+                            <!-- <button (click)="deleteOperator(item)" class="btn btn-danger ml-1"><i class="fas fa-trash-alt"></i></button> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

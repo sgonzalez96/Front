@@ -1,0 +1,63 @@
+<!-- start page title -->
+<app-pagetitle title="Datos administrativos"></app-pagetitle>
+<!-- end page title -->
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <!-- <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Locación</th>
+                    <th scope="col">Cant. Original</th>
+                    <th scope="col">Cant. Pickeada</th>
+                </tr>
+            </thead> -->
+            <tbody>
+                <tr>
+                    <td>Cantidad de operarios</td>
+                    <td>{{cantOperarios}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="irMenu('operators')">Ir</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cantidad de dispositivos</td>
+                    <td>{{cantDispo}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="irMenu('devices')">Ir</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cantidad de centros logísticos</td>
+                    <td>{{cantDepos}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="irMenu('storages')">Ir</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cantidad de tipos de estantería</td>
+                    <td>{{cantTiposEstanterias}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="irMenu('tipos-estanteria')">Ir</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cantidad de tipos de carga</td>
+                    <td>{{cantTiposCarga}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="irMenu('tipos-carga')">Ir</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cantidad de puntos de picking</td>
+                    <td>{{cantPuntosPicking}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="irMenu('puntos-picking')">Ir</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,11 @@
+:host ::ng-deep .p-dropdown {
+  width: 100%;
+  z-index: 120000;
+}
+
+::ng-deep ngb-modal-backdrop {
+  z-index: 1200001 !important;
+}
+::ng-deep ngb-modal-window {
+  z-index: 1200001 !important;
+}

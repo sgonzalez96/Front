@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-body">
+        <div class="register-content">
+        <form #f="ngForm" (ngSubmit)="sendOperator(f)" class="margin-bottom-0">
+            <label *ngIf="!esAlta" class="control-label">Id del operario</label>
+            <div *ngIf="!esAlta" class="row row-space-12">
+                <div class="col-md-12 m-b-15">
+                    <input type="text" [(ngModel)]="operator.operatorId" name="opeid" class="form-control" disabled />
+                </div>
+            </div>
+            <label class="control-label">Nombre</label>
+            <div class="row row-space-12">
+                <div class="col-md-12 m-b-15">
+                    <input type="text" [(ngModel)]="operator.operatorDsc" name="opedsc" class="form-control" [disabled]="visor" />
+                </div>
+            </div>
+            <label class="control-label">Nombre abreviado</label>
+            <div class="row row-space-12">
+                <div class="col-md-4 m-b-15">
+                    <input type="text" [(ngModel)]="operator.operatorShortname" name="abre" class="form-control" [disabled]="visor" />
+                </div>
+            </div>
+            <label class="control-label">Pin</label>
+            <div class="row row-space-12">
+                <div class="col-md-4 m-b-15">
+                    <input type="text" [(ngModel)]="operator.pin" name="pin" class="form-control" [disabled]="visor" />
+                </div>
+            </div>
+            <!-- <label class="control-label" *ngIf="!esAlta">Estado</label>
+            <div class="row row-space-12" *ngIf="!esAlta">
+                <div class="col-md-4 m-b-15">
+                    <input *ngIf="operator.enabled" style="background-color: green; font-weight: bold; color: white;" type="text" value="Activo" name="acti" class="form-control" disabled />
+                    <input *ngIf="!operator.enabled" style="background-color: red; font-weight: bold; color: white;" type="text" value="Inactivo" name="acti" class="form-control" disabled />
+                </div>
+                <div class="col-md-4 m-b-15" *ngIf="!visor">
+                    <button type="button" class="btn btn-warning" *ngIf="operator.enabled" (click)="cambioEstado(false)">Inhabilitar</button>
+                    <button type="button" class="btn btn-success" *ngIf="!operator.enabled" (click)="cambioEstado(true)">Habilitar</button>
+                </div>
+            </div> -->
+            <div class="row my-3 row-space-12">
+                <div class="col-md-6 m-b-15" *ngIf="!visor">
+                    <button class="btn btn-primary btn-block">Confirmar</button>
+                </div>
+                <div class="col-md-6 m-b-15">
+                    <button type="button" class="btn btn-danger btn-block" (click)="volver()">Volver</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    
+</div>

@@ -1,0 +1,86 @@
+<div class="row mt-3">
+  <div class="col-md-9">
+    <p-dropdown *ngIf="esalta" [options]="puntosList" [(ngModel)]="puntoSeleccionado" optionLabel="pointDsc" [filter]="true" filterBy="pointDsc" [showClear]="true"
+      placeholder="Seleccione punto" (onChange)="cambioPunto()">
+      <ng-template pTemplate="selectedItem">
+        <div *ngIf="puntoSeleccionado">
+          <div>{{puntoSeleccionado.pointDsc}}</div>
+        </div>
+      </ng-template>
+      <ng-template let-punto pTemplate="item">
+        <div>
+          <div>{{punto.pointDsc}}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
+  <div class="col-md-3">
+    <button class="btn btn-primary" (click)="creoPunto()">Crear punto</button>
+  </div>
+</div>
+
+<label *ngIf="!esalta">{{punto.puntoDsc}}</label>
+<div class="register-content mt-3" *ngIf="puntoSeleccionado != null">
+  <form #f="ngForm" (ngSubmit)="asignoPunto(f)" class="margin-bottom-0">
+    <label class="control-label">Orden</label>
+    <div class="row row-space-12">
+      <div class="col-md-12 m-b-15">
+        <input min="0" type="number" [(ngModel)]="orden" name="orden" class="form-control" required />
+      </div>
+    </div>
+    <div class="row row-space-12" *ngIf="ordenerror">
+      <div class="col-md-12 m-b-15 text-danger">
+        Debe ingresar orden y debe ser mayor o igual a 0
+      </div>
+    </div>
+    <!-- <label class="control-label">Posición X</label>
+        <div class="row row-space-12">
+            <div class="col-md-12 m-b-15">
+                <input min="0" type="number" [(ngModel)]="posx" name="posx" class="form-control" required />
+            </div>
+        </div>
+        <div class="row row-space-12" *ngIf="posxerror">
+            <div class="col-md-12 m-b-15 text-danger">
+                Debe ingresar posición X y debe ser mayor o igual a 0
+            </div>
+        </div>
+        <label class="control-label">Posición Y</label>
+        <div class="row row-space-12">
+            <div class="col-md-12 m-b-15">
+                <input min="0" type="number" [(ngModel)]="posy" name="posy" class="form-control" required />
+            </div>
+        </div>
+        <div class="row row-space-12" *ngIf="posyerror">
+            <div class="col-md-12 m-b-15 text-danger">
+                Debe ingresar posición Y y debe ser mayor o igual a 0
+            </div>
+        </div> -->
+    <div class="row row-space-12">
+      <div class="col-md-6 m-b-15">
+        <button class="btn btn-primary btn-block">Confirmar</button>
+      </div>
+      <div class="col-md-6 m-b-15">
+        <button type="button" class="btn btn-danger btn-block" (click)="closemodal()">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #dialogCreo let-c="close" let-d="dismiss" style="height: 80px;">
+  <div class="modal-header">
+    <h4 class="modal-title">Creación de punto</h4>
+    <button type="button" class="close" (click)="d('Cross click')">×</button>
+  </div>
+  <div class="modal-body">
+    <label class="control-label">Descripción</label>
+    <div class="row row-space-12">
+      <div class="col-md-12 m-b-15">
+        <input type="text" [(ngModel)]="descpunto" name="tcdsc" class="form-control" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" (click)="teCreo()">Crear</button>
+    <button class="btn btn-danger" (click)="c('Close click')">Cerrar</button>
+  </div>
+</ng-template>

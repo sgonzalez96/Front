@@ -1,0 +1,108 @@
+<div class="register-content">
+    <div class="row row-space-12">
+        <div class="col-md-4 m-b-15">
+            <label class="control-label">Id del pedido</label>
+        </div>
+        <div class="col-md-4 m-b-15">
+            <label class="control-label">Fecha de creación</label>
+        </div>
+        <div class="col-md-4 m-b-15">
+            <label class="control-label">PPCC</label>
+        </div>
+    </div>
+
+    <div class="row row-space-12">
+        <div class="col-md-4 m-b-15">
+            <input type="text" [(ngModel)]="pedido.orderId" name="sepaid" class="form-control" disabled />
+        </div>
+        <div class="col-md-4 m-b-15">
+            <input type="text" [(ngModel)]="fecha" name="sepafec" class="form-control" disabled />
+        </div>
+        <div class="col-md-4 m-b-15">
+            <input type="text" [(ngModel)]="pedido.ppcc" name="creador" class="form-control" disabled />
+        </div>
+    </div>
+
+    <div class="row row-space-12">
+        <div class="col-md-8 m-b-15">
+            <label class="control-label">Expediente</label>
+        </div>
+        <div class="col-md-4 m-b-15">
+            <label class="control-label">Documento</label>
+        </div>
+    </div>
+
+    <div class="row row-space-12">
+        <div class="col-md-8 m-b-15">
+            <input type="text" [(ngModel)]="pedido.recordNumber" name="recnum" class="form-control" disabled />
+        </div>
+        <div class="col-md-4 m-b-15">
+            <input type="text" [(ngModel)]="pedido.documentNumber" name="pednum" class="form-control" disabled />
+        </div>
+    </div>
+
+    <div class="row row-space-12">
+        <div class="col-md-8 m-b-15">
+            <label class="control-label">Cliente</label>
+        </div>
+        <div class="col-md-4 m-b-15">
+            <label class="control-label">Estado</label>
+        </div>
+    </div>
+
+    <div class="row row-space-12">
+        <div class="col-md-8 m-b-15">
+            <input type="text" [(ngModel)]="pedido.client.clientDsc" name="clidsc" class="form-control" disabled />
+        </div>
+        <div class="col-md-4 m-b-15">
+            <input type="text" [(ngModel)]="estado" name="estado" class="form-control" disabled />
+        </div>
+    </div>
+
+    <div class="row row-space-12">
+        <div class="col-md-4 m-b-15">
+            <label class="control-label">Carril</label>
+        </div>
+        <div class="col-md-4 m-b-15">
+            <label class="control-label">Origen</label>
+        </div>
+        <div class="col-md-4 m-b-15">
+            <label class="control-label">Destino</label>
+        </div>
+    </div>
+
+    <div class="row row-space-12">
+        <div class="col-md-4 m-b-15">
+            <input type="text" [(ngModel)]="pedido.lane.laneDsc" name="laneid" class="form-control" disabled />
+        </div>
+        <div class="col-md-4 m-b-15">
+            <input type="text" [(ngModel)]="pedido.sourceStorage.storageDsc" name="origen" class="form-control" disabled />
+        </div>
+        <div class="col-md-4 m-b-15">
+            <input type="text" [(ngModel)]="pedido.targetStorageDsc" name="destino" class="form-control" disabled />
+        </div>
+    </div>
+
+    <div class="row row-space-12">
+        <div class="col-md-12 m-b-15">
+            <label class="control-label">Items</label>
+        </div>
+    </div>
+
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of pedido.orderItemsList">
+                    <td>{{item.productCode.productDsc}}</td>
+                    <td>{{item.quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

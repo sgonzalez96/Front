@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-md-2 mb-2">
+    #Id
+  </div>
+  <div class="col-md-8 mb-2">
+    Descripción
+  </div>
+  <div class="col-md-2 mb-2">
+    Estado
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2 mb-2">
+    <input type="text" name="id" class="form-control" [ngModel]="lasesion?.sesionId" disabled>
+  </div>
+  <div class="col-md-8 mb-2">
+    <input type="text" name="dsc" class="form-control" [ngModel]="lasesion?.description" disabled>
+  </div>
+  <div class="col-md-2 mb-2">
+    <input type="text" name="estado" class="form-control" [ngModel]="lasesion?.status" disabled>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 mb-2">
+    Cuenta
+  </div>
+  <div class="col-md-5 mb-2">
+
+  </div>
+  <div class="col-md-4 mb-2">
+    Localidad
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 mb-2">
+    <input type="text" name="ctaid" class="form-control" [ngModel]="lasesion?.accountId" disabled>
+  </div>
+  <div class="col-md-5 mb-2">
+    <input type="text" name="ctadsc" class="form-control" [ngModel]="lasesion?.accountDsc" disabled>
+  </div>
+  <div class="col-md-4 mb-2">
+    <input type="text" name="loca" class="form-control" [ngModel]="lasesion?.accountLoc" disabled>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 mb-2">
+    Dirección
+  </div>
+  <div class="col-md-4 mb-2">
+    Operario
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 mb-2">
+    <input type="text" name="dire" class="form-control" [ngModel]="lasesion?.accountDir" disabled>
+  </div>
+  <div class="col-md-4 mb-2">
+    <input type="text" name="usuario" class="form-control" [ngModel]="operador" disabled>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2 mb-2">
+    Destino
+  </div>
+  <div class="col-md-6 mb-2">
+
+  </div>
+  <div class="col-md-2 mb-2">
+    Creación
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2 mb-2">
+    <input type="text" name="dstid" class="form-control" [ngModel]="lasesion?.targetStorageId" disabled>
+  </div>
+  <div class="col-md-6 mb-2">
+    <input type="text" name="dstdsc" class="form-control" [ngModel]="lasesion?.targetStorageDsc" disabled>
+  </div>
+  <div class="col-md-2 mb-2">
+    <input type="text" name="lafe" class="form-control" [ngModel]="lafe" disabled>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2 mb-2">
+    Agencia
+  </div>
+  <div class="col-md-6 mb-2">
+
+  </div>
+  <div class="col-md-2 mb-2">
+    Cierre
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2 mb-2">
+    <input type="text" name="ageid" class="form-control" [ngModel]="ageid" disabled>
+  </div>
+  <div class="col-md-6 mb-2">
+    <input type="text" name="agedsc" class="form-control" [ngModel]="agedsc" disabled>
+  </div>
+  <div class="col-md-2 mb-2">
+    <input type="text" name="lafec" class="form-control" [ngModel]="cierre" disabled>
+  </div>
+</div>

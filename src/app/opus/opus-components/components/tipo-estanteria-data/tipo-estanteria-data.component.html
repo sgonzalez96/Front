@@ -1,0 +1,51 @@
+<!-- start page title -->
+<app-pagetitle [title]="titulo"></app-pagetitle>
+<!-- end page title -->
+
+<div class="card">
+    <div class="card-body">
+        <div class="register-content">
+            <form #f="ngForm" (ngSubmit)="sendTipoEstanteria(f)" class="margin-bottom-0">
+                <label class="control-label">Id del rack</label>
+                <div class="row row-space-12">
+                    <div class="col-md-12 m-b-15">
+                        <input type="text" [(ngModel)]="testanteria.id" name="teid" class="form-control" [disabled]="!esAlta" required maxlength="1" />
+                    </div>
+                </div>
+                <label class="control-label">Descripción</label>
+                <div class="row row-space-12">
+                    <div class="col-md-12 m-b-15">
+                        <input type="text" [(ngModel)]="testanteria.dsc" name="tedsc" class="form-control" [disabled]="visor" required />
+                    </div>
+                </div>
+                <label class="control-label">Tipo de carga</label>
+                <div class="row row-space-12">
+                    <div class="col-md-12 m-b-15">
+                      <p-dropdown [disabled]="visor" name="tc" [options]="tiposCarga" [(ngModel)]="tipoCargaSeleccionado" optionLabel="dsc"></p-dropdown>
+                      <!-- <p-dropdown name="tc" [options]="tiposCarga" [(ngModel)]="tipoCargaSeleccionado" optionLabel="dsc" [filter]="true" filterBy="dsc" [showClear]="true" placeholder="Seleccione tipo de carga">
+                        <ng-template pTemplate="selectedItem">
+                            <div *ngIf="tipoCargaSeleccionado">
+                                <div>{{tipoCargaSeleccionado.dsc}}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-tipo pTemplate="item">
+                            <div>
+                                <div>{{tipo.dsc}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown> -->
+                    </div>
+                </div>
+                <div class="row my-2 row-space-12">
+                    <div class="col-md-6 m-b-15" *ngIf="!visor">
+                        <button class="btn btn-primary btn-block">Confirmar</button>
+                    </div>
+                    <div class="col-md-6 m-b-15">
+                        <button type="button" class="btn btn-danger btn-block" (click)="volver()">Volver</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
